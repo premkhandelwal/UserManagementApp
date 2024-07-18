@@ -38,9 +38,26 @@ namespace UserManagementApp.Controllers
             {
                 return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
             }
-            IApiResponse<string> response = await _userManagement.Login(request.emailId, request.password);
+            TokenResponse<string> response = await _userManagement.Login(request.emailId, request.password);
             if (response.IsSuccess)
             {
+                var authCookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true, // Set to true if using HTTPS
+                    SameSite = SameSiteMode.Strict,
+                };
+                var refreshCookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true, // Set to true if using HTTPS
+                    SameSite = SameSiteMode.Strict,
+                    
+                };
+                Response.Cookies.Append("AuthToken", response.AuthToken ?? "", authCookieOptions);
+                Response.Cookies.Append("RefreshToken", response.RefreshToken ?? "", refreshCookieOptions);
+                response.AuthToken = null;
+                response.RefreshToken = null;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
             return StatusCode(StatusCodes.Status401Unauthorized, response);
