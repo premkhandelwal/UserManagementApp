@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using UserManagementApp.Models;
 using UserManagementData;
 using UserManagementService;
 using UserManagementService.Models;
@@ -17,7 +19,7 @@ namespace UserManagementApp.Controllers
         {
             _userManagement = userManagement;
         }
-        [Authorize()]
+
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] IUser registerUser)
         {
@@ -27,6 +29,36 @@ namespace UserManagementApp.Controllers
                 return StatusCode(StatusCodes.Status200OK, response);
             }
             return StatusCode(StatusCodes.Status501NotImplemented, response);
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
+            }
+            IApiResponse<string> response = await _userManagement.Login(request.emailId, request.password);
+            if (response.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
+            return StatusCode(StatusCodes.Status401Unauthorized, response);
+        }
+
+        [HttpPost("RefreshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody] TokenRequest request)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
+            }
+            IApiResponse<string> response = await _userManagement.RefreshToken(request.AuthToken, request.RefreshToken);
+            if (response.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
+            return StatusCode(StatusCodes.Status401Unauthorized, response);
         }
 
         [HttpGet("GetAllUsers")]
@@ -63,9 +95,10 @@ namespace UserManagementApp.Controllers
         }
 
         [HttpPost("AssignRoleToUser")]
-        public async Task<IActionResult> AssignRoleToUser([FromBody] string emailId, string role)
+        [Authorize(Policy = "RolePolicy")]
+        public async Task<IActionResult> AssignRoleToUser([FromBody] AssignRoleRequest request)
         {
-            IApiResponse<string> response = await _userManagement.AssignRoleToUser(emailId, role);
+            IApiResponse<string> response = await _userManagement.AssignRoleToUser(request.emailId, request.role);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -86,9 +119,9 @@ namespace UserManagementApp.Controllers
         
         [HttpPost("AddClaimsForUser")]
         //[Authorize(Policy = "RolePolicy")]
-        public async Task<IActionResult> AddClaimForUser(string emailId, string claimName, string claimValue)
+        public async Task<IActionResult> AddClaimForUser([FromBody] AddClaimforUserRequest request)
         {
-            IApiResponse<string> response = await _userManagement.AddClaimForUser(emailId, claimName, claimValue);
+            IApiResponse<string> response = await _userManagement.AddClaimForUser(request.emailId, request.claimName, request.claimValue);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -108,7 +141,6 @@ namespace UserManagementApp.Controllers
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
-
         [HttpGet("GetClaimsForUser")]
         public async Task<IActionResult> GetClaimsForUser(string emailId)
         {
@@ -119,7 +151,5 @@ namespace UserManagementApp.Controllers
             }
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
-        
-
     }
 }
