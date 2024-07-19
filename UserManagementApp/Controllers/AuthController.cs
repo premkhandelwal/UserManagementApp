@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using UserManagementApp.Models;
-using UserManagementData;
 using UserManagementService;
 using UserManagementService.Models;
 
@@ -81,7 +79,7 @@ namespace UserManagementApp.Controllers
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            IApiResponse<List<ApplicationUser>> response = await _userManagement.GetAllUsers();
+            IApiResponse<List<IUser>> response = await _userManagement.GetAllUsers();
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);

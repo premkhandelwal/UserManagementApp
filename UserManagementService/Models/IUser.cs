@@ -14,11 +14,11 @@ namespace UserManagementService.Models
 
         [EmailAddress]
         [Required(ErrorMessage = "Email is required")]
-        public string Email { get; set; } = null!;
+        public string EmailId { get; set; } = null!;
 
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; } = null!;
 
-        public List<string>? Roles { get; set; }
+        public string Role { get; set; } = null!;
     }
 }

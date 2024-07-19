@@ -153,27 +153,39 @@ namespace UserManagementService
 
         public async Task<TokenResponse<string>> CreateUser(IUser registerUser)
         {
-            ApplicationUser? existingUser = await _userManager.FindByEmailAsync(registerUser.Email);
+            using var transaction = _applicationDbContext.Database.BeginTransaction();
+            ApplicationUser? existingUser = await _userManager.FindByEmailAsync(registerUser.EmailId);
             if(existingUser != null)
             {
                 return new TokenResponse<string> {  IsSuccess = false, StatusCode = 401, Response = "User Already Exists!!" };
             }
             ApplicationUser newUser = new()
             {
-                Email = registerUser.Email,
+                Email = registerUser.EmailId,
                 UserName = registerUser.Username,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
             IdentityResult result = await _userManager.CreateAsync(newUser, registerUser.Password);
             if (result.Succeeded) 
             {
-                SecurityToken jwtSecurityToken = await GenerateJwtAuthSecurityToken(newUser);
-                string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
-                string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, newUser.Id);
-                return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Success", AuthToken = jwtAuthToken, RefreshToken = refreshToken };
-            }
-            return new TokenResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to create user!!" };
+                IApiResponse<string>? roleAssignResponse = await AssignRoleToUser(registerUser.EmailId, registerUser.Role);
+                if (roleAssignResponse.IsSuccess)
+                {
+                    SecurityToken jwtSecurityToken = await GenerateJwtAuthSecurityToken(newUser);
+                    string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
+                    string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, newUser.Id);
+                    await transaction.CommitAsync();
 
+                    return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Success", AuthToken = jwtAuthToken, RefreshToken = refreshToken };
+                }
+                else
+                {
+                    return new TokenResponse<string> { IsSuccess = false, StatusCode = 500, Response = roleAssignResponse.Response};
+                }
+            }
+            await _userManager.DeleteAsync(newUser);
+            await transaction.RollbackAsync();
+            return new TokenResponse<string> { IsSuccess = false, StatusCode = 500, Response = "Failed to assign role, user creation failed" };
         }
 
         public async Task<TokenResponse<string>> Login(string emailId, string password)
@@ -195,14 +207,26 @@ namespace UserManagementService
             return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Success", AuthToken = jwtAuthToken, RefreshToken = refreshToken };
         }
 
-        public async Task<IApiResponse<List<ApplicationUser>>> GetAllUsers()
+        public async Task<IApiResponse<List<IUser>>> GetAllUsers()
         {
            List<ApplicationUser> applicationUsersList = await _userManager.Users.ToListAsync();
+            List<IUser> usersList = new List<IUser>();
             if (applicationUsersList != null)
             {
-                return new IApiResponse<List<ApplicationUser>> { IsSuccess = true, StatusCode = 200, Response = applicationUsersList };
+                foreach (var user in applicationUsersList)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+                    usersList.Add(new IUser()
+                    {
+                        
+                        EmailId = user.Email,
+                        Username = user.UserName,
+                        Role = roles.FirstOrDefault() ?? ""
+                    });
+                }
+                return new IApiResponse<List<IUser>> { IsSuccess = true, StatusCode = 200, Response = usersList };
             }
-            return new IApiResponse<List<ApplicationUser>> { IsSuccess = false, StatusCode = 501, Response = null };
+            return new IApiResponse<List<IUser>> { IsSuccess = false, StatusCode = 501, Response = null };
 
         }
 
