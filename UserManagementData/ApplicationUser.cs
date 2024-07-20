@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace UserManagementData
 {
-    public class ApplicationUser: IdentityUser
+    public class ApplicationUser : IdentityUser
     {
+        public bool IsDeactivated { get; set; } = false;
+
+        public string TenantId {  get; set; } = Guid.NewGuid().ToString();
     }
 }

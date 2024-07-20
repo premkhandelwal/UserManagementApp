@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -293,6 +294,32 @@ namespace UserManagementService
             };
         }
 
+        public async Task<IApiResponse<string>> UpdateRoleForUser(string emailId, string newRole)
+        {
+            using var transaction = _applicationDbContext.Database.BeginTransaction();
+
+            ApplicationUser user = await _userManager.FindByEmailAsync(emailId);
+            IList<string> rolesForUser = await _userManager.GetRolesAsync(user);
+            string? currRole = rolesForUser.FirstOrDefault();
+            if(currRole != null)
+            {
+                IdentityResult removeResult = await _userManager.RemoveFromRoleAsync(user, currRole);
+                if (removeResult.Succeeded == false)
+                {
+                    await transaction.RollbackAsync();
+                    return new IApiResponse<string>() { IsSuccess = false, StatusCode = 501, Response = "Failed to update role!!"};
+                }
+            }
+            IdentityResult addResult =  await _userManager.AddToRoleAsync(user, newRole);
+            if (addResult.Succeeded) 
+            {
+                await transaction.CommitAsync();
+                return new IApiResponse<string>() { IsSuccess = true, StatusCode = 200, Response = "Updated role successfully!!"};
+            }
+            await transaction.RollbackAsync();
+            return new IApiResponse<string>() { IsSuccess = false, StatusCode = 501, Response = "Failed to update role!!" };
+        }
+
         public async Task<IApiResponse<List<Claim>>> GetClaimsForUser(string userEmail)
         {
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
@@ -324,14 +351,14 @@ namespace UserManagementService
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to add claim" };
         }
 
-        public async Task<IApiResponse<string>> AddClaimForRole(string userEmail, string claimValue)
+        public async Task<IApiResponse<string>> AddClaimForRole(string roleName, string claimValue)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
-            if (applicationUser == null)
+            IdentityRole role = await _roleManager.FindByNameAsync(roleName);
+            if (role == null)
             {
                 return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User not found!!" };
             }
-            IdentityResult result = await _userManager.AddClaimAsync(applicationUser, new Claim(ClaimTypes.Role, claimValue));
+            IdentityResult result = await _roleManager.AddClaimAsync(role, new Claim(ClaimTypes.Role, claimValue));
             if (result.Succeeded)
             {
                 return new IApiResponse<string> { IsSuccess = true, StatusCode = 200, Response = "Claim added successfully" };

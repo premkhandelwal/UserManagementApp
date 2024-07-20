@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UserManagementApp;
@@ -71,7 +73,23 @@ builder.Services.AddAuthorization(options =>
         {
             "admin"
         }));
+
+    options.AddPolicy("ViewUsers", policy => policy.RequireClaim("permissions", new[]{ "viewUsers" }));
+    options.AddPolicy("UpdateUsers", policy => policy.RequireClaim("permissions", new[] { "updateUsers" }));
+    options.AddPolicy("ViewQuotation", policy => policy.RequireClaim("permissions", new[] { "viewQuotation" }));
+    options.AddPolicy("UpdateQuotation", policy => policy.RequireClaim("permissions", new[] { "updateQuotation" }));
+
+    options.AddPolicy("LimitedOrFull", policy =>
+       policy.RequireAssertion(context =>
+           context.User.HasClaim(c =>
+               (c.Type == "Limited" ||
+                c.Type == "Full"))));
+
+    options.AddPolicy("RoleOrPolicy", policy =>
+        policy.Requirements.Add(new RoleOrPolicyRequirement("Tester", "RolePolicy")));
 });
+
+builder.Services.AddSingleton<IAuthorizationHandler, RoleOrPolicyHandler>();
 
 builder.Services.AddCors();
 

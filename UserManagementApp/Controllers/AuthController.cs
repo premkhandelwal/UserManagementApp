@@ -110,7 +110,7 @@ namespace UserManagementApp.Controllers
         }
 
         [HttpPost("AssignRoleToUser")]
-        [Authorize(Policy = "RolePolicy")]
+        [Authorize(Policy = "RoleOrPolicy"), ]
         public async Task<IActionResult> AssignRoleToUser([FromBody] AssignRoleRequest request)
         {
             IApiResponse<string> response = await _userManagement.AssignRoleToUser(request.emailId, request.role);
@@ -132,6 +132,17 @@ namespace UserManagementApp.Controllers
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
         
+        [HttpPut("UpdateRoleForUser")]
+        public async Task<IActionResult> UpdateRoleForUser([FromBody] AssignRoleRequest request)
+        {
+            IApiResponse<string> response = await _userManagement.UpdateRoleForUser(request.emailId, request.role);
+            if (response.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
+            return StatusCode(StatusCodes.Status501NotImplemented, response);
+        }
+        
         [HttpPost("AddClaimsForUser")]
         //[Authorize(Policy = "RolePolicy")]
         public async Task<IActionResult> AddClaimForUser([FromBody] AddClaimforUserRequest request)
@@ -146,7 +157,7 @@ namespace UserManagementApp.Controllers
 
         [HttpPost("AddClaimForRole")]
         //[Authorize(Policy = "RolePolicy")]
-        public async Task<IActionResult> AddClaimForUser(string emailId, string claimValue)
+        public async Task<IActionResult> AddClaimForRole(string emailId, string claimValue)
         {
             IApiResponse<string> response = await _userManagement.AddClaimForRole(emailId, claimValue);
             if (response.IsSuccess)
