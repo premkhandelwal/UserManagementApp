@@ -351,6 +351,50 @@ namespace UserManagementService
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to add claim" };
         }
 
+        public async Task<IApiResponse<string>> AddClaimsForUser(string userEmail, List<KeyValuePair<string, string>> claims)
+        {
+            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
+            if (applicationUser == null)
+            {
+                return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User not found!" };
+            }
+
+            using (var transaction = await _applicationDbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var existingClaims = await _userManager.GetClaimsAsync(applicationUser);
+                    IdentityResult removeResult = await _userManager.RemoveClaimsAsync(applicationUser, existingClaims);
+                    if (!removeResult.Succeeded)
+                    {
+                        await transaction.RollbackAsync();
+                        return new IApiResponse<string> { IsSuccess = false, StatusCode = 500, Response = "Failed to add claims" };
+                    }
+
+                    List<Claim> claimsList = new List<Claim>();
+                    claims.ForEach((entry) => claimsList.Add(new Claim(entry.Key, entry.Value)));
+
+                    IdentityResult addResult = await _userManager.AddClaimsAsync(applicationUser, claimsList);
+                    if (addResult.Succeeded)
+                    {
+                        await transaction.CommitAsync();
+                        return new IApiResponse<string> { IsSuccess = true, StatusCode = 200, Response = "Claims added successfully" };
+                    }
+                    else
+                    {
+                        await transaction.RollbackAsync();
+                        return new IApiResponse<string> { IsSuccess = false, StatusCode = 500, Response = "Failed to add claims" };
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return new IApiResponse<string> { IsSuccess = false, StatusCode = 500, Response = $"An error occurred: {ex.Message}" };
+                }
+            }
+        }
+
+
         public async Task<IApiResponse<string>> AddClaimForRole(string roleName, string claimValue)
         {
             IdentityRole role = await _roleManager.FindByNameAsync(roleName);

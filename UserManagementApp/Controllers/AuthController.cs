@@ -39,23 +39,23 @@ namespace UserManagementApp.Controllers
             TokenResponse<string> response = await _userManagement.Login(request.emailId, request.password);
             if (response.IsSuccess)
             {
-                var authCookieOptions = new CookieOptions
+                /*var authCookieOptions = new CookieOptions
                 {
-                    HttpOnly = true,
+                    HttpOnly = false,
                     Secure = true, // Set to true if using HTTPS
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
                 };
                 var refreshCookieOptions = new CookieOptions
                 {
-                    HttpOnly = true,
+                    HttpOnly = false,
                     Secure = true, // Set to true if using HTTPS
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
                     
                 };
                 Response.Cookies.Append("AuthToken", response.AuthToken ?? "", authCookieOptions);
                 Response.Cookies.Append("RefreshToken", response.RefreshToken ?? "", refreshCookieOptions);
                 response.AuthToken = null;
-                response.RefreshToken = null;
+                response.RefreshToken = null;*/
                 return StatusCode(StatusCodes.Status200OK, response);
             }
             return StatusCode(StatusCodes.Status401Unauthorized, response);
@@ -143,7 +143,7 @@ namespace UserManagementApp.Controllers
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
         
-        [HttpPost("AddClaimsForUser")]
+        [HttpPost("AddClaimForUser")]
         //[Authorize(Policy = "RolePolicy")]
         public async Task<IActionResult> AddClaimForUser([FromBody] AddClaimforUserRequest request)
         {
@@ -154,6 +154,20 @@ namespace UserManagementApp.Controllers
             }
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
+
+        [HttpPost("AddClaimsForUser")]
+        //[Authorize(Policy = "RolePolicy")]
+        public async Task<IActionResult> AddClaimsForUser([FromBody] AddMultipleClaimsForUserRequest request)
+        {
+            IApiResponse<string> response = await _userManagement.AddClaimsForUser(request.emailId, request.claims);
+            if (response.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
+            return StatusCode(StatusCodes.Status501NotImplemented, response);
+        }
+
+
 
         [HttpPost("AddClaimForRole")]
         //[Authorize(Policy = "RolePolicy")]
