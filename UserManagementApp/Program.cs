@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UserManagementApp;
 using UserManagementApp.Models;
+using UserManagementApp.Models.UserManagementRequests;
 using UserManagementData;
 using UserManagementService;
 
@@ -19,7 +20,15 @@ var configuration = builder.Configuration;
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
+{
+    options.UseSqlServer(configuration.GetConnectionString("UserManagementConnStr"));
+}
+);
+
+builder.Services.AddDbContext<ClientApplicationDbContext>(options =>
+{
+    options.UseSqlServer(configuration.GetConnectionString("ConnStr"));
+});
 
 builder.Services.AddScoped<RefreshToken>();
 
@@ -74,10 +83,10 @@ builder.Services.AddAuthorization(options =>
             "admin"
         }));
 
-    options.AddPolicy("ViewUsers", policy => policy.RequireClaim("permissions", new[]{ "viewUsers" }));
-    options.AddPolicy("UpdateUsers", policy => policy.RequireClaim("permissions", new[] { "updateUsers" }));
-    options.AddPolicy("ViewQuotation", policy => policy.RequireClaim("permissions", new[] { "viewQuotation" }));
-    options.AddPolicy("UpdateQuotation", policy => policy.RequireClaim("permissions", new[] { "updateQuotation" }));
+    options.AddPolicy("ViewUsers", policy => policy.RequireClaim("permissions", new[]{ "ViewUsers" }));
+    options.AddPolicy("UpdateUsers", policy => policy.RequireClaim("permissions", new[] { "UpdateUsers" }));
+    options.AddPolicy("ViewQuotation", policy => policy.RequireClaim("permissions", new[] { "ViewQuotation" }));
+    options.AddPolicy("UpdateQuotation", policy => policy.RequireClaim("permissions", new[] { "UpdateQuotation" }));
 
     options.AddPolicy("LimitedOrFull", policy =>
        policy.RequireAssertion(context =>

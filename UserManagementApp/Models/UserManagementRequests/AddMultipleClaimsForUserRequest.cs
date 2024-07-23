@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
-namespace UserManagementApp.Models
+namespace UserManagementApp.Models.UserManagementRequests
 {
     public class AddMultipleClaimsForUserRequest
     {

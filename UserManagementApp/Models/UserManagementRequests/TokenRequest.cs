@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UserManagementApp.Models
+namespace UserManagementApp.Models.UserManagementRequests
 {
     public class TokenRequest
     {

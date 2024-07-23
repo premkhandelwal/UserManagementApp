@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using UserManagementApp.Models;
+using UserManagementApp.Models.UserManagementRequests;
 using UserManagementService;
 using UserManagementService.Models;
 
@@ -77,6 +78,7 @@ namespace UserManagementApp.Controllers
         }
 
         [HttpGet("GetAllUsers")]
+        [Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
             IApiResponse<List<IUser>> response = await _userManagement.GetAllUsers();

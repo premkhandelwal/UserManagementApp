@@ -210,7 +210,7 @@ namespace UserManagementService
 
         public async Task<IApiResponse<List<IUser>>> GetAllUsers()
         {
-           List<ApplicationUser> applicationUsersList = await _userManager.Users.ToListAsync();
+            List<ApplicationUser> applicationUsersList = await _userManager.Users.ToListAsync();
             List<IUser> usersList = new List<IUser>();
             if (applicationUsersList != null)
             {
@@ -419,7 +419,7 @@ namespace UserManagementService
             {
                 new Claim("Id", user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) //Identification for the user. Passed when creating the token
             };
             IList<Claim> userClaims = await _userManager.GetClaimsAsync(user);
