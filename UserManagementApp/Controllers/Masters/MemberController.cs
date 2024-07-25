@@ -21,17 +21,30 @@ namespace UserManagementApp.Controllers.Masters
         [HttpPost("CreateMember")]
         public async Task<IActionResult> CreateMember([FromBody] MemberModel member)
         {
+            IApiResponse<string> response = new IApiResponse<string>
+            {
+                IsSuccess = false,
+                Response = "Failed to add Member!!",
+                StatusCode = 501
+            };
             if (ModelState.IsValid == false)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
+                response.IsSuccess = false;
+                response.Response = "Bad request!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
             }
+            member.Id = Guid.NewGuid().ToString();
             await _context.Members!.AddAsync(member);
             int result = await _context.SaveChangesAsync();
             if(result > 0)
             {
-                return StatusCode(StatusCodes.Status200OK, "Member created successfully!!");
+                response.IsSuccess = true;
+                response.Response = "Member created successfully!!";
+                response.StatusCode = 201;
+                return StatusCode(StatusCodes.Status201Created, "Member created successfully!!");
             }  
-            return StatusCode(StatusCodes.Status501NotImplemented, "Failed to add member");
+            return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
         [HttpGet("ReadMembers")]
@@ -44,34 +57,59 @@ namespace UserManagementApp.Controllers.Masters
         [HttpPut("UpdateMember")]
         public async Task<IActionResult> UpdateMember([FromBody] MemberModel member)
         {
+            IApiResponse<string> response = new IApiResponse<string>
+            {
+                IsSuccess = false,
+                Response = "Failed to update Member!!",
+                StatusCode = 501
+            };
             if (ModelState.IsValid == false)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
+                response.IsSuccess = false;
+                response.Response = "Bad request!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
             }
             _context.Update(member);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return StatusCode(StatusCodes.Status200OK, "Member updated successfully!!");
+                response.IsSuccess = true;
+                response.Response = "Member updated successfully!!";
+                response.StatusCode = 200;
+                return StatusCode(StatusCodes.Status200OK, response);
             }
-            return StatusCode(StatusCodes.Status501NotImplemented, "Failed to update member");
+            return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
 
         [HttpDelete("DeleteMember")]
         public async Task<IActionResult> DeleteMember([FromBody] MemberModel member)
         {
+            IApiResponse<string> response = new IApiResponse<string>
+            {
+                IsSuccess = false,
+                Response = "Failed to delete Member!!",
+                StatusCode = 501
+            };
             if (ModelState.IsValid == false)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
+                response.IsSuccess = false;
+                response.Response = "Bad request!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            _context.Remove(member);
+            member.IsDeleted = true;
+            _context.Update(member);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return StatusCode(StatusCodes.Status200OK, "Member deleted successfully!!");
+                response.IsSuccess = true;
+                response.Response = "Member deleted successfully!!";
+                response.StatusCode = 200;
+                return StatusCode(StatusCodes.Status200OK, response);
             }
-            return StatusCode(StatusCodes.Status501NotImplemented, "Failed to delete member");
+            return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Diagnostics.Metrics;
 using UserManagementApp.Models.Masters;
 using UserManagementApp.Models.UserManagementRequests;
 using UserManagementData;
@@ -19,19 +20,32 @@ namespace UserManagementApp.Controllers.Masters
         }
 
         [HttpPost("CreateClient")]
-        public async Task<IActionResult> CreateClient([FromBody] ClientModel Client)
+        public async Task<IActionResult> CreateClient([FromBody] ClientModel client)
         {
+            IApiResponse<string> response = new IApiResponse<string>
+            {
+                IsSuccess = false,
+                Response = "Failed to add Client!!",
+                StatusCode = 501
+            };
             if (ModelState.IsValid == false)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
+                response.IsSuccess = false;
+                response.Response = "Bad request!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            await _context.Clients!.AddAsync(Client);
+            client.Id = Guid.NewGuid().ToString();
+            await _context.Clients!.AddAsync(client);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return StatusCode(StatusCodes.Status200OK, "Client created successfully!!");
+                response.IsSuccess = true;
+                response.Response = "Client created successfully!!";
+                response.StatusCode = 201;
+                return StatusCode(StatusCodes.Status201Created, response);
             }
-            return StatusCode(StatusCodes.Status501NotImplemented, "Failed to add Client");
+            return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
         [HttpGet("ReadClients")]
@@ -44,37 +58,59 @@ namespace UserManagementApp.Controllers.Masters
         [HttpPut("UpdateClient")]
         public async Task<IActionResult> UpdateClient([FromBody] ClientModel Client)
         {
+            IApiResponse<string> response = new IApiResponse<string>
+            {
+                IsSuccess = false,
+                Response = "Failed to update Client!!",
+                StatusCode = 501
+            };
             if (ModelState.IsValid == false)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
+                response.IsSuccess = false;
+                response.Response = "Bad request!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
             }
             _context.Update(Client);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return StatusCode(StatusCodes.Status200OK, "Client updated successfully!!");
+                response.IsSuccess = true;
+                response.Response = "Client updated successfully!!";
+                response.StatusCode = 200;
+                return StatusCode(StatusCodes.Status200OK, response);
             }
-            return StatusCode(StatusCodes.Status501NotImplemented, "Failed to update Client");
+            return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
 
         [HttpDelete("DeleteClient")]
-        public async Task<IActionResult> DeleteClient([FromBody] ClientModel Client)
+        public async Task<IActionResult> DeleteClient([FromBody] ClientModel client)
         {
+            IApiResponse<string> response = new IApiResponse<string>
+            {
+                IsSuccess = false,
+                Response = "Failed to delete Client!!",
+                StatusCode = 501
+            };
             if (ModelState.IsValid == false)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
+                response.IsSuccess = false;
+                response.Response = "Bad request!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            _context.Remove(Client);
+            //client.IsDeleted = true;
+            _context.Update(client);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return StatusCode(StatusCodes.Status200OK, "Client deleted successfully!!");
+                response.IsSuccess = true;
+                response.Response = "Client deleted successfully!!";
+                response.StatusCode = 200;
+                return StatusCode(StatusCodes.Status200OK, response);
             }
-            return StatusCode(StatusCodes.Status501NotImplemented, "Failed to delete Client");
+            return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
-
-
-
     }
 }
