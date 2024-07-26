@@ -88,6 +88,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ViewQuotation", policy => policy.RequireClaim("permissions", new[] { "ViewQuotation" }));
     options.AddPolicy("UpdateQuotation", policy => policy.RequireClaim("permissions", new[] { "UpdateQuotation" }));
 
+
     options.AddPolicy("LimitedOrFull", policy =>
        policy.RequireAssertion(context =>
            context.User.HasClaim(c =>

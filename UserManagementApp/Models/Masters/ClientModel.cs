@@ -10,7 +10,7 @@ namespace UserManagementApp.Models.Masters
         public string? Country { get; set; } 
         public string? Region { get; set; } 
         public string? Website { get; set; }
-        public DateTime AddedOn { get; set; }
+        public DateTime? AddedOn { get; set; }
         public bool IsDeleted { get; set; } = false;
     }
 }

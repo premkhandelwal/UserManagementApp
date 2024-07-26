@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Diagnostics.Metrics;
 using UserManagementApp.Models.Masters;
@@ -11,22 +10,22 @@ namespace UserManagementApp.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientController : ControllerBase
+    public class MaterialController : ControllerBase
     {
 
         private ClientApplicationDbContext _context;
-        public ClientController(ClientApplicationDbContext clientApplicationDbContext)
+        public MaterialController(ClientApplicationDbContext clientApplicationDbContext)
         {
             _context = clientApplicationDbContext;
         }
 
-        [HttpPost("CreateClient")]
-        public async Task<IActionResult> CreateClient([FromBody] ClientModel client)
+        [HttpPost("CreateMaterial")]
+        public async Task<IActionResult> CreateMaterial([FromBody] MaterialModel material)
         {
             IApiResponse<string> response = new IApiResponse<string>
             {
                 IsSuccess = false,
-                Response = "Failed to add Client!!",
+                Response = "Failed to add Material!!",
                 StatusCode = 501
             };
             if (ModelState.IsValid == false)
@@ -36,35 +35,35 @@ namespace UserManagementApp.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            client.Id = Guid.NewGuid().ToString();
-            client.AddedOn = DateTime.Now;
-            client.IsDeleted = false;
-            await _context.Clients!.AddAsync(client);
+            material.Id = Guid.NewGuid().ToString();
+            material.AddedOn = DateTime.Now;
+            material.IsDeleted = false;
+            await _context.Materials!.AddAsync(material);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
                 response.IsSuccess = true;
-                response.Response = "Client created successfully!!";
+                response.Response = "Material created successfully!!";
                 response.StatusCode = 201;
                 return StatusCode(StatusCodes.Status201Created, response);
             }
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
-        [HttpGet("ReadClients")]
-        public IActionResult ReadClients()
+        [HttpGet("ReadMaterials")]
+        public IActionResult ReadMaterials()
         {
-            List<ClientModel> result = _context.Clients!.Where(client => client.IsDeleted == false).ToList();
+            List<MaterialModel> result = _context.Materials!.Where(material => material.IsDeleted == false).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
-        [HttpPut("UpdateClient")]
-        public async Task<IActionResult> UpdateClient([FromBody] ClientModel client)
+        [HttpPut("UpdateMaterial")]
+        public async Task<IActionResult> UpdateMaterial([FromBody] MaterialModel material)
         {
             IApiResponse<string> response = new IApiResponse<string>
             {
                 IsSuccess = false,
-                Response = "Failed to update Client!!",
+                Response = "Failed to update Material!!",
                 StatusCode = 501
             };
             if (ModelState.IsValid == false)
@@ -74,13 +73,13 @@ namespace UserManagementApp.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            client.IsDeleted = false;
-            _context.Update(client);
+            material.IsDeleted = false;
+            _context.Update(material);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
                 response.IsSuccess = true;
-                response.Response = "Client updated successfully!!";
+                response.Response = "Material updated successfully!!";
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
@@ -88,13 +87,13 @@ namespace UserManagementApp.Controllers.Masters
         }
 
 
-        [HttpDelete("DeleteClient")]
-        public async Task<IActionResult> DeleteClient([FromBody] ClientModel client)
+        [HttpDelete("DeleteMaterial")]
+        public async Task<IActionResult> DeleteMaterial([FromBody] MaterialModel material)
         {
             IApiResponse<string> response = new IApiResponse<string>
             {
                 IsSuccess = false,
-                Response = "Failed to delete Client!!",
+                Response = "Failed to delete Material!!",
                 StatusCode = 501
             };
             if (ModelState.IsValid == false)
@@ -104,21 +103,13 @@ namespace UserManagementApp.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            bool hasReferences = await _context.Members!.AnyAsync(e => e.ClientId== client.Id);
-            if (hasReferences)
-            {
-                response.IsSuccess = false;
-                response.Response = "Cannot delete Client as it is referenced in other records.";
-                response.StatusCode = 409; // Conflict
-                return StatusCode(StatusCodes.Status409Conflict, response);
-            }
-            client.IsDeleted = true;
-            _context.Update(client);
+            material.IsDeleted = true;
+            _context.Update(material);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
                 response.IsSuccess = true;
-                response.Response = "Client deleted successfully!!";
+                response.Response = "Material deleted successfully!!";
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }

@@ -8,10 +8,10 @@ namespace UserManagementApp.Models.Masters
         public string? DeliveryName { get; set; }
         public string? TransportModeId { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public DateTime AddedOn { get; set; }
+        public DateTime? AddedOn { get; set; }
 
         [ForeignKey(nameof(TransportModeId))]
-        public virtual TransportModeModel TransportMode { get; set; } = null!;
+        public virtual TransportModeModel? TransportMode { get; set; }
     }
 
 }

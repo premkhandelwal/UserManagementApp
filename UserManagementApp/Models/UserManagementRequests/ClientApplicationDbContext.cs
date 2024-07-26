@@ -23,6 +23,38 @@ namespace UserManagementApp.Models.UserManagementRequests
         public DbSet<ValidityModel>? Validities { get; set; }
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
         {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Configure the primary key for TransportModeModel
+            modelBuilder.Entity<TransportModeModel>()
+                .HasKey(tm => tm.Id);
+
+            // Configure the primary key for DeliveredToModel
+            modelBuilder.Entity<DeliveredToModel>()
+                .HasKey(dt => dt.Id);
+
+            // Configure the one-to-many relationship between TransportModeModel and DeliveredToModel
+            modelBuilder.Entity<DeliveredToModel>()
+                .HasOne(dt => dt.TransportMode)
+                .WithMany()
+                .HasForeignKey(dt => dt.TransportModeId);
+
+            // Configure the primary key for TransportModeModel
+            modelBuilder.Entity<ClientModel>()
+                .HasKey(tm => tm.Id);
+
+            // Configure the primary key for DeliveredToModel
+            modelBuilder.Entity<MemberModel>()
+                .HasKey(dt => dt.Id);
+
+            // Configure the one-to-many relationship between TransportModeModel and DeliveredToModel
+            modelBuilder.Entity<MemberModel>()
+                .HasOne(dt => dt.Client)
+                .WithMany()
+                .HasForeignKey(dt => dt.ClientId);
         }
     }
 }

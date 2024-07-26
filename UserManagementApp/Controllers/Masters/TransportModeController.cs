@@ -11,22 +11,22 @@ namespace UserManagementApp.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientController : ControllerBase
+    public class TransportModeController : ControllerBase
     {
 
         private ClientApplicationDbContext _context;
-        public ClientController(ClientApplicationDbContext clientApplicationDbContext)
+        public TransportModeController(ClientApplicationDbContext clientApplicationDbContext)
         {
             _context = clientApplicationDbContext;
         }
 
-        [HttpPost("CreateClient")]
-        public async Task<IActionResult> CreateClient([FromBody] ClientModel client)
+        [HttpPost("CreateTransportMode")]
+        public async Task<IActionResult> CreateTransportMode([FromBody] TransportModeModel transportmode)
         {
             IApiResponse<string> response = new IApiResponse<string>
             {
                 IsSuccess = false,
-                Response = "Failed to add Client!!",
+                Response = "Failed to add  Transport Mode!!",
                 StatusCode = 501
             };
             if (ModelState.IsValid == false)
@@ -36,35 +36,35 @@ namespace UserManagementApp.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            client.Id = Guid.NewGuid().ToString();
-            client.AddedOn = DateTime.Now;
-            client.IsDeleted = false;
-            await _context.Clients!.AddAsync(client);
+            transportmode.Id = Guid.NewGuid().ToString();
+            transportmode.AddedOn = DateTime.Now;
+            transportmode.IsDeleted = false;
+            await _context.TransportModes!.AddAsync(transportmode);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
                 response.IsSuccess = true;
-                response.Response = "Client created successfully!!";
+                response.Response = " Transport Mode created successfully!!";
                 response.StatusCode = 201;
                 return StatusCode(StatusCodes.Status201Created, response);
             }
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
-        [HttpGet("ReadClients")]
-        public IActionResult ReadClients()
+        [HttpGet("ReadTransportModes")]
+        public IActionResult ReadTransportModes()
         {
-            List<ClientModel> result = _context.Clients!.Where(client => client.IsDeleted == false).ToList();
+            List<TransportModeModel> result = _context.TransportModes!.Where(transportmode => transportmode.IsDeleted == false).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
-        [HttpPut("UpdateClient")]
-        public async Task<IActionResult> UpdateClient([FromBody] ClientModel client)
+        [HttpPut("UpdateTransportMode")]
+        public async Task<IActionResult> UpdateTransportMode([FromBody] TransportModeModel transportmode)
         {
             IApiResponse<string> response = new IApiResponse<string>
             {
                 IsSuccess = false,
-                Response = "Failed to update Client!!",
+                Response = "Failed to update  Transport Mode!!",
                 StatusCode = 501
             };
             if (ModelState.IsValid == false)
@@ -74,13 +74,13 @@ namespace UserManagementApp.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            client.IsDeleted = false;
-            _context.Update(client);
+            transportmode.IsDeleted = false;
+            _context.Update(transportmode);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
                 response.IsSuccess = true;
-                response.Response = "Client updated successfully!!";
+                response.Response = "TransportMode updated successfully!!";
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
@@ -88,13 +88,13 @@ namespace UserManagementApp.Controllers.Masters
         }
 
 
-        [HttpDelete("DeleteClient")]
-        public async Task<IActionResult> DeleteClient([FromBody] ClientModel client)
+        [HttpDelete("DeleteTransportMode")]
+        public async Task<IActionResult> DeleteTransportMode([FromBody] TransportModeModel transportmode)
         {
             IApiResponse<string> response = new IApiResponse<string>
             {
                 IsSuccess = false,
-                Response = "Failed to delete Client!!",
+                Response = "Failed to delete  Transport Mode!!",
                 StatusCode = 501
             };
             if (ModelState.IsValid == false)
@@ -104,21 +104,22 @@ namespace UserManagementApp.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            bool hasReferences = await _context.Members!.AnyAsync(e => e.ClientId== client.Id);
+            bool hasReferences = await _context.DeliveredTo!.AnyAsync(e => e.TransportModeId == transportmode.Id);
             if (hasReferences)
             {
                 response.IsSuccess = false;
-                response.Response = "Cannot delete Client as it is referenced in other records.";
+                response.Response = "Cannot delete Delivered To as it is referenced in other records.";
                 response.StatusCode = 409; // Conflict
                 return StatusCode(StatusCodes.Status409Conflict, response);
             }
-            client.IsDeleted = true;
-            _context.Update(client);
+
+            transportmode.IsDeleted = true;
+            _context.Update(transportmode);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
                 response.IsSuccess = true;
-                response.Response = "Client deleted successfully!!";
+                response.Response = "TransportMode deleted successfully!!";
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }

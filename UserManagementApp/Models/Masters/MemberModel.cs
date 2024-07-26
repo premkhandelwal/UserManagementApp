@@ -13,11 +13,11 @@ namespace UserManagementApp.Models.Masters
         public bool? IsWhatsApp {  get; set; }
         public string? SkypeId { get; set; } 
         public string? Telephone { get; set; }
-        public DateTime AddedOn { get; set; }
+        public DateTime? AddedOn { get; set; }
         public bool IsDeleted { get; set; } = false;
 
         [ForeignKey(nameof(ClientId))]
-        public virtual ClientModel Client { get; set; } = null!;
+        public virtual ClientModel? Client { get; set; }
 
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserManagementApp.Models.UserManagementRequests;
 
@@ -11,9 +12,10 @@ using UserManagementApp.Models.UserManagementRequests;
 namespace UserManagementApp.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240726054025_Added Foreign Key for Transport Mode in Delivered To")]
+    partial class AddedForeignKeyforTransportModeinDeliveredTo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,6 +108,7 @@ namespace UserManagementApp.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("TransportModeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -162,6 +165,7 @@ namespace UserManagementApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ClientId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
@@ -310,7 +314,9 @@ namespace UserManagementApp.Migrations
                 {
                     b.HasOne("UserManagementApp.Models.Masters.TransportModeModel", "TransportMode")
                         .WithMany()
-                        .HasForeignKey("TransportModeId");
+                        .HasForeignKey("TransportModeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TransportMode");
                 });
@@ -319,7 +325,9 @@ namespace UserManagementApp.Migrations
                 {
                     b.HasOne("UserManagementApp.Models.Masters.ClientModel", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });

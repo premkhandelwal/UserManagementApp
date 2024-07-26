@@ -13,9 +13,9 @@ namespace UserManagementApp.Controllers.Masters
     {
 
         private ClientApplicationDbContext _context;
-        public MemberController(ClientApplicationDbContext arihantApplicationDbContext)
+        public MemberController(ClientApplicationDbContext clientApplicationDbContext)
         {
-            _context = arihantApplicationDbContext;
+            _context = clientApplicationDbContext;
         }
 
         [HttpPost("CreateMember")]
@@ -35,6 +35,8 @@ namespace UserManagementApp.Controllers.Masters
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
             member.Id = Guid.NewGuid().ToString();
+            member.AddedOn = DateTime.Now;
+            member.IsDeleted = false;
             await _context.Members!.AddAsync(member);
             int result = await _context.SaveChangesAsync();
             if(result > 0)
@@ -50,7 +52,7 @@ namespace UserManagementApp.Controllers.Masters
         [HttpGet("ReadMembers")]
         public IActionResult ReadMembers()
         {
-            List<MemberModel> result = _context.Members!.ToList();
+            List<MemberModel> result = _context.Members!.Where(member => member.IsDeleted == false).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -70,6 +72,7 @@ namespace UserManagementApp.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
+            member.IsDeleted = false;
             _context.Update(member);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
