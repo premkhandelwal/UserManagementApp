@@ -11,7 +11,7 @@ using UserManagementData;
 
 namespace UserManagementData.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AdminDbContext))]
     [Migration("20240719110715_Remove User Table Attempt 2")]
     partial class RemoveUserTableAttempt2
     {

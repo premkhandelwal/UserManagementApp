@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Add DbContext
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<AdminDbContext>(options =>
 {
     options.UseSqlServer(configuration.GetConnectionString("AdminConnectionString"));
 }
@@ -35,7 +35,7 @@ builder.Services.AddScoped<RefreshToken>();
 
 // Add Identity services
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddEntityFrameworkStores<AdminDbContext>()
     .AddDefaultTokenProviders();
 
 // Add scoped services

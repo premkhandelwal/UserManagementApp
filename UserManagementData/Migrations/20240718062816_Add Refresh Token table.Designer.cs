@@ -11,7 +11,7 @@ using UserManagementData;
 
 namespace UserManagementData.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AdminDbContext))]
     [Migration("20240718062816_Add Refresh Token table")]
     partial class AddRefreshTokentable
     {

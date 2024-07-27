@@ -23,8 +23,8 @@ namespace UserManagementService
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtConfig _jwtConfig;
         private readonly TokenValidationParameters _tokenValidationParameters;
-        private readonly ApplicationDbContext _applicationDbContext;
-        public UserManagement(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtConfig> optionsMonitor, TokenValidationParameters tokenValidationParameters, ApplicationDbContext applicationDbContext)
+        private readonly AdminDbContext _applicationDbContext;
+        public UserManagement(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtConfig> optionsMonitor, TokenValidationParameters tokenValidationParameters, AdminDbContext applicationDbContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;

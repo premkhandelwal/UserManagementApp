@@ -11,7 +11,7 @@ using UserManagementData;
 
 namespace UserManagementData.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AdminDbContext))]
     [Migration("20240719103855_Add User table")]
     partial class AddUsertable
     {

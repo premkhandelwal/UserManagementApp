@@ -11,7 +11,7 @@ using UserManagementData;
 
 namespace UserManagementData.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AdminDbContext))]
     [Migration("20240711063321_First")]
     partial class First
     {

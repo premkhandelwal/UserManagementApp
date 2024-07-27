@@ -11,7 +11,7 @@ using UserManagementData;
 
 namespace UserManagementData.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AdminDbContext))]
     [Migration("20240720112432_Added IsDeactivated column")]
     partial class AddedIsDeactivatedcolumn
     {
