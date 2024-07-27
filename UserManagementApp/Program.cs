@@ -21,13 +21,13 @@ var configuration = builder.Configuration;
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(configuration.GetConnectionString("UserManagementConnStr"));
+    options.UseSqlServer(configuration.GetConnectionString("AdminConnectionString"));
 }
 );
 
 builder.Services.AddDbContext<ClientApplicationDbContext>(options =>
 {
-    options.UseSqlServer(configuration.GetConnectionString("ConnStr"));
+    options.UseSqlServer(configuration.GetConnectionString("ClientConnectionString"));
 });
 
 builder.Services.AddScoped<RefreshToken>();
