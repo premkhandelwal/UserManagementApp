@@ -22,7 +22,6 @@ namespace UserManagementApp.Controllers.Masters
         [HttpPost("CreateValidity")]
         public async Task<IActionResult> CreateValidity([FromBody] ValidityModel validity)
         {
-            validity.AddedOn = DateTime.Now;
             IApiResponse<string> response = new IApiResponse<string>
             {
                 IsSuccess = false,
@@ -37,6 +36,7 @@ namespace UserManagementApp.Controllers.Masters
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
             validity.Id = Guid.NewGuid().ToString();
+            validity.AddedOn = DateTime.Now;
             validity.IsDeleted = false;
             await _context.Validities!.AddAsync(validity);
             int result = await _context.SaveChangesAsync();
