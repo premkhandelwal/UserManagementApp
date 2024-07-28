@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UserManagementData\UserManagementData.csproj" />
+    <ProjectReference Include="..\UserManagementData\CRM.Admin.Data.csproj" />
   </ItemGroup>
 
 </Project>
