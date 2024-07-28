@@ -33,63 +33,6 @@ namespace CRM.Admin.Service
             _applicationDbContext = applicationDbContext;
 
         }
-        private string GenerateRandomString(int length) 
-        {
-            Random random = new Random();
-            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length).Select(x => x[random.Next(x.Length)]).ToArray());
-        }   
-
-        async private Task<SecurityToken> GenerateJwtAuthSecurityToken(CrmIdentityUser identityUser)
-        {
-            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
-            List<Claim> claims = await GetAllValidClaimsForUser(identityUser);
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddSeconds(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
-
-            };
-            SecurityToken securityToken = jwtTokenHandler.CreateToken(tokenDescriptor);
-            return securityToken;
-        }
-
-        private string GenerateJwtAuthToken(SecurityToken securityToken)
-        {
-            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
-            string jwtToken = jwtTokenHandler.WriteToken(securityToken);
-            return jwtToken;
-        }
-
-        async private Task<string?> GenerateRefreshToken(string authTokenId, string userId)
-        {
-            RefreshToken refreshToken = new RefreshToken()
-            {
-                JwtId = authTokenId,
-                IsUsed = false,
-                IsRevoked = false,
-                AddedDate = DateTime.UtcNow,
-                ExpiryDate = DateTime.UtcNow.AddMonths(6),
-                UserId = userId,
-                Token = GenerateRandomString(35) + Guid.NewGuid(),
-            };
-            if (_applicationDbContext.RefreshTokens != null)
-            {
-                await _applicationDbContext.RefreshTokens.AddAsync(refreshToken);
-                await _applicationDbContext.SaveChangesAsync();
-                return refreshToken.Token;
-            }
-            return null;
-        }
-
-        private DateTime ParseDateTime(long timeStamp)
-        {
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            dateTime = dateTime.AddSeconds(timeStamp);
-            return dateTime;
-        }
 
         public async Task<IApiResponse<string>> RefreshToken(string authToken, string refreshToken)
         {
@@ -447,6 +390,64 @@ namespace CRM.Admin.Service
                 }
             }
             return claims;
+        }
+
+        private string GenerateRandomString(int length)
+        {
+            Random random = new Random();
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length).Select(x => x[random.Next(x.Length)]).ToArray());
+        }
+
+        async private Task<SecurityToken> GenerateJwtAuthSecurityToken(CrmIdentityUser identityUser)
+        {
+            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
+            List<Claim> claims = await GetAllValidClaimsForUser(identityUser);
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddSeconds(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
+
+            };
+            SecurityToken securityToken = jwtTokenHandler.CreateToken(tokenDescriptor);
+            return securityToken;
+        }
+
+        private string GenerateJwtAuthToken(SecurityToken securityToken)
+        {
+            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
+            string jwtToken = jwtTokenHandler.WriteToken(securityToken);
+            return jwtToken;
+        }
+
+        async private Task<string?> GenerateRefreshToken(string authTokenId, string userId)
+        {
+            RefreshToken refreshToken = new RefreshToken()
+            {
+                JwtId = authTokenId,
+                IsUsed = false,
+                IsRevoked = false,
+                AddedDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddMonths(6),
+                UserId = userId,
+                Token = GenerateRandomString(35) + Guid.NewGuid(),
+            };
+            if (_applicationDbContext.RefreshTokens != null)
+            {
+                await _applicationDbContext.RefreshTokens.AddAsync(refreshToken);
+                await _applicationDbContext.SaveChangesAsync();
+                return refreshToken.Token;
+            }
+            return null;
+        }
+
+        private DateTime ParseDateTime(long timeStamp)
+        {
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            dateTime = dateTime.AddSeconds(timeStamp);
+            return dateTime;
         }
     }
 }
