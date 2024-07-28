@@ -16,6 +16,6 @@ namespace UserManagementApp.Models
         public DateTime ExpiryDate { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public ApplicationUser User { get; set; } = null!;
+        public CrmIdentityUser User { get; set; } = null!;
     }
 }

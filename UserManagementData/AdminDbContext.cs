@@ -9,7 +9,7 @@ using UserManagementApp.Models;
 
 namespace UserManagementData
 {
-    public class AdminDbContext : IdentityDbContext<ApplicationUser>
+    public class AdminDbContext : IdentityDbContext<CrmIdentityUser>
     {
         public DbSet<RefreshToken>? RefreshTokens { get; set; }
 

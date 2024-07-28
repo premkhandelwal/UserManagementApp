@@ -15,7 +15,7 @@ namespace UserManagementData
         public string Role { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
-        public ApplicationUser User { get; set; } = null!;
+        public CrmIdentityUser User { get; set; } = null!;
 
     }
 }

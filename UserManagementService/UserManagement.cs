@@ -19,12 +19,12 @@ namespace UserManagementService
 {
     public class UserManagement
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<CrmIdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtConfig _jwtConfig;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly AdminDbContext _applicationDbContext;
-        public UserManagement(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtConfig> optionsMonitor, TokenValidationParameters tokenValidationParameters, AdminDbContext applicationDbContext)
+        public UserManagement(UserManager<CrmIdentityUser> userManager, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtConfig> optionsMonitor, TokenValidationParameters tokenValidationParameters, AdminDbContext applicationDbContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -40,7 +40,7 @@ namespace UserManagementService
             return new string(Enumerable.Repeat(chars, length).Select(x => x[random.Next(x.Length)]).ToArray());
         }   
 
-        async private Task<SecurityToken> GenerateJwtAuthSecurityToken(ApplicationUser identityUser)
+        async private Task<SecurityToken> GenerateJwtAuthSecurityToken(CrmIdentityUser identityUser)
         {
             JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
@@ -138,7 +138,7 @@ namespace UserManagementService
                 _applicationDbContext.RefreshTokens?.Update(storedToken);
                 await _applicationDbContext.SaveChangesAsync();
                 
-                ApplicationUser applicationUser = await _userManager.FindByIdAsync(storedToken.UserId);
+                CrmIdentityUser applicationUser = await _userManager.FindByIdAsync(storedToken.UserId);
 
                 SecurityToken newJwtSecurityToken = await GenerateJwtAuthSecurityToken(applicationUser);
                 string newJwtAuthToken = GenerateJwtAuthToken(newJwtSecurityToken);
@@ -155,12 +155,12 @@ namespace UserManagementService
         public async Task<TokenResponse<string>> CreateUser(IUser registerUser)
         {
             using var transaction = _applicationDbContext.Database.BeginTransaction();
-            ApplicationUser? existingUser = await _userManager.FindByEmailAsync(registerUser.EmailId);
+            CrmIdentityUser? existingUser = await _userManager.FindByEmailAsync(registerUser.EmailId);
             if(existingUser != null)
             {
                 return new TokenResponse<string> {  IsSuccess = false, StatusCode = 401, Response = "User Already Exists!!" };
             }
-            ApplicationUser newUser = new()
+            CrmIdentityUser newUser = new()
             {
                 Email = registerUser.EmailId,
                 UserName = registerUser.Username,
@@ -191,7 +191,7 @@ namespace UserManagementService
 
         public async Task<TokenResponse<string>> Login(string emailId, string password)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(emailId);
+            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(emailId);
             if (applicationUser == null) 
             { 
                 return new TokenResponse<string> { IsSuccess = false, StatusCode = 400, Response = "User not found!!" };
@@ -210,7 +210,7 @@ namespace UserManagementService
 
         public async Task<IApiResponse<List<IUser>>> GetAllUsers()
         {
-            List<ApplicationUser> applicationUsersList = await _userManager.Users.ToListAsync();
+            List<CrmIdentityUser> applicationUsersList = await _userManager.Users.ToListAsync();
             List<IUser> usersList = new List<IUser>();
             if (applicationUsersList != null)
             {
@@ -258,7 +258,7 @@ namespace UserManagementService
 
         public async Task<IApiResponse<string>> AssignRoleToUser(string userEmail, string roleToBeAssigned)
         {
-            ApplicationUser applicationUser  = await _userManager.FindByEmailAsync(userEmail);
+            CrmIdentityUser applicationUser  = await _userManager.FindByEmailAsync(userEmail);
             if(applicationUser == null)
             {
                 return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User Not Found!!" };
@@ -279,7 +279,7 @@ namespace UserManagementService
 
         public async Task<IApiResponse<List<string>>> GetRolesForUser(string userEmail)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
+            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
             if (applicationUser == null)
             {
                 return new IApiResponse<List<string>> { IsSuccess = false, StatusCode = 401, Response = null };
@@ -298,7 +298,7 @@ namespace UserManagementService
         {
             using var transaction = _applicationDbContext.Database.BeginTransaction();
 
-            ApplicationUser user = await _userManager.FindByEmailAsync(emailId);
+            CrmIdentityUser user = await _userManager.FindByEmailAsync(emailId);
             IList<string> rolesForUser = await _userManager.GetRolesAsync(user);
             string? currRole = rolesForUser.FirstOrDefault();
             if(currRole != null)
@@ -322,7 +322,7 @@ namespace UserManagementService
 
         public async Task<IApiResponse<List<Claim>>> GetClaimsForUser(string userEmail)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
+            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
             if(applicationUser == null)
             {
                 return new IApiResponse<List<Claim>> { IsSuccess = false, StatusCode = 401, Response = null };
@@ -338,7 +338,7 @@ namespace UserManagementService
 
         public async Task<IApiResponse<string>> AddClaimForUser(string userEmail, string claimName, string claimValue)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
+            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
             if (applicationUser == null)
             {
                 return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User not found!!" };
@@ -353,7 +353,7 @@ namespace UserManagementService
 
         public async Task<IApiResponse<string>> AddClaimsForUser(string userEmail, List<KeyValuePair<string, string>> claims)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
+            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
             if (applicationUser == null)
             {
                 return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User not found!" };
@@ -410,7 +410,7 @@ namespace UserManagementService
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to add claim" };
         }
 
-        public async Task<List<Claim>> GetAllValidClaimsForUser(ApplicationUser user)
+        public async Task<List<Claim>> GetAllValidClaimsForUser(CrmIdentityUser user)
         {
             IdentityOptions options = new IdentityOptions();
 

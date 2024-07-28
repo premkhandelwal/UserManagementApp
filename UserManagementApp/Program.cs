@@ -34,7 +34,7 @@ builder.Services.AddScoped<RefreshToken>();
 
 
 // Add Identity services
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<CrmIdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AdminDbContext>()
     .AddDefaultTokenProviders();
 

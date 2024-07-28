@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UserManagementData
 {
-    public class ApplicationUser : IdentityUser
+    public class CrmIdentityUser : IdentityUser
     {
         public bool IsDeactivated { get; set; } = false;
 
