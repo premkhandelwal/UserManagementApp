@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using UserManagementApp.Models.Masters;
-using UserManagementData;
+using CRM.Api.Models.Masters;
+using CRM.Admin.Data;
 
-namespace UserManagementApp.Models.UserManagementRequests
+namespace CRM.Api.Models.UserManagementRequests
 {
     public class ClientApplicationDbContext : DbContext
     {

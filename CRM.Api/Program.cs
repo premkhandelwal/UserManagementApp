@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using UserManagementApp;
-using UserManagementApp.Models;
-using UserManagementApp.Models.UserManagementRequests;
-using UserManagementData;
-using UserManagementService;
+using CRM.Api;
+using CRM.Api.Models;
+using CRM.Api.Models.UserManagementRequests;
+using CRM.Admin.Data;
+using CRM.Admin.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 

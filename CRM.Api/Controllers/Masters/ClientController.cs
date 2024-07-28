@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Diagnostics.Metrics;
-using UserManagementApp.Models.Masters;
-using UserManagementApp.Models.UserManagementRequests;
-using UserManagementData;
-using UserManagementService.Models;
+using CRM.Api.Models.Masters;
+using CRM.Api.Models.UserManagementRequests;
+using CRM.Admin.Data;
+using CRM.Admin.Service.Models;
 
-namespace UserManagementApp.Controllers.Masters
+namespace CRM.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]

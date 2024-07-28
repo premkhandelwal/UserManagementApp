@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using UserManagementApp.Models;
-using UserManagementApp.Models.UserManagementRequests;
-using UserManagementService;
-using UserManagementService.Models;
+using CRM.Api.Models;
+using CRM.Api.Models.UserManagementRequests;
+using CRM.Admin.Service;
+using CRM.Admin.Service.Models;
 
-namespace UserManagementApp.Controllers
+namespace CRM.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

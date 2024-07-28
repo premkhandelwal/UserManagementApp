@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
-using UserManagementData;
+using CRM.Admin.Data;
 
-namespace UserManagementApp.Models
+namespace CRM.Api.Models
 {
     public class RefreshToken
     {

@@ -10,12 +10,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using UserManagementApp;
-using UserManagementApp.Models;
-using UserManagementData;
-using UserManagementService.Models;
+using CRM.Api;
+using CRM.Api.Models;
+using CRM.Admin.Data;
+using CRM.Admin.Service.Models;
 
-namespace UserManagementService
+namespace CRM.Admin.Service
 {
     public class UserManagement
     {

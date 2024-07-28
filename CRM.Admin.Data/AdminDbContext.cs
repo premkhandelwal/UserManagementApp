@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserManagementApp.Models;
+using CRM.Api.Models;
 
-namespace UserManagementData
+namespace CRM.Admin.Data
 {
     public class AdminDbContext : IdentityDbContext<CrmIdentityUser>
     {

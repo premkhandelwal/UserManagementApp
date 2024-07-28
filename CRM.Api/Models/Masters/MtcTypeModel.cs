@@ -1,4 +1,4 @@
-﻿namespace UserManagementApp.Models.Masters
+﻿namespace CRM.Api.Models.Masters
 {
     public class MtcTypeModel
     {

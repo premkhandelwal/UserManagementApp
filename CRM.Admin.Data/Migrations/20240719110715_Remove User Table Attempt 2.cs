@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace UserManagementData.Migrations
+namespace CRM.Admin.Data.Migrations
 {
     public partial class RemoveUserTableAttempt2 : Migration
     {

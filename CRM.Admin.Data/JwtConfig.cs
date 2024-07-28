@@ -1,4 +1,4 @@
-﻿namespace UserManagementApp
+﻿namespace CRM.Api
 {
     public class JwtConfig
     {

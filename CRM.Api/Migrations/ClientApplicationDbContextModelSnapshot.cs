@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserManagementApp.Models.UserManagementRequests;
+using CRM.Api.Models.UserManagementRequests;
 
 #nullable disable
 
-namespace UserManagementApp.Migrations
+namespace CRM.Api.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
     partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot

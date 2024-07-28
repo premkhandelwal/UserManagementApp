@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserManagementApp.Models.UserManagementRequests;
+using CRM.Api.Models.UserManagementRequests;
 
 #nullable disable
 
-namespace UserManagementApp.Migrations
+namespace CRM.Api.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
     [Migration("20240723135800_Changed IdentityDbContext to DbContext")]

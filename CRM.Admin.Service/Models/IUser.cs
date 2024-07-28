@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserManagementService.Models
+namespace CRM.Admin.Service.Models
 {
     public class IUser
     {

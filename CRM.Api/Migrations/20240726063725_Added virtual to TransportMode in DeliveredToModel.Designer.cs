@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserManagementApp.Models.UserManagementRequests;
+using CRM.Api.Models.UserManagementRequests;
 
 #nullable disable
 
-namespace UserManagementApp.Migrations
+namespace CRM.Api.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
     [Migration("20240726063725_Added virtual to TransportMode in DeliveredToModel")]

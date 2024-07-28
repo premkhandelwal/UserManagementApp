@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace UserManagementApp.Migrations
+namespace CRM.Api.Migrations
 {
     public partial class AddedForeignKeyforTransportModeinDeliveredTo : Migration
     {

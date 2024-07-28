@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserManagementData;
+using CRM.Admin.Data;
 
 #nullable disable
 
-namespace UserManagementData.Migrations
+namespace CRM.Admin.Data.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
     [Migration("20240718062816_Add Refresh Token table")]

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using UserManagementData;
+using CRM.Admin.Data;
 
-namespace UserManagementApp.Models.Masters
+namespace CRM.Api.Models.Masters
 {
     public class MemberModel
     {

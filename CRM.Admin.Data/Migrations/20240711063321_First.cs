@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace UserManagementData.Migrations
+namespace CRM.Admin.Data.Migrations
 {
     public partial class First : Migration
     {
