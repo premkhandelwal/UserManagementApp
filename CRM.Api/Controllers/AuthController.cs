@@ -13,16 +13,18 @@ namespace CRM.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private UserManagement _userManagement; 
-        public AuthController(UserManagement userManagement)
+        private readonly IdentityService _identityService; 
+        private readonly AuthService _authService; 
+        public AuthController(IdentityService identityService, AuthService authService)
         {
-            _userManagement = userManagement;
+            _identityService = identityService;
+            _authService = authService;
         }
 
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] IUser registerUser)
         {
-            IApiResponse<string> response = await _userManagement.CreateUser(registerUser);
+            IApiResponse<string> response = await _identityService.CreateUser(registerUser);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -37,7 +39,7 @@ namespace CRM.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
             }
-            TokenResponse<string> response = await _userManagement.Login(request.emailId, request.password);
+            TokenResponse<string> response = await _authService.Login(request.emailId, request.password);
             if (response.IsSuccess)
             {
                 /*var authCookieOptions = new CookieOptions
@@ -69,7 +71,7 @@ namespace CRM.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
             }
-            IApiResponse<string> response = await _userManagement.RefreshToken(request.AuthToken, request.RefreshToken);
+            IApiResponse<string> response = await _authService.RefreshToken(request.AuthToken, request.RefreshToken);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -81,7 +83,7 @@ namespace CRM.Api.Controllers
         [Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            IApiResponse<List<IUser>> response = await _userManagement.GetAllUsers();
+            IApiResponse<List<IUser>> response = await _identityService.GetAllUsers();
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -92,7 +94,7 @@ namespace CRM.Api.Controllers
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole([FromBody] string role)
         {
-            IApiResponse<string> response = await _userManagement.CreateRole(role);
+            IApiResponse<string> response = await _identityService.CreateRole(role);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -103,7 +105,7 @@ namespace CRM.Api.Controllers
         [HttpGet("GetAllRoles")]
         public async Task<IActionResult> GetAllRoles()
         {
-            IApiResponse<List<IdentityRole>> response = await _userManagement.GetAllRoles();
+            IApiResponse<List<IdentityRole>> response = await _identityService.GetAllRoles();
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -115,7 +117,7 @@ namespace CRM.Api.Controllers
         [Authorize(Policy = "RoleOrPolicy"), ]
         public async Task<IActionResult> AssignRoleToUser([FromBody] AssignRoleRequest request)
         {
-            IApiResponse<string> response = await _userManagement.AssignRoleToUser(request.emailId, request.role);
+            IApiResponse<string> response = await _identityService.AssignRoleToUser(request.emailId, request.role);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -126,7 +128,7 @@ namespace CRM.Api.Controllers
         [HttpGet("GetRolesForUser")]
         public async Task<IActionResult> GetRolesForUser(string emailId)
         {
-            IApiResponse<List<string>> response = await _userManagement.GetRolesForUser(emailId);
+            IApiResponse<List<string>> response = await _identityService.GetRolesForUser(emailId);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -137,7 +139,7 @@ namespace CRM.Api.Controllers
         [HttpPut("UpdateRoleForUser")]
         public async Task<IActionResult> UpdateRoleForUser([FromBody] AssignRoleRequest request)
         {
-            IApiResponse<string> response = await _userManagement.UpdateRoleForUser(request.emailId, request.role);
+            IApiResponse<string> response = await _identityService.UpdateRoleForUser(request.emailId, request.role);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -149,7 +151,7 @@ namespace CRM.Api.Controllers
         //[Authorize(Policy = "RolePolicy")]
         public async Task<IActionResult> AddClaimForUser([FromBody] AddClaimforUserRequest request)
         {
-            IApiResponse<string> response = await _userManagement.AddClaimForUser(request.emailId, request.claimName, request.claimValue);
+            IApiResponse<string> response = await _identityService.AddClaimForUser(request.emailId, request.claimName, request.claimValue);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -161,7 +163,7 @@ namespace CRM.Api.Controllers
         //[Authorize(Policy = "RolePolicy")]
         public async Task<IActionResult> AddClaimsForUser([FromBody] AddMultipleClaimsForUserRequest request)
         {
-            IApiResponse<string> response = await _userManagement.AddClaimsForUser(request.emailId, request.claims);
+            IApiResponse<string> response = await _identityService.AddClaimsForUser(request.emailId, request.claims);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -175,7 +177,7 @@ namespace CRM.Api.Controllers
         //[Authorize(Policy = "RolePolicy")]
         public async Task<IActionResult> AddClaimForRole(string emailId, string claimValue)
         {
-            IApiResponse<string> response = await _userManagement.AddClaimForRole(emailId, claimValue);
+            IApiResponse<string> response = await _identityService.AddClaimForRole(emailId, claimValue);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -186,7 +188,7 @@ namespace CRM.Api.Controllers
         [HttpGet("GetClaimsForUser")]
         public async Task<IActionResult> GetClaimsForUser(string emailId)
         {
-            IApiResponse<List<Claim>> response = await _userManagement.GetClaimsForUser(emailId);
+            IApiResponse<List<Claim>> response = await _identityService.GetClaimsForUser(emailId);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);

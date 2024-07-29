@@ -17,91 +17,27 @@ using CRM.Admin.Service.Models;
 
 namespace CRM.Admin.Service
 {
-    public class UserManagement
+    public class IdentityService
     {
         private readonly UserManager<CrmIdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly JwtConfig _jwtConfig;
-        private readonly TokenValidationParameters _tokenValidationParameters;
-        private readonly AdminDbContext _applicationDbContext;
-        public UserManagement(UserManager<CrmIdentityUser> userManager, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtConfig> optionsMonitor, TokenValidationParameters tokenValidationParameters, AdminDbContext applicationDbContext)
+        
+        private readonly AdminDbContext _adminDbContext;
+        
+        public IdentityService(UserManager<CrmIdentityUser> userManager, RoleManager<IdentityRole> roleManager, AdminDbContext adminDbContext)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
-            _jwtConfig = optionsMonitor.CurrentValue;
-            _tokenValidationParameters = tokenValidationParameters;
-            _applicationDbContext = applicationDbContext;
-
-        }
-
-        public async Task<IApiResponse<string>> RefreshToken(string authToken, string refreshToken)
-        {
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            try
-            {
-                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(authToken, _tokenValidationParameters, out SecurityToken validatedToken);
-                if (validatedToken is JwtSecurityToken jwtSecurityToken)
-                {
-                    bool result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
-                    if (result == false)
-                    {
-                        return new IApiResponse<string> { IsSuccess = false, StatusCode = 501};
-                    }
-                }
-                string? utcExpiryTime = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp)?.Value;
-                if (utcExpiryTime == null)
-                {
-                    return new IApiResponse<string> { IsSuccess = false, StatusCode = 501};
-                }
-                long timeStamp = long.Parse(utcExpiryTime);
-                DateTime expiryDate = ParseDateTime(timeStamp);
-                if (expiryDate > DateTime.UtcNow)
-                {
-                    return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Token not yet expired!!" };
-                }
-                RefreshToken? storedToken = _applicationDbContext.RefreshTokens?.FirstOrDefault(x => x.Token == refreshToken);
-                if(storedToken == null)
-                {
-                    return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Token does not exist!!" };
-                }
-                if (storedToken.IsUsed)
-                {
-                    return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Token has been used!!" };
-                }
-                if (storedToken.IsRevoked)
-                {
-                    return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Token has been revoked!!" };
-                }
-                string? jti = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti)?.Value;
-                if(storedToken.JwtId != jti)
-                {
-                    return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Token does not match!!" };
-                }
-                storedToken.IsUsed = true;
-                _applicationDbContext.RefreshTokens?.Update(storedToken);
-                await _applicationDbContext.SaveChangesAsync();
-                
-                CrmIdentityUser applicationUser = await _userManager.FindByIdAsync(storedToken.UserId);
-
-                SecurityToken newJwtSecurityToken = await GenerateJwtAuthSecurityToken(applicationUser);
-                string newJwtAuthToken = GenerateJwtAuthToken(newJwtSecurityToken);
-                string? newRefreshToken = await GenerateRefreshToken(newJwtSecurityToken.Id, applicationUser.Id);
-                return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Success", AuthToken = newJwtAuthToken, RefreshToken = newRefreshToken };
-            }
-            catch (Exception)
-            {
-
-                return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Something went wrong!!" }; ;
-            }
+            
+            _adminDbContext = adminDbContext;
         }
 
         public async Task<TokenResponse<string>> CreateUser(IUser registerUser)
         {
-            using var transaction = _applicationDbContext.Database.BeginTransaction();
+            using var transaction = _adminDbContext.Database.BeginTransaction();
             CrmIdentityUser? existingUser = await _userManager.FindByEmailAsync(registerUser.EmailId);
-            if(existingUser != null)
+            if (existingUser != null)
             {
-                return new TokenResponse<string> {  IsSuccess = false, StatusCode = 401, Response = "User Already Exists!!" };
+                return new TokenResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User Already Exists!!" };
             }
             CrmIdentityUser newUser = new()
             {
@@ -110,45 +46,31 @@ namespace CRM.Admin.Service
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
             IdentityResult result = await _userManager.CreateAsync(newUser, registerUser.Password);
-            if (result.Succeeded) 
+            if (result.Succeeded)
             {
                 IApiResponse<string>? roleAssignResponse = await AssignRoleToUser(registerUser.EmailId, registerUser.Role);
                 if (roleAssignResponse.IsSuccess)
                 {
-                    SecurityToken jwtSecurityToken = await GenerateJwtAuthSecurityToken(newUser);
-                    string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
-                    string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, newUser.Id);
+                    //SecurityToken jwtSecurityToken = await GenerateJwtAuthSecurityToken(newUser);
+                    //string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
+                    //string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, newUser.Id);
+                    //await transaction.CommitAsync();
+
+                    SecurityToken jwtSecurityToken = null;
+                    string jwtAuthToken = null;
+                    string? refreshToken = null;
                     await transaction.CommitAsync();
 
                     return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Success", AuthToken = jwtAuthToken, RefreshToken = refreshToken };
                 }
                 else
                 {
-                    return new TokenResponse<string> { IsSuccess = false, StatusCode = 500, Response = roleAssignResponse.Response};
+                    return new TokenResponse<string> { IsSuccess = false, StatusCode = 500, Response = roleAssignResponse.Response };
                 }
             }
             await _userManager.DeleteAsync(newUser);
             await transaction.RollbackAsync();
             return new TokenResponse<string> { IsSuccess = false, StatusCode = 500, Response = "Failed to assign role, user creation failed" };
-        }
-
-        public async Task<TokenResponse<string>> Login(string emailId, string password)
-        {
-            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(emailId);
-            if (applicationUser == null) 
-            { 
-                return new TokenResponse<string> { IsSuccess = false, StatusCode = 400, Response = "User not found!!" };
-            }
-            bool isCorrect = await _userManager.CheckPasswordAsync(applicationUser, password);
-            if (isCorrect == false)
-            {
-                return new TokenResponse<string> { IsSuccess = false, StatusCode = 401, Response = "Invalid email address or password!!" };
-            }
-
-            SecurityToken jwtSecurityToken = await GenerateJwtAuthSecurityToken(applicationUser);
-            string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
-            string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, applicationUser.Id);
-            return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Success", AuthToken = jwtAuthToken, RefreshToken = refreshToken };
         }
 
         public async Task<IApiResponse<List<IUser>>> GetAllUsers()
@@ -239,7 +161,7 @@ namespace CRM.Admin.Service
 
         public async Task<IApiResponse<string>> UpdateRoleForUser(string emailId, string newRole)
         {
-            using var transaction = _applicationDbContext.Database.BeginTransaction();
+            using var transaction = _adminDbContext.Database.BeginTransaction();
 
             CrmIdentityUser user = await _userManager.FindByEmailAsync(emailId);
             IList<string> rolesForUser = await _userManager.GetRolesAsync(user);
@@ -302,7 +224,7 @@ namespace CRM.Admin.Service
                 return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User not found!" };
             }
 
-            using (var transaction = await _applicationDbContext.Database.BeginTransactionAsync())
+            using (var transaction = await _adminDbContext.Database.BeginTransactionAsync())
             {
                 try
                 {
@@ -337,7 +259,6 @@ namespace CRM.Admin.Service
             }
         }
 
-
         public async Task<IApiResponse<string>> AddClaimForRole(string roleName, string claimValue)
         {
             IdentityRole role = await _roleManager.FindByNameAsync(roleName);
@@ -352,102 +273,6 @@ namespace CRM.Admin.Service
             }
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to add claim" };
         }
-
-        public async Task<List<Claim>> GetAllValidClaimsForUser(CrmIdentityUser user)
-        {
-            IdentityOptions options = new IdentityOptions();
-
-            //All default claims which were being passed to token
-            List<Claim> claims = new List<Claim>()
-            {
-                new Claim("Id", user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) //Identification for the user. Passed when creating the token
-            };
-            IList<Claim> userClaims = await _userManager.GetClaimsAsync(user);
-            claims.AddRange(userClaims);
-
-            //Get roles assigned to the user: string
-            IList<string> userRoles = await _userManager.GetRolesAsync(user);
-            foreach (var userRole in userRoles)
-            {
-                //Get IdentityRole object from role name
-                IdentityRole identityRole = await _roleManager.FindByNameAsync(userRole);
-                if(identityRole != null)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, userRole));
-
-                    //Get all claims for the current role
-                    var roleClaims = await _roleManager.GetClaimsAsync(identityRole);
-                    foreach (var roleClaim in roleClaims) 
-                    {
-                        if(claims.Contains(roleClaim) == false)
-                        {
-                            claims.Add(roleClaim);
-                        }
-                    }
-                }
-            }
-            return claims;
-        }
-
-        private string GenerateRandomString(int length)
-        {
-            Random random = new Random();
-            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length).Select(x => x[random.Next(x.Length)]).ToArray());
-        }
-
-        async private Task<SecurityToken> GenerateJwtAuthSecurityToken(CrmIdentityUser identityUser)
-        {
-            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
-            List<Claim> claims = await GetAllValidClaimsForUser(identityUser);
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddSeconds(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
-
-            };
-            SecurityToken securityToken = jwtTokenHandler.CreateToken(tokenDescriptor);
-            return securityToken;
-        }
-
-        private string GenerateJwtAuthToken(SecurityToken securityToken)
-        {
-            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
-            string jwtToken = jwtTokenHandler.WriteToken(securityToken);
-            return jwtToken;
-        }
-
-        async private Task<string?> GenerateRefreshToken(string authTokenId, string userId)
-        {
-            RefreshToken refreshToken = new RefreshToken()
-            {
-                JwtId = authTokenId,
-                IsUsed = false,
-                IsRevoked = false,
-                AddedDate = DateTime.UtcNow,
-                ExpiryDate = DateTime.UtcNow.AddMonths(6),
-                UserId = userId,
-                Token = GenerateRandomString(35) + Guid.NewGuid(),
-            };
-            if (_applicationDbContext.RefreshTokens != null)
-            {
-                await _applicationDbContext.RefreshTokens.AddAsync(refreshToken);
-                await _applicationDbContext.SaveChangesAsync();
-                return refreshToken.Token;
-            }
-            return null;
-        }
-
-        private DateTime ParseDateTime(long timeStamp)
-        {
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            dateTime = dateTime.AddSeconds(timeStamp);
-            return dateTime;
-        }
+        
     }
 }

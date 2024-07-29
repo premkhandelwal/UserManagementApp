@@ -39,7 +39,7 @@ builder.Services.AddIdentity<CrmIdentityUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // Add scoped services
-builder.Services.AddScoped<UserManagement>();
+builder.Services.AddScoped<IdentityService>();
 
 
 // Configure JWT settings
