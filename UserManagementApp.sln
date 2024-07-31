@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Admin.Service", "CRM.Ad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Admin.Data", "CRM.Admin.Data\CRM.Admin.Data.csproj", "{9ADCB945-C2AD-414B-9847-9FE12C01AC26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Tenant.Service", "CRM.Tenant.Service\CRM.Tenant.Service.csproj", "{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9ADCB945-C2AD-414B-9847-9FE12C01AC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ADCB945-C2AD-414B-9847-9FE12C01AC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ADCB945-C2AD-414B-9847-9FE12C01AC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
