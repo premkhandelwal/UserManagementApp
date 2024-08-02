@@ -26,6 +26,7 @@ namespace CRM.Admin.Service
         public AuthService(UserManager<CrmIdentityUser> userManager, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtConfig> optionsMonitor, AdminDbContext adminDbContext, TokenValidationParameters tokenValidationParameters)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _jwtConfig = optionsMonitor.CurrentValue;
             _adminDbContext = adminDbContext;
             _tokenValidationParameters = tokenValidationParameters;

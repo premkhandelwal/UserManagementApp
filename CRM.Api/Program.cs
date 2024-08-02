@@ -31,6 +31,8 @@ builder.Services.AddDbContext<ClientApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<RefreshToken>();
+builder.Services.AddScoped<ClientApplicationDbContext>();
+builder.Services.AddScoped<AuthService>();
 
 
 // Add Identity services

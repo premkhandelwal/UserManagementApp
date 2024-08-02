@@ -27,7 +27,7 @@ namespace CRM.Admin.Service
         public IdentityService(UserManager<CrmIdentityUser> userManager, RoleManager<IdentityRole> roleManager, AdminDbContext adminDbContext)
         {
             _userManager = userManager;
-            
+            _roleManager = roleManager;
             _adminDbContext = adminDbContext;
         }
 

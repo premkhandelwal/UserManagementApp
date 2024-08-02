@@ -8,6 +8,11 @@ namespace CRM.Api.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "Members");
             migrationBuilder.CreateTable(
                 name: "Clients",
                 columns: table => new
@@ -46,11 +51,6 @@ namespace CRM.Api.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Clients");
-
-            migrationBuilder.DropTable(
-                name: "Members");
         }
     }
 }
