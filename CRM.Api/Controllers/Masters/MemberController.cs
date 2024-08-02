@@ -44,7 +44,7 @@ namespace CRM.Api.Controllers.Masters
                 response.IsSuccess = true;
                 response.Response = "Member created successfully!!";
                 response.StatusCode = 201;
-                return StatusCode(StatusCodes.Status201Created, "Member created successfully!!");
+                return StatusCode(StatusCodes.Status201Created, response);
             }  
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
