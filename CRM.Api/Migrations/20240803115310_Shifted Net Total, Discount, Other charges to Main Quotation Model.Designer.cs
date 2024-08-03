@@ -4,6 +4,7 @@ using CRM.Api.Models.UserManagementRequests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM.Api.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240803115310_Shifted Net Total, Discount, Other charges to Main Quotation Model")]
+    partial class ShiftedNetTotalDiscountOtherchargestoMainQuotationModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -420,7 +422,7 @@ namespace CRM.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CountryofOriginId")
+                    b.Property<string>("CountryId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrencyId")

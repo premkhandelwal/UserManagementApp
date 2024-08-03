@@ -4,6 +4,7 @@ using CRM.Api.Models.UserManagementRequests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM.Api.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240803104306_Add Quotation Model")]
+    partial class AddQuotationModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,7 +322,25 @@ namespace CRM.Api.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("GrandTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("GstAmount")
+                        .HasColumnType("float");
+
                     b.Property<double>("Margin")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NetTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("OtherCharges")
                         .HasColumnType("float");
 
                     b.Property<double>("PackagingCharges")
@@ -359,34 +379,16 @@ namespace CRM.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<double>("Discount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("DiscountType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("GrandTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("GstAmount")
-                        .HasColumnType("float");
-
                     b.Property<double>("GstPercent")
-                        .HasColumnType("float");
-
-                    b.Property<double>("NetTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("OtherCharges")
                         .HasColumnType("float");
 
                     b.Property<string>("QuotationAssignedToId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("QuotationAttentionId")
+                    b.Property<string>("QuotationCompanyId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("QuotationCompanyId")
+                    b.Property<string>("QuotationCompanyMemberId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("QuotationDate")
@@ -420,7 +422,7 @@ namespace CRM.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CountryofOriginId")
+                    b.Property<string>("CountryId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrencyId")

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CRM.Api.Models.Masters;
 using CRM.Admin.Data;
+using CRM.Api.Models.Quotation;
 
 namespace CRM.Api.Models.UserManagementRequests
 {
@@ -21,6 +22,10 @@ namespace CRM.Api.Models.UserManagementRequests
         public DbSet<QuotationCloseReasonModel>? QuotationCloseReasons { get; set; }
         public DbSet<TransportModeModel>? TransportModes { get; set; }
         public DbSet<ValidityModel>? Validities { get; set; }
+
+        public DbSet<QuotationModel>? Quotations { get; set; }
+        public DbSet<QuotationItemModel>? QuotationItems { get; set; }
+        public DbSet<QuotationTermsModel>? QuotationTerms { get; set; }
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
         {
 
@@ -55,6 +60,32 @@ namespace CRM.Api.Models.UserManagementRequests
                 .HasOne(dt => dt.Client)
                 .WithMany()
                 .HasForeignKey(dt => dt.ClientId);
+            modelBuilder.Entity<QuotationModel>()
+               .HasKey(q => q.Id);
+
+            modelBuilder.Entity<QuotationModel>()
+                .Property(q => q.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<QuotationItemModel>()
+                .HasKey(qi => qi.Id);
+
+            modelBuilder.Entity<QuotationItemModel>()
+                .Property(qi => qi.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasKey(qt => qt.Id);
+
+            modelBuilder.Entity<QuotationTermsModel>()
+                .Property(qt => qt.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<QuotationModel>()
+                .HasMany(q => q.QuotationItems)
+                .WithOne(qi => qi.Quotation)
+                .HasForeignKey(qi => qi.QuotationId);
+
         }
     }
 }
