@@ -35,7 +35,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            product.Id = Guid.NewGuid().ToString();
             product.AddedOn = DateTime.Now; 
             product.IsDeleted = false;
             await _context.Products!.AddAsync(product);

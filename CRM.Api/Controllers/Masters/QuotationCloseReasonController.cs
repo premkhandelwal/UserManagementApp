@@ -35,7 +35,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            quotationclosereason.Id = Guid.NewGuid().ToString();
             quotationclosereason.AddedOn = DateTime.Now;
             quotationclosereason.IsDeleted = false;
             await _context.QuotationCloseReasons!.AddAsync(quotationclosereason);

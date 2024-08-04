@@ -37,7 +37,6 @@ namespace CRM.Api.Controllers.Masters
             }
             country.IsDeleted = false;
             country.AddedOn = DateTime.Now;
-            country.Id = Guid.NewGuid().ToString();
             await _context.Countries!.AddAsync(country);
             int result = await _context.SaveChangesAsync();
             if (result > 0)

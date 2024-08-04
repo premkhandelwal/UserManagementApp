@@ -35,7 +35,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            deliverytime.Id = Guid.NewGuid().ToString();
             deliverytime.AddedOn = DateTime.Now;
             deliverytime.IsDeleted = false;
             await _context.DeliveryTime!.AddAsync(deliverytime);

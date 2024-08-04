@@ -35,7 +35,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            currency.Id = Guid.NewGuid().ToString();
             currency.IsDeleted = false;
             currency.AddedOn = DateTime.Now;
             await _context.Currencies!.AddAsync(currency);

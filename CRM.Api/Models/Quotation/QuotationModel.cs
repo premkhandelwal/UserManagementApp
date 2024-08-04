@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using CRM.Api.Models.Masters;
 
 namespace CRM.Api.Models.Quotation
 {
@@ -9,20 +10,16 @@ namespace CRM.Api.Models.Quotation
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } 
 
-        [ForeignKey("User")]
-        public string? QuotationMadeById { get; set; }
+        public int? QuotationMadeById { get; set; }
 
-        [ForeignKey("User")]
-        public string? QuotationAssignedToId { get; set; }
+        public int? QuotationAssignedToId { get; set; }
 
         public DateTime QuotationDate { get; set; }
 
         public string? QuotationStage { get; set; }
 
-        [ForeignKey("Company")]
         public string? QuotationCompanyId { get; set; }
 
-        [ForeignKey("CompanyMember")]
         public string? QuotationAttentionId { get; set; }
 
         public string? Reference { get; set; }
@@ -48,6 +45,12 @@ namespace CRM.Api.Models.Quotation
         public List<QuotationItemModel>? QuotationItems { get; set; }
 
         public QuotationTermsModel? QuotationTerms { get; set; }
+
+        [ForeignKey(nameof(QuotationAssignedToId))]
+        public virtual ClientModel? QuotationMadeBy { get; set; }
+
+        [ForeignKey(nameof(QuotationMadeById))]
+        public virtual ClientModel? QuotationAssignedTo { get; set; }
 
     }
 }

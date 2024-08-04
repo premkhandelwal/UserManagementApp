@@ -35,7 +35,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            paymenttype.Id = Guid.NewGuid().ToString();
             paymenttype.AddedOn = DateTime.Now;
             paymenttype.IsDeleted = false;
             await _context.PaymentTypes!.AddAsync(paymenttype);

@@ -34,7 +34,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            member.Id = Guid.NewGuid().ToString();
             member.AddedOn = DateTime.Now;
             member.IsDeleted = false;
             await _context.Members!.AddAsync(member);

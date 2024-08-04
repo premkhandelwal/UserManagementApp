@@ -1,12 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using CRM.Admin.Data;
 
 namespace CRM.Api.Models.Masters
 {
     public class MemberModel
     {
-        public string? Id { get; set; }
-        public string? ClientId { get; set; }   
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public int ClientId { get; set; }   
         public string? MemberName { get; set; }
         public string? Email { get; set; } 
         public string? Mobile { get; set; } 

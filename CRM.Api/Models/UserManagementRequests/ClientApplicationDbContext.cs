@@ -33,59 +33,58 @@ namespace CRM.Api.Models.UserManagementRequests
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure the primary key for TransportModeModel
-            modelBuilder.Entity<TransportModeModel>()
-                .HasKey(tm => tm.Id);
+            // Configure primary keys for all models
+            var entitiesWithPrimaryKey = new[]
+            {
+                typeof(DeliveredToModel),
+                typeof(CountryModel),
+                typeof(ClientModel),
+                typeof(CurrencyModel),
+                typeof(DeliveryTimeModel),
+                typeof(MaterialModel),
+                typeof(MemberModel),
+                typeof(MtcTypeModel),
+                typeof(PaymentTypeModel),
+                typeof(ProductModel),
+                typeof(QuotationCloseReasonModel),
+                typeof(TransportModeModel),
+                typeof(ValidityModel),
+                typeof(QuotationModel),
+                typeof(QuotationItemModel),
+                typeof(QuotationTermsModel)
+            };
 
-            // Configure the primary key for DeliveredToModel
-            modelBuilder.Entity<DeliveredToModel>()
-                .HasKey(dt => dt.Id);
+            foreach (var entity in entitiesWithPrimaryKey)
+            {
+                modelBuilder.Entity(entity).Property("Id").ValueGeneratedOnAdd();
+                modelBuilder.Entity(entity).HasKey("Id");
+            }
 
-            // Configure the one-to-many relationship between TransportModeModel and DeliveredToModel
+            
+
+            // Configure relationships
             modelBuilder.Entity<DeliveredToModel>()
                 .HasOne(dt => dt.TransportMode)
                 .WithMany()
                 .HasForeignKey(dt => dt.TransportModeId);
 
-            // Configure the primary key for TransportModeModel
-            modelBuilder.Entity<ClientModel>()
-                .HasKey(tm => tm.Id);
-
-            // Configure the primary key for DeliveredToModel
             modelBuilder.Entity<MemberModel>()
-                .HasKey(dt => dt.Id);
-
-            // Configure the one-to-many relationship between TransportModeModel and DeliveredToModel
-            modelBuilder.Entity<MemberModel>()
-                .HasOne(dt => dt.Client)
+                .HasOne(m => m.Client)
                 .WithMany()
-                .HasForeignKey(dt => dt.ClientId);
-            modelBuilder.Entity<QuotationModel>()
-               .HasKey(q => q.Id);
-
-            modelBuilder.Entity<QuotationModel>()
-                .Property(q => q.Id)
-                .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<QuotationItemModel>()
-                .HasKey(qi => qi.Id);
-
-            modelBuilder.Entity<QuotationItemModel>()
-                .Property(qi => qi.Id)
-                .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<QuotationTermsModel>()
-                .HasKey(qt => qt.Id);
-
-            modelBuilder.Entity<QuotationTermsModel>()
-                .Property(qt => qt.Id)
-                .ValueGeneratedOnAdd();
+                .HasForeignKey(m => m.ClientId);
 
             modelBuilder.Entity<QuotationModel>()
                 .HasMany(q => q.QuotationItems)
                 .WithOne(qi => qi.Quotation)
                 .HasForeignKey(qi => qi.QuotationId);
 
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasOne(qt => qt.Quotation)
+                .WithOne()
+                .HasForeignKey<QuotationTermsModel>(qt => qt.QuotationId);
+
+
         }
+
     }
 }

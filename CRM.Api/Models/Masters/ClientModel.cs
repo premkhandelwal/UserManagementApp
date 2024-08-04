@@ -5,7 +5,9 @@ namespace CRM.Api.Models.Masters
 {
     public class ClientModel
     {
-        public string? Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? Id { get; set; }
         public string? CompanyName { get; set; } 
         public string? Country { get; set; } 
         public string? Region { get; set; } 

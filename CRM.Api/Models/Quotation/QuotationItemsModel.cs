@@ -10,7 +10,7 @@ namespace CRM.Api.Models.Quotation
         public int Id { get; set; }  // Added primary key
 
         [ForeignKey("QuotationModel")]
-        public int QuotationId { get; set; }  // Changed type to int for foreign key
+        public int QuotationId { get; set; } 
 
         public int SrNo { get; set; }
 

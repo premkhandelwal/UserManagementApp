@@ -35,7 +35,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            validity.Id = Guid.NewGuid().ToString();
             validity.AddedOn = DateTime.Now;
             validity.IsDeleted = false;
             await _context.Validities!.AddAsync(validity);

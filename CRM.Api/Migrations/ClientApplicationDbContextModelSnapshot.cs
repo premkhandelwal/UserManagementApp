@@ -24,8 +24,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.ClientModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -52,8 +55,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.CountryModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -71,8 +77,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.CurrencyModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -93,8 +102,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.DeliveredToModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -105,8 +117,8 @@ namespace CRM.Api.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("TransportModeId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("TransportModeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -117,8 +129,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.DeliveryTimeModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -136,8 +151,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.MaterialModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -155,14 +173,17 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.MemberModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ClientId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -194,8 +215,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.MtcTypeModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -213,8 +237,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.PaymentTypeModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -232,8 +259,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.ProductModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -251,8 +281,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.QuotationCloseReasonModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -270,8 +303,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.TransportModeModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -289,8 +325,11 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Masters.ValidityModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime2");
@@ -380,8 +419,8 @@ namespace CRM.Api.Migrations
                     b.Property<double>("OtherCharges")
                         .HasColumnType("float");
 
-                    b.Property<string>("QuotationAssignedToId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("QuotationAssignedToId")
+                        .HasColumnType("int");
 
                     b.Property<string>("QuotationAttentionId")
                         .HasColumnType("nvarchar(max)");
@@ -395,8 +434,8 @@ namespace CRM.Api.Migrations
                     b.Property<string>("QuotationImportance")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("QuotationMadeById")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("QuotationMadeById")
+                        .HasColumnType("int");
 
                     b.Property<int>("QuotationPriority")
                         .HasColumnType("int");
@@ -404,10 +443,19 @@ namespace CRM.Api.Migrations
                     b.Property<string>("QuotationStage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("QuotationTermsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QuotationAssignedToId");
+
+                    b.HasIndex("QuotationMadeById");
+
+                    b.HasIndex("QuotationTermsId");
 
                     b.ToTable("Quotations");
                 });
@@ -459,7 +507,9 @@ namespace CRM.Api.Migrations
                 {
                     b.HasOne("CRM.Api.Models.Masters.TransportModeModel", "TransportMode")
                         .WithMany()
-                        .HasForeignKey("TransportModeId");
+                        .HasForeignKey("TransportModeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TransportMode");
                 });
@@ -468,7 +518,9 @@ namespace CRM.Api.Migrations
                 {
                     b.HasOne("CRM.Api.Models.Masters.ClientModel", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
@@ -484,10 +536,31 @@ namespace CRM.Api.Migrations
                     b.Navigation("Quotation");
                 });
 
+            modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationModel", b =>
+                {
+                    b.HasOne("CRM.Api.Models.Masters.ClientModel", "QuotationMadeBy")
+                        .WithMany()
+                        .HasForeignKey("QuotationAssignedToId");
+
+                    b.HasOne("CRM.Api.Models.Masters.ClientModel", "QuotationAssignedTo")
+                        .WithMany()
+                        .HasForeignKey("QuotationMadeById");
+
+                    b.HasOne("CRM.Api.Models.Quotation.QuotationTermsModel", "QuotationTerms")
+                        .WithMany()
+                        .HasForeignKey("QuotationTermsId");
+
+                    b.Navigation("QuotationAssignedTo");
+
+                    b.Navigation("QuotationMadeBy");
+
+                    b.Navigation("QuotationTerms");
+                });
+
             modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationTermsModel", b =>
                 {
                     b.HasOne("CRM.Api.Models.Quotation.QuotationModel", "Quotation")
-                        .WithOne("QuotationTerms")
+                        .WithOne()
                         .HasForeignKey("CRM.Api.Models.Quotation.QuotationTermsModel", "QuotationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -498,8 +571,6 @@ namespace CRM.Api.Migrations
             modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationModel", b =>
                 {
                     b.Navigation("QuotationItems");
-
-                    b.Navigation("QuotationTerms");
                 });
 #pragma warning restore 612, 618
         }

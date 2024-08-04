@@ -35,7 +35,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            mtctype.Id = Guid.NewGuid().ToString();
             mtctype.AddedOn = DateTime.Now;
             mtctype.IsDeleted = false;
             await _context.MtcTypes!.AddAsync(mtctype);

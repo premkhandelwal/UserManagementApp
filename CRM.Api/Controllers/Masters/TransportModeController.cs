@@ -36,7 +36,6 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            transportmode.Id = Guid.NewGuid().ToString();
             transportmode.AddedOn = DateTime.Now;
             transportmode.IsDeleted = false;
             await _context.TransportModes!.AddAsync(transportmode);
