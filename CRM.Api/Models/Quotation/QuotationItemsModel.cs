@@ -7,9 +7,8 @@ namespace CRM.Api.Models.Quotation
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }  // Added primary key
+        public int? Id { get; set; }
 
-        [ForeignKey("QuotationModel")]
         public int QuotationId { get; set; } 
 
         public int SrNo { get; set; }
@@ -29,7 +28,5 @@ namespace CRM.Api.Models.Quotation
         public double UnitPrice { get; set; }
 
         public double TotalPrice { get; set; }
-
-        public QuotationModel? Quotation { get; set; }
     }
 }

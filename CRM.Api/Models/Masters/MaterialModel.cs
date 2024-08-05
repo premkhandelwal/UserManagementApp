@@ -7,7 +7,7 @@ namespace CRM.Api.Models.Masters
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string? MaterialName { get; set; }
         public DateTime? AddedOn { get; set; }
         public bool IsDeleted { get; set; } = false;

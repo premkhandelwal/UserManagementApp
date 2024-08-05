@@ -22,6 +22,32 @@ namespace CRM.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CRM.Admin.Service.Models.IUser", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EmailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("IUser");
+                });
+
             modelBuilder.Entity("CRM.Api.Models.Masters.ClientModel", b =>
                 {
                     b.Property<int?>("Id")
@@ -371,6 +397,9 @@ namespace CRM.Api.Migrations
                     b.Property<int>("QuotationId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("QuotationModelId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SrNo")
                         .HasColumnType("int");
 
@@ -385,7 +414,7 @@ namespace CRM.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuotationId");
+                    b.HasIndex("QuotationModelId");
 
                     b.ToTable("QuotationItems");
                 });
@@ -419,14 +448,14 @@ namespace CRM.Api.Migrations
                     b.Property<double>("OtherCharges")
                         .HasColumnType("float");
 
-                    b.Property<int?>("QuotationAssignedToId")
+                    b.Property<string>("QuotationAssignedToId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("QuotationAttentionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("QuotationAttentionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QuotationCompanyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("QuotationCompanyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("QuotationDate")
                         .HasColumnType("datetime2");
@@ -434,8 +463,8 @@ namespace CRM.Api.Migrations
                     b.Property<string>("QuotationImportance")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("QuotationMadeById")
-                        .HasColumnType("int");
+                    b.Property<string>("QuotationMadeById")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("QuotationPriority")
                         .HasColumnType("int");
@@ -451,10 +480,6 @@ namespace CRM.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuotationAssignedToId");
-
-                    b.HasIndex("QuotationMadeById");
-
                     b.HasIndex("QuotationTermsId");
 
                     b.ToTable("Quotations");
@@ -468,37 +493,50 @@ namespace CRM.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CountryofOriginId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CountryofOriginId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("CurrencyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("DelieveryNameId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DelieveryNameId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("DeliveryTimeId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DeliveryTimeId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("MtcTypeId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("MtcTypeId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PackingTypeId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("PackingTypeId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PaymentId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("QuotationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ValidityId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ValidityId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuotationId")
-                        .IsUnique();
+                    b.HasIndex("CountryofOriginId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("DelieveryNameId");
+
+                    b.HasIndex("DeliveryTimeId");
+
+                    b.HasIndex("MtcTypeId");
+
+                    b.HasIndex("PackingTypeId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("ValidityId");
 
                     b.ToTable("QuotationTerms");
                 });
@@ -527,45 +565,69 @@ namespace CRM.Api.Migrations
 
             modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationItemModel", b =>
                 {
-                    b.HasOne("CRM.Api.Models.Quotation.QuotationModel", "Quotation")
+                    b.HasOne("CRM.Api.Models.Quotation.QuotationModel", null)
                         .WithMany("QuotationItems")
-                        .HasForeignKey("QuotationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quotation");
+                        .HasForeignKey("QuotationModelId");
                 });
 
             modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationModel", b =>
                 {
-                    b.HasOne("CRM.Api.Models.Masters.ClientModel", "QuotationMadeBy")
-                        .WithMany()
-                        .HasForeignKey("QuotationAssignedToId");
-
-                    b.HasOne("CRM.Api.Models.Masters.ClientModel", "QuotationAssignedTo")
-                        .WithMany()
-                        .HasForeignKey("QuotationMadeById");
-
                     b.HasOne("CRM.Api.Models.Quotation.QuotationTermsModel", "QuotationTerms")
                         .WithMany()
                         .HasForeignKey("QuotationTermsId");
-
-                    b.Navigation("QuotationAssignedTo");
-
-                    b.Navigation("QuotationMadeBy");
 
                     b.Navigation("QuotationTerms");
                 });
 
             modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationTermsModel", b =>
                 {
-                    b.HasOne("CRM.Api.Models.Quotation.QuotationModel", "Quotation")
-                        .WithOne()
-                        .HasForeignKey("CRM.Api.Models.Quotation.QuotationTermsModel", "QuotationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("CRM.Api.Models.Masters.CountryModel", "CountryofOriginModel")
+                        .WithMany()
+                        .HasForeignKey("CountryofOriginId");
 
-                    b.Navigation("Quotation");
+                    b.HasOne("CRM.Api.Models.Masters.CurrencyModel", "CurrencyModel")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId");
+
+                    b.HasOne("CRM.Api.Models.Masters.DeliveredToModel", "DeliveredToModel")
+                        .WithMany()
+                        .HasForeignKey("DelieveryNameId");
+
+                    b.HasOne("CRM.Api.Models.Masters.DeliveryTimeModel", "DeliveryTimeModel")
+                        .WithMany()
+                        .HasForeignKey("DeliveryTimeId");
+
+                    b.HasOne("CRM.Api.Models.Masters.MtcTypeModel", "MtcTypeModel")
+                        .WithMany()
+                        .HasForeignKey("MtcTypeId");
+
+                    b.HasOne("CRM.Api.Models.Masters.TransportModeModel", "PackingTypeModel")
+                        .WithMany()
+                        .HasForeignKey("PackingTypeId");
+
+                    b.HasOne("CRM.Api.Models.Masters.PaymentTypeModel", "PaymentTypeModel")
+                        .WithMany()
+                        .HasForeignKey("PaymentId");
+
+                    b.HasOne("CRM.Api.Models.Masters.ValidityModel", "ValidityModel")
+                        .WithMany()
+                        .HasForeignKey("ValidityId");
+
+                    b.Navigation("CountryofOriginModel");
+
+                    b.Navigation("CurrencyModel");
+
+                    b.Navigation("DeliveredToModel");
+
+                    b.Navigation("DeliveryTimeModel");
+
+                    b.Navigation("MtcTypeModel");
+
+                    b.Navigation("PackingTypeModel");
+
+                    b.Navigation("PaymentTypeModel");
+
+                    b.Navigation("ValidityModel");
                 });
 
             modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationModel", b =>

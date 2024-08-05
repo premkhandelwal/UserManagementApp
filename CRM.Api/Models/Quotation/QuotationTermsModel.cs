@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using CRM.Api.Models.Masters;
 
 namespace CRM.Api.Models.Quotation
 {
@@ -7,18 +9,39 @@ namespace CRM.Api.Models.Quotation
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        [ForeignKey("QuotationModel")]
+        public int? Id { get; set; }
         public int QuotationId { get; set; }
-        public string? DelieveryNameId { get; set; }
-        public string? CurrencyId { get; set; }
-        public string? DeliveryTimeId { get; set; }
-        public string? CountryofOriginId { get; set; }
-        public string? PaymentId { get; set; }
-        public string? MtcTypeId { get; set; }
-        public string? ValidityId { get; set; }
-        public string? PackingTypeId { get; set; }
-        public QuotationModel? Quotation { get; set; }
+        public int? DelieveryNameId { get; set; }
+        public int? CurrencyId { get; set; }
+        public int? DeliveryTimeId { get; set; }
+        public int? CountryofOriginId { get; set; }
+        public int? PaymentId { get; set; }
+        public int? MtcTypeId { get; set; }
+        public int? ValidityId { get; set; }
+        public int? PackingTypeId { get; set; }
+
+        [ForeignKey(nameof(DelieveryNameId))]
+        public virtual DeliveredToModel? DeliveredToModel { get; set; }
+
+        [ForeignKey(nameof(CurrencyId))]
+        public virtual CurrencyModel? CurrencyModel { get; set; }
+        
+        [ForeignKey(nameof(DeliveryTimeId))]
+        public virtual DeliveryTimeModel? DeliveryTimeModel { get; set; }
+        
+        [ForeignKey(nameof(CountryofOriginId))]
+        public virtual CountryModel? CountryofOriginModel { get; set; }
+
+        [ForeignKey(nameof(PaymentId))]
+        public virtual PaymentTypeModel? PaymentTypeModel { get; set; }
+
+        [ForeignKey(nameof(MtcTypeId))]
+        public virtual MtcTypeModel? MtcTypeModel { get; set; }
+
+        [ForeignKey(nameof(ValidityId))]
+        public virtual ValidityModel? ValidityModel { get; set; }
+
+        [ForeignKey(nameof(PackingTypeId))]
+        public virtual TransportModeModel? PackingTypeModel { get; set; }
     }
 }

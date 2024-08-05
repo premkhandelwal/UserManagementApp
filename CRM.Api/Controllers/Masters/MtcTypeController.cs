@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
 using CRM.Api.Models.Masters;
 using CRM.Api.Models.UserManagementRequests;
 using CRM.Admin.Data;
 using CRM.Admin.Service.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Api.Controllers.Masters
 {
@@ -12,8 +11,8 @@ namespace CRM.Api.Controllers.Masters
     [ApiController]
     public class MtcTypeController : ControllerBase
     {
+        private readonly ClientApplicationDbContext _context;
 
-        private ClientApplicationDbContext _context;
         public MtcTypeController(ClientApplicationDbContext clientApplicationDbContext)
         {
             _context = clientApplicationDbContext;
@@ -28,17 +27,19 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to add Mtc Type!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
-                response.IsSuccess = false;
                 response.Response = "Bad request!!";
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
+
             mtctype.AddedOn = DateTime.Now;
             mtctype.IsDeleted = false;
             await _context.MtcTypes!.AddAsync(mtctype);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -46,6 +47,7 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 201;
                 return StatusCode(StatusCodes.Status201Created, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
@@ -65,16 +67,27 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to update Mtc Type!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
-                response.IsSuccess = false;
                 response.Response = "Bad request!!";
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            mtctype.IsDeleted = false;
-            _context.Update(mtctype);
+
+            var existingMtcType = await _context.MtcTypes!.FindAsync(mtctype.Id);
+            if (existingMtcType == null)
+            {
+                response.Response = "Mtc Type not found!!";
+                response.StatusCode = 404;
+                return StatusCode(StatusCodes.Status404NotFound, response);
+            }
+
+            existingMtcType.MtcType = mtctype.MtcType;
+
+            _context.Update(existingMtcType);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -82,9 +95,9 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
-
 
         [HttpDelete("DeleteMtcType")]
         public async Task<IActionResult> DeleteMtcType([FromBody] MtcTypeModel mtctype)
@@ -95,16 +108,36 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to delete Mtc Type!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
-                response.IsSuccess = false;
                 response.Response = "Bad request!!";
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            mtctype.IsDeleted = true;
-            _context.Update(mtctype);
+
+            var existingMtcType = await _context.MtcTypes!.FindAsync(mtctype.Id);
+            if (existingMtcType == null)
+            {
+                response.Response = "Mtc Type not found!!";
+                response.StatusCode = 404;
+                return StatusCode(StatusCodes.Status404NotFound, response);
+            }
+
+            // Check for references
+            bool hasReferences = await _context.QuotationTerms!.AnyAsync(e => e.MtcTypeId == existingMtcType.Id);
+            if (hasReferences)
+            {
+                response.IsSuccess = false;
+                response.Response = "Cannot delete Mtc Type as it is referenced in other records.";
+                response.StatusCode = 409; // Conflict
+                return StatusCode(StatusCodes.Status409Conflict, response);
+            }
+
+            existingMtcType.IsDeleted = true;
+            _context.Update(existingMtcType);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -112,6 +145,7 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
     }

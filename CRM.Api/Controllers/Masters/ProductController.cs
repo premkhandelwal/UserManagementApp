@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
 using CRM.Api.Models.Masters;
 using CRM.Api.Models.UserManagementRequests;
 using CRM.Admin.Data;
@@ -12,8 +10,8 @@ namespace CRM.Api.Controllers.Masters
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly ClientApplicationDbContext _context;
 
-        private ClientApplicationDbContext _context;
         public ProductController(ClientApplicationDbContext clientApplicationDbContext)
         {
             _context = clientApplicationDbContext;
@@ -28,17 +26,19 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to add Product!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
-                response.IsSuccess = false;
                 response.Response = "Bad request!!";
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            product.AddedOn = DateTime.Now; 
+
+            product.AddedOn = DateTime.Now;
             product.IsDeleted = false;
             await _context.Products!.AddAsync(product);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -46,6 +46,7 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 201;
                 return StatusCode(StatusCodes.Status201Created, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
@@ -65,16 +66,27 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to update Product!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
-                response.IsSuccess = false;
                 response.Response = "Bad request!!";
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            product.IsDeleted = false;
-            _context.Update(product);
+
+            var existingProduct = await _context.Products!.FindAsync(product.Id);
+            if (existingProduct == null)
+            {
+                response.Response = "Product not found!!";
+                response.StatusCode = 404;
+                return StatusCode(StatusCodes.Status404NotFound, response);
+            }
+
+            existingProduct.ProductName = product.ProductName;
+
+            _context.Update(existingProduct);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -82,9 +94,9 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
-
 
         [HttpDelete("DeleteProduct")]
         public async Task<IActionResult> DeleteProduct([FromBody] ProductModel product)
@@ -95,17 +107,26 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to delete Product!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
-                response.IsSuccess = false;
                 response.Response = "Bad request!!";
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            product.IsDeleted = true;
 
-            _context.Update(product);
+            var existingProduct = await _context.Products!.FindAsync(product.Id);
+            if (existingProduct == null)
+            {
+                response.Response = "Product not found!!";
+                response.StatusCode = 404;
+                return StatusCode(StatusCodes.Status404NotFound, response);
+            }
+
+            existingProduct.IsDeleted = true;
+            _context.Update(existingProduct);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -113,6 +134,7 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
     }

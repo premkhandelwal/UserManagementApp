@@ -84,7 +84,7 @@ namespace CRM.Admin.Service
                     var roles = await _userManager.GetRolesAsync(user);
                     usersList.Add(new IUser()
                     {
-                        
+                        UserId = user.Id,
                         EmailId = user.Email,
                         Username = user.UserName,
                         Role = roles.FirstOrDefault() ?? ""

@@ -73,8 +73,19 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            client.IsDeleted = false;
-            _context.Update(client);
+            var existingClient = await _context.Clients!.FindAsync(client.Id);
+            if(existingClient == null)
+            {
+                response.IsSuccess = false;
+                response.Response = "Client not found!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+            existingClient.CompanyName = client.CompanyName;
+            existingClient.Country = client.Country;
+            existingClient.Region = client.Region;
+            existingClient.Website = client.Website;
+            _context.Update(existingClient);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {
@@ -103,16 +114,25 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            bool hasReferences = await _context.Members!.AnyAsync(e => e.ClientId== client.Id);
-            if (hasReferences)
+            var existingClient = await _context.Clients!.FindAsync(client.Id);
+            if (existingClient == null)
+            {
+                response.IsSuccess = false;
+                response.Response = "Client not found!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+            bool hasMemberReferences = await _context.Members!.AnyAsync(e => e.ClientId == existingClient.Id);
+            bool hasQuotationReferences = await _context.Quotations!.AnyAsync(e => e.QuotationCompanyId == existingClient.Id);
+            if (hasMemberReferences || hasQuotationReferences)
             {
                 response.IsSuccess = false;
                 response.Response = "Cannot delete Client as it is referenced in other records.";
                 response.StatusCode = 409; // Conflict
                 return StatusCode(StatusCodes.Status409Conflict, response);
             }
-            client.IsDeleted = true;
-            _context.Update(client);
+            existingClient.IsDeleted = true;
+            _context.Update(existingClient);
             int result = await _context.SaveChangesAsync();
             if (result > 0)
             {

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using CRM.Api.Models.Masters;
 using CRM.Admin.Data;
 using CRM.Api.Models.Quotation;
+using CRM.Admin.Service.Models;
 
 namespace CRM.Api.Models.UserManagementRequests
 {
@@ -51,7 +52,6 @@ namespace CRM.Api.Models.UserManagementRequests
                 typeof(ValidityModel),
                 typeof(QuotationModel),
                 typeof(QuotationItemModel),
-                typeof(QuotationTermsModel)
             };
 
             foreach (var entity in entitiesWithPrimaryKey)
@@ -59,9 +59,6 @@ namespace CRM.Api.Models.UserManagementRequests
                 modelBuilder.Entity(entity).Property("Id").ValueGeneratedOnAdd();
                 modelBuilder.Entity(entity).HasKey("Id");
             }
-
-            
-
             // Configure relationships
             modelBuilder.Entity<DeliveredToModel>()
                 .HasOne(dt => dt.TransportMode)
@@ -73,17 +70,45 @@ namespace CRM.Api.Models.UserManagementRequests
                 .WithMany()
                 .HasForeignKey(m => m.ClientId);
 
-            modelBuilder.Entity<QuotationModel>()
-                .HasMany(q => q.QuotationItems)
-                .WithOne(qi => qi.Quotation)
-                .HasForeignKey(qi => qi.QuotationId);
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasOne(m => m.CountryofOriginModel)
+                .WithMany()
+                .HasForeignKey(m => m.CountryofOriginId);
 
             modelBuilder.Entity<QuotationTermsModel>()
-                .HasOne(qt => qt.Quotation)
-                .WithOne()
-                .HasForeignKey<QuotationTermsModel>(qt => qt.QuotationId);
+                .HasOne(m => m.CurrencyModel)
+                .WithMany()
+                .HasForeignKey(m => m.CurrencyId);
 
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasOne(m => m.DeliveredToModel)
+                .WithMany()
+                .HasForeignKey(m => m.DelieveryNameId);
 
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasOne(m => m.DeliveryTimeModel)
+                .WithMany()
+                .HasForeignKey(m => m.DeliveryTimeId);
+
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasOne(m => m.MtcTypeModel)
+                .WithMany()
+                .HasForeignKey(m => m.MtcTypeId);
+
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasOne(m => m.PaymentTypeModel)
+                .WithMany()
+                .HasForeignKey(m => m.PaymentId);
+
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasOne(m => m.PackingTypeModel)
+                .WithMany()
+                .HasForeignKey(m => m.PackingTypeId);
+
+            modelBuilder.Entity<QuotationTermsModel>()
+                .HasOne(m => m.ValidityModel)
+                .WithMany()
+                .HasForeignKey(m => m.ValidityId);
         }
 
     }

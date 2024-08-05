@@ -72,7 +72,7 @@ namespace CRM.Admin.Service
                 }
                 long timeStamp = long.Parse(utcExpiryTime);
                 DateTime expiryDate = ParseDateTime(timeStamp);
-                if (expiryDate > DateTime.UtcNow)
+                if (expiryDate > DateTime.Now)
                 {
                     return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Token not yet expired!!" };
                 }
@@ -120,7 +120,7 @@ namespace CRM.Admin.Service
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddSeconds(30),
+                Expires = DateTime.Now.AddSeconds(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
 
             };
@@ -149,8 +149,8 @@ namespace CRM.Admin.Service
                 JwtId = authTokenId,
                 IsUsed = false,
                 IsRevoked = false,
-                AddedDate = DateTime.UtcNow,
-                ExpiryDate = DateTime.UtcNow.AddMonths(6),
+                AddedDate = DateTime.Now,
+                ExpiryDate = DateTime.Now.AddMonths(6),
                 UserId = userId,
                 Token = GenerateRandomString(35) + Guid.NewGuid(),
             };

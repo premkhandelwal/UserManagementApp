@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
+using Microsoft.EntityFrameworkCore;
 using CRM.Api.Models.Masters;
-using CRM.Api.Models.UserManagementRequests;
 using CRM.Admin.Data;
 using CRM.Admin.Service.Models;
+using CRM.Api.Models.UserManagementRequests;
 
 namespace CRM.Api.Controllers.Masters
 {
@@ -12,8 +11,8 @@ namespace CRM.Api.Controllers.Masters
     [ApiController]
     public class CountryController : ControllerBase
     {
+        private readonly ClientApplicationDbContext _context;
 
-        private ClientApplicationDbContext _context;
         public CountryController(ClientApplicationDbContext clientApplicationDbContext)
         {
             _context = clientApplicationDbContext;
@@ -28,6 +27,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to add Country!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -35,10 +35,12 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
+
             country.IsDeleted = false;
             country.AddedOn = DateTime.Now;
             await _context.Countries!.AddAsync(country);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -46,6 +48,7 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 201;
                 return StatusCode(StatusCodes.Status201Created, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
@@ -65,6 +68,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to update Country!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -72,9 +76,20 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            country.IsDeleted = false;
-            _context.Update(country);
+
+            var existingCountry = await _context.Countries!.FindAsync(country.Id);
+            if (existingCountry == null)
+            {
+                response.IsSuccess = false;
+                response.Response = "Country not found!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+
+            existingCountry.CountryName = country.CountryName;
+            _context.Update(existingCountry);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -82,12 +97,12 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
-
         [HttpDelete("DeleteCountry")]
-        public async Task<IActionResult> DeleteCountry([FromBody] CountryModel Country)
+        public async Task<IActionResult> DeleteCountry([FromBody] CountryModel country)
         {
             IApiResponse<string> response = new IApiResponse<string>
             {
@@ -95,6 +110,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to delete Country!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -102,9 +118,27 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            Country.IsDeleted = true;
-            _context.Update(Country);
+
+            var existingCountry = await _context.Countries!.FindAsync(country.Id);
+            if (existingCountry == null)
+            {
+                response.IsSuccess = false;
+                response.Response = "Country not found!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+            bool hasReferences = await _context.QuotationTerms!.AnyAsync(e => e.CountryofOriginId == existingCountry.Id);
+            if (hasReferences)
+            {
+                response.IsSuccess = false;
+                response.Response = "Cannot delete Country as it is referenced in other records.";
+                response.StatusCode = 409; // Conflict
+                return StatusCode(StatusCodes.Status409Conflict, response);
+            }
+            existingCountry.IsDeleted = true;
+            _context.Update(existingCountry);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -112,6 +146,7 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
     }

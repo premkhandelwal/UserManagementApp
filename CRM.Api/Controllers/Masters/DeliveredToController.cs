@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
+using Microsoft.EntityFrameworkCore;
 using CRM.Api.Models.Masters;
-using CRM.Api.Models.UserManagementRequests;
 using CRM.Admin.Data;
+using CRM.Api.Models.UserManagementRequests;
 using CRM.Admin.Service.Models;
 
 namespace CRM.Api.Controllers.Masters
@@ -12,8 +11,8 @@ namespace CRM.Api.Controllers.Masters
     [ApiController]
     public class DeliveredToController : ControllerBase
     {
+        private readonly ClientApplicationDbContext _context;
 
-        private ClientApplicationDbContext _context;
         public DeliveredToController(ClientApplicationDbContext clientApplicationDbContext)
         {
             _context = clientApplicationDbContext;
@@ -28,6 +27,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to add Delivered To!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -35,10 +35,12 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
+
             deliveredto.AddedOn = DateTime.Now;
             deliveredto.IsDeleted = false;
             await _context.DeliveredTo!.AddAsync(deliveredto);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -46,13 +48,16 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 201;
                 return StatusCode(StatusCodes.Status201Created, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
         [HttpGet("ReadDeliveredTo")]
         public IActionResult ReadDeliveredTos()
         {
-            List<DeliveredToModel> result = _context.DeliveredTo!.Where(deliveredto => deliveredto.IsDeleted == false).ToList();
+            List<DeliveredToModel> result = _context.DeliveredTo!.Where(deliveredto => deliveredto.IsDeleted == false)
+                                                                 .Include(dt => dt.TransportMode)
+                                                                 .ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -65,6 +70,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to update Delivered To!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -72,9 +78,22 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            deliveredto.IsDeleted = false;
-            _context.Update(deliveredto);
+
+            var existingDeliveredTo = await _context.DeliveredTo!.FindAsync(deliveredto.Id);
+            if (existingDeliveredTo == null)
+            {
+                response.IsSuccess = false;
+                response.Response = "Delivered To not found!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+
+            existingDeliveredTo.DeliveryName = deliveredto.DeliveryName;
+            existingDeliveredTo.TransportModeId = deliveredto.TransportModeId;
+
+            _context.Update(existingDeliveredTo);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -82,9 +101,9 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
-
 
         [HttpDelete("DeleteDeliveredTo")]
         public async Task<IActionResult> DeleteDeliveredTo([FromBody] DeliveredToModel deliveredto)
@@ -95,6 +114,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to delete Delivered To!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -102,9 +122,30 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            deliveredto.IsDeleted = true;
-            _context.Update(deliveredto);
+
+            var existingDeliveredTo = await _context.DeliveredTo!.FindAsync(deliveredto.Id);
+            if (existingDeliveredTo == null)
+            {
+                response.IsSuccess = false;
+                response.Response = "Delivered To not found!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+
+            // Check for references
+            bool hasReferences = await _context.QuotationTerms!.AnyAsync(e => e.DelieveryNameId == existingDeliveredTo.Id);
+            if (hasReferences)
+            {
+                response.IsSuccess = false;
+                response.Response = "Cannot delete Delivered To as it is referenced in other records.";
+                response.StatusCode = 409; // Conflict
+                return StatusCode(StatusCodes.Status409Conflict, response);
+            }
+
+            existingDeliveredTo.IsDeleted = true;
+            _context.Update(existingDeliveredTo);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -112,6 +153,7 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
     }

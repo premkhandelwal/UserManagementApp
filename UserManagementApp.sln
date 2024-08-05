@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Admin.Service", "CRM.Ad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Admin.Data", "CRM.Admin.Data\CRM.Admin.Data.csproj", "{9ADCB945-C2AD-414B-9847-9FE12C01AC26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Tenant.Service", "CRM.Tenant.Service\CRM.Tenant.Service.csproj", "{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Tenant.Service", "CRM.Tenant.Service\CRM.Tenant.Service.csproj", "{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
+using Microsoft.EntityFrameworkCore;
 using CRM.Api.Models.Masters;
-using CRM.Api.Models.UserManagementRequests;
 using CRM.Admin.Data;
 using CRM.Admin.Service.Models;
+using CRM.Api.Models.UserManagementRequests;
 
 namespace CRM.Api.Controllers.Masters
 {
@@ -12,8 +11,8 @@ namespace CRM.Api.Controllers.Masters
     [ApiController]
     public class CurrencyController : ControllerBase
     {
+        private readonly ClientApplicationDbContext _context;
 
-        private ClientApplicationDbContext _context;
         public CurrencyController(ClientApplicationDbContext clientApplicationDbContext)
         {
             _context = clientApplicationDbContext;
@@ -28,6 +27,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to add Currency!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -35,10 +35,12 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
+
             currency.IsDeleted = false;
             currency.AddedOn = DateTime.Now;
             await _context.Currencies!.AddAsync(currency);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -46,13 +48,14 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 201;
                 return StatusCode(StatusCodes.Status201Created, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
 
         [HttpGet("ReadCurrencies")]
         public IActionResult ReadCurrencies()
         {
-            List<CurrencyModel> result = _context.Currencies!.Where(Currency => Currency.IsDeleted == false).ToList();
+            List<CurrencyModel> result = _context.Currencies!.Where(currency => currency.IsDeleted == false).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -65,6 +68,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to update Currency!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -72,9 +76,22 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            currency.IsDeleted = false;
-            _context.Update(currency);
+
+            var existingCurrency = await _context.Currencies!.FindAsync(currency.Id);
+            if (existingCurrency == null)
+            {
+                response.IsSuccess = false;
+                response.Response = "Currency not found!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+
+            existingCurrency.CurrencyName = currency.CurrencyName;
+            existingCurrency.CurrencyRate = currency.CurrencyRate;
+
+            _context.Update(existingCurrency);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -82,9 +99,9 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
-
 
         [HttpDelete("DeleteCurrency")]
         public async Task<IActionResult> DeleteCurrency([FromBody] CurrencyModel currency)
@@ -95,6 +112,7 @@ namespace CRM.Api.Controllers.Masters
                 Response = "Failed to delete Currency!!",
                 StatusCode = 501
             };
+
             if (ModelState.IsValid == false)
             {
                 response.IsSuccess = false;
@@ -102,9 +120,28 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 400;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            currency.IsDeleted = true;
-            _context.Update(currency);
+
+            var existingCurrency = await _context.Currencies!.FindAsync(currency.Id);
+            if (existingCurrency == null)
+            {
+                response.IsSuccess = false;
+                response.Response = "Currency not found!!";
+                response.StatusCode = 400;
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+            bool hasReferences = await _context.QuotationTerms!.AnyAsync(e => e.CurrencyId == existingCurrency.Id);
+            if (hasReferences)
+            {
+                response.IsSuccess = false;
+                response.Response = "Cannot delete Currency as it is referenced in other records.";
+                response.StatusCode = 409; // Conflict
+                return StatusCode(StatusCodes.Status409Conflict, response);
+            }
+
+            existingCurrency.IsDeleted = true;
+            _context.Update(existingCurrency);
             int result = await _context.SaveChangesAsync();
+
             if (result > 0)
             {
                 response.IsSuccess = true;
@@ -112,6 +149,7 @@ namespace CRM.Api.Controllers.Masters
                 response.StatusCode = 200;
                 return StatusCode(StatusCodes.Status200OK, response);
             }
+
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
     }
