@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
-using CRM.Api.Models.Masters;
-using CRM.Api.Models.UserManagementRequests;
-using CRM.Admin.Data;
 using CRM.Admin.Service.Models;
+using CRM.Tenant.Service.Services.MasterServices;
+using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
 
 namespace CRM.Api.Controllers.Masters
 {
@@ -13,44 +10,25 @@ namespace CRM.Api.Controllers.Masters
     [ApiController]
     public class ClientController : ControllerBase
     {
-
-        private ClientApplicationDbContext _context;
-        public ClientController(ClientApplicationDbContext clientApplicationDbContext)
+        private ClientService _clientService;
+        public ClientController(ClientService clientService)
         {
-            _context = clientApplicationDbContext;
+            _clientService = clientService;
         }
 
         [HttpPost("CreateClient")]
-        public async Task<IActionResult> CreateClient([FromBody] ClientModel client)
+        public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest client)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to add Client!!",
-                StatusCode = 501
-            };
             if (ModelState.IsValid == false)
             {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
+                
+
             }
-            client.AddedOn = DateTime.Now;
-            client.IsDeleted = false;
-            await _context.Clients!.AddAsync(client);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Client created successfully!!";
-                response.StatusCode = 201;
-                return StatusCode(StatusCodes.Status201Created, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            var result = await _clientService.CreateClient(client);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
-        [HttpGet("ReadClients")]
+        /*[HttpGet("ReadClients")]
         public IActionResult ReadClients()
         {
             List<ClientModel> result = _context.Clients!.Where(client => client.IsDeleted == false).ToList();
@@ -142,6 +120,6 @@ namespace CRM.Api.Controllers.Masters
                 return StatusCode(StatusCodes.Status200OK, response);
             }
             return StatusCode(StatusCodes.Status501NotImplemented, response);
-        }
+        }*/
     }
 }

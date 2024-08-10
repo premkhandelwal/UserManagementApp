@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Admin.Data", "CRM.Admin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Tenant.Service", "CRM.Tenant.Service\CRM.Tenant.Service.csproj", "{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crm.Tenant.Data", "Crm.Tenant.Data\Crm.Tenant.Data.csproj", "{206E833E-EB19-483B-B5A6-67133C26378E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E2A56B0-611B-4C3F-B3B7-1B776EC7D65F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{206E833E-EB19-483B-B5A6-67133C26378E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{206E833E-EB19-483B-B5A6-67133C26378E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{206E833E-EB19-483B-B5A6-67133C26378E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{206E833E-EB19-483B-B5A6-67133C26378E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

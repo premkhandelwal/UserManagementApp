@@ -18,7 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CRM.Admin.Data\CRM.Admin.Data.csproj" />
     <ProjectReference Include="..\CRM.Admin.Service\CRM.Admin.Service.csproj" />
+    <ProjectReference Include="..\Crm.Tenant.Data\Crm.Tenant.Data.csproj" />
+    <ProjectReference Include="..\CRM.Tenant.Service\CRM.Tenant.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

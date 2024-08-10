@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using CRM.Api.Models;
 using CRM.Api.Models.UserManagementRequests;
-using CRM.Admin.Service;
 using CRM.Admin.Service.Models;
+using CRM.Admin.Service.Services;
 
 namespace CRM.Api.Controllers
 {

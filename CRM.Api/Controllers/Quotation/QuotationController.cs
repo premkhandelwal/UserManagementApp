@@ -1,8 +1,6 @@
-﻿using CRM.Admin.Service.Models;
-using CRM.Api.Models.Masters;
+﻿using Crm.Tenant.Data.DbContexts;
+using CRM.Admin.Service.Models;
 using CRM.Api.Models.Quotation;
-using CRM.Api.Models.UserManagementRequests;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.Api.Controllers.Quotation

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CRM.Api.Models;
+using CRM.Admin.Data.Models;
 
 namespace CRM.Admin.Data
 {
