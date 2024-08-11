@@ -160,7 +160,7 @@ namespace CRM.Api.Controllers
         }
 
         [HttpPost("AddClaimsForUser")]
-        //[Authorize(Policy = "RolePolicy")]
+        [Authorize(Policy = "RolePolicy")]
         public async Task<IActionResult> AddClaimsForUser([FromBody] AddMultipleClaimsForUserRequest request)
         {
             IApiResponse<string> response = await _identityService.AddClaimsForUser(request.emailId, request.claims);

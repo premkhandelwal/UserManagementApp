@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.CookiePolicy;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.CookiePolicy;
 
 namespace CRM.Api
 {
@@ -6,6 +7,15 @@ namespace CRM.Api
     {
         public static void AddAuthorizationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.HttpOnly = HttpOnlyPolicy.Always;
+                options.Secure = CookieSecurePolicy.Always;
+                // you can add more options here and they will be applied to all cookies (middleware and manually created cookies)
+            });
+            services.AddScoped<IAuthorizationHandler, RoleOrPolicyHandler>();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RolePolicy",
@@ -26,17 +36,10 @@ namespace CRM.Api
                            (c.Type == "Limited" ||
                             c.Type == "Full"))));
 
-                /*options.AddPolicy("RoleOrPolicy", policy =>
-                    policy.Requirements.Add(new RoleOrPolicyRequirement("Tester", "RolePolicy")));*/
+                options.AddPolicy("RoleOrPolicy", policy =>
+                    policy.Requirements.Add(new RoleOrPolicyRequirement("Tester", "RolePolicy")));
 
-                services.Configure<CookiePolicyOptions>(options =>
-                {
-                    options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.Strict;
-                    options.HttpOnly = HttpOnlyPolicy.Always;
-                    options.Secure = CookieSecurePolicy.Always;
-                    // you can add more options here and they will be applied to all cookies (middleware and manually created cookies)
-                });
+                
             });
 
         }

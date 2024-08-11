@@ -18,6 +18,7 @@ namespace CRM.Tenant.Service
             });
 
             services.AddScoped<ClientRepository>();
+            services.AddScoped(typeof(BaseRepository<>));
 
 
         }

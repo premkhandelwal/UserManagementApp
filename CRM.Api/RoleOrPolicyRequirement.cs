@@ -1,4 +1,4 @@
-﻿/*using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
@@ -44,4 +44,4 @@ public class RoleOrPolicyHandler : AuthorizationHandler<RoleOrPolicyRequirement>
             context.Succeed(requirement);
         }
     }
-}*/
+}

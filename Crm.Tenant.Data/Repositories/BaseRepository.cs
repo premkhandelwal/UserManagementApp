@@ -1,9 +1,10 @@
 ﻿using Crm.Tenant.Data.DbContexts;
+using Crm.Tenant.Data.Models.Masters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crm.Tenant.Data.Repositories
 {
-    public class BaseRepository<T> where T : class
+    public class BaseRepository<T> where T : BaseModelClass
     {
         protected readonly ClientApplicationDbContext _dbContext;
 
@@ -20,16 +21,26 @@ namespace Crm.Tenant.Data.Repositories
             return entity;
         }
 
-        public virtual async Task UpdateAsync(T entity)
+        public virtual async Task<T> UpdateAsync(T entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext. SaveChangesAsync();
+            return entity;
+
+        }
+
+        public virtual async Task<T> DeleteAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
+            return entity;
+
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual async Task<List<T>> ReadAsync()
         {
-            _dbContext.Set<T>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
+            List<T> entityList = await _dbContext.Set<T>().Where(t => t.IsDeleted == false).ToListAsync();
+            return entityList;
         }
     }
 }

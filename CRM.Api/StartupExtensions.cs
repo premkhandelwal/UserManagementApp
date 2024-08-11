@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using CRM.Tenant.Service;
+﻿using CRM.Tenant.Service;
 using CRM.Admin.Data;
+using CRM.Api;
+using CRM.Admin.Service;
 
 namespace Crm.Api
 {
@@ -11,10 +10,12 @@ namespace Crm.Api
         public static WebApplication ConfigureServices(
             this WebApplicationBuilder builder)
         {
+
+            builder.Services.AddAdminServices(builder.Configuration);
+            builder.Services.AddAuthorizationServices(builder.Configuration);
             builder.Services.AddAdminDataServices(builder.Configuration);
             builder.Services.AddTenantDataServices(builder.Configuration);
             builder.Services.AddTenantServices(builder.Configuration);
-            builder.Services.AddTenantDataServices(builder.Configuration);
             builder.Services.AddControllers();
             builder.Services.AddCors();
             builder.Services.AddEndpointsApiExplorer();

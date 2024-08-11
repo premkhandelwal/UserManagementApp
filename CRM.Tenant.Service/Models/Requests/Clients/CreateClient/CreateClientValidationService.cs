@@ -1,22 +1,16 @@
-﻿using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
-namespace Crm.Tenant.Service.Services.Models.Requests.Clients
+namespace CRM.Tenant.Service.Models.Requests.Clients.CreateClient
 {
-    public class ClientValidationService : AbstractValidator<CreateClientRequest>
+    public class CreateClientValidationService<T> : AbstractValidator<T> where T : CreateClientRequest
     {
-        public ClientValidationService()
+        public CreateClientValidationService()
         {
             RuleFor(x => x.CompanyName).NotEmpty().WithMessage("Client name is required.");
             RuleFor(x => x.Country).NotEmpty().WithMessage("Country name is required.");
             RuleFor(x => x.Region).NotEmpty().WithMessage("Region name is required.");
             RuleFor(x => x.Website).NotEmpty().WithMessage("Website name is required.");
+            RuleFor(x => x.AddedOn).NotEmpty().WithMessage("Added date is required.");
         }
     }
-
 }

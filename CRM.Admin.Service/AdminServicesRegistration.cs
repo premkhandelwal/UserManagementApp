@@ -11,7 +11,7 @@ namespace CRM.Admin.Service
 {
     public static class AdminServicesRegistration
     {
-        public static void AddTenantDataServices(this IServiceCollection services, IConfiguration configuration)
+        public static void AddAdminServices(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddScoped<AuthService>();

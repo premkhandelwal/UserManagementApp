@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CRM.Api.Migrations
+namespace Crm.Tenant.Data.Migrations
 {
     public partial class InitialMigration : Migration
     {
@@ -20,6 +20,7 @@ namespace CRM.Api.Migrations
                     Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -35,6 +36,7 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -51,6 +53,7 @@ namespace CRM.Api.Migrations
                     CurrencyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrencyRate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -66,26 +69,12 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DeliveryTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DeliveryTime", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "IUser",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IUser", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,6 +85,7 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MaterialName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -111,6 +101,7 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MtcType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -126,6 +117,7 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PaymentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -141,6 +133,7 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -156,6 +149,7 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuotationCloseReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -171,6 +165,7 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TransportMode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -186,6 +181,7 @@ namespace CRM.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Validity = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -199,7 +195,7 @@ namespace CRM.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: true),
                     MemberName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -207,6 +203,7 @@ namespace CRM.Api.Migrations
                     SkypeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Telephone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -216,8 +213,7 @@ namespace CRM.Api.Migrations
                         name: "FK_Members_Clients_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -227,9 +223,10 @@ namespace CRM.Api.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DeliveryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TransportModeId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    TransportModeId = table.Column<int>(type: "int", nullable: true),
+                    AddedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -238,8 +235,7 @@ namespace CRM.Api.Migrations
                         name: "FK_DeliveredTo_TransportModes_TransportModeId",
                         column: x => x.TransportModeId,
                         principalTable: "TransportModes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -428,9 +424,6 @@ namespace CRM.Api.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "IUser");
-
             migrationBuilder.DropTable(
                 name: "Materials");
 

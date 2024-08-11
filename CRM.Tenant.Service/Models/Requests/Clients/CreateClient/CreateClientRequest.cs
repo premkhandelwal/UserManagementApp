@@ -13,5 +13,6 @@ namespace CRM.Tenant.Service.Models.Requests.Clients.CreateClient
         public string? Country { get; set; }
         public string? Region { get; set; }
         public string? Website { get; set; }
+        public DateTime AddedOn { get; set; }
     }
 }

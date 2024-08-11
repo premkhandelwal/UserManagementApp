@@ -1,15 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Crm.Tenant.Data.Models.Masters;
 
 namespace CRM.Data.Models.Masters
 {
-    public class ValidityModel
+    public class ValidityModel: BaseModelClass
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Id { get; set; }
         public string? Validity { get; set; }
-        public DateTime? AddedOn { get; set; }
-        public bool IsDeleted { get; set; } = false;
     }
 }
