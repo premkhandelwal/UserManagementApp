@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CRM.Admin.Service.Models;
-using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
-using CRM.Tenant.Service.Models.Requests.Clients.UpdateClient;
-using CRM.Tenant.Service.Models.Requests.Clients.DeleteClient;
+using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
+using Crm.Tenant.Service.Models.Requests.Clients.UpdateClient;
+using Crm.Tenant.Service.Models.Requests.Clients.DeleteClient;
 
-namespace CRM.Api.Controllers.Masters
+namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]

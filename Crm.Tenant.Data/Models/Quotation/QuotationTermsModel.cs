@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using CRM.Data.Models.Masters;
+using Crm.Tenant.Data.Models.Masters;
 
-namespace CRM.Api.Models.Quotation
+namespace Crm.Api.Models.Quotation
 {
     public class QuotationTermsModel
     {

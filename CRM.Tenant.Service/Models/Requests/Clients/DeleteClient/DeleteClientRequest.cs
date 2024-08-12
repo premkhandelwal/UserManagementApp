@@ -1,11 +1,11 @@
-﻿using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
+﻿using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRM.Tenant.Service.Models.Requests.Clients.DeleteClient
+namespace Crm.Tenant.Service.Models.Requests.Clients.DeleteClient
 {
     public class DeleteClientRequest: CreateClientRequest
     {

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using CRM.Api.Models.Quotation;
-using CRM.Data.Models.Masters;
+using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Masters;
 
 namespace Crm.Tenant.Data.DbContexts

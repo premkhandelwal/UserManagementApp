@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CRM.Api.Models.UserManagementRequests
+namespace Crm.Api.Models.UserManagementRequests
 {
     public class AddClaimforUserRequest
     {

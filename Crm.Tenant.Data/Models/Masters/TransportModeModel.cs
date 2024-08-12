@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using Crm.Tenant.Data.Models.Masters;
+﻿using Crm.Tenant.Data.Models.Masters;
 
-namespace CRM.Data.Models.Masters
+namespace Crm.Tenant.Data.Models.Masters
 {
     public class TransportModeModel: BaseModelClass
     {

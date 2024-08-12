@@ -1,9 +1,9 @@
-﻿using CRM.Tenant.Service.Models.Requests.Countries.CreateCountry;
+﻿using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
 using Microsoft.AspNetCore.Mvc;
-using CRM.Tenant.Service.Models.Requests.Countries.UpdateCountry;
-using CRM.Tenant.Service.Models.Requests.Countries.DeleteCountry;
+using Crm.Tenant.Service.Models.Requests.Currencies.UpdateCountry;
+using Crm.Tenant.Service.Models.Requests.Currencies.DeleteCountry;
 
-namespace CRM.Api.Controllers.Masters
+namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]

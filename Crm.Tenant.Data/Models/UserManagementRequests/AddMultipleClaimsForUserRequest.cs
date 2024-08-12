@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
-namespace CRM.Api.Models.UserManagementRequests
+namespace Crm.Api.Models.UserManagementRequests
 {
     public class AddMultipleClaimsForUserRequest
     {

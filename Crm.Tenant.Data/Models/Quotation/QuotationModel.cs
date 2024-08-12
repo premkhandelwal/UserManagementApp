@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace CRM.Api.Models.Quotation
+namespace Crm.Api.Models.Quotation
 {
     public class QuotationModel
     {

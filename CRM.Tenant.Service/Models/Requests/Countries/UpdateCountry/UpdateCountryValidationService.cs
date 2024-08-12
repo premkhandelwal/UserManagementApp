@@ -1,7 +1,7 @@
-﻿using CRM.Tenant.Service.Models.Requests.Countries.CreateCountry;
+﻿using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
 using FluentValidation;
 
-namespace CRM.Tenant.Service.Models.Requests.Countries.UpdateCountry
+namespace Crm.Tenant.Service.Models.Requests.Currencies.UpdateCountry
 {
     public class UpdateCountryValidationService: CreateCountryValidationService<UpdateCountryRequest>
     {

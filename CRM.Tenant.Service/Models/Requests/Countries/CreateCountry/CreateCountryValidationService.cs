@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace CRM.Tenant.Service.Models.Requests.Countries.CreateCountry
+namespace Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry
 {
     public class CreateCountryValidationService<T> : AbstractValidator<T> where T : CreateCountryRequest
     {

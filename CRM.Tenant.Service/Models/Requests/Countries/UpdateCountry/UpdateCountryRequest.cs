@@ -1,6 +1,6 @@
-﻿using CRM.Tenant.Service.Models.Requests.Countries.CreateCountry;
+﻿using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
 
-namespace CRM.Tenant.Service.Models.Requests.Countries.UpdateCountry
+namespace Crm.Tenant.Service.Models.Requests.Currencies.UpdateCountry
 {
     public class UpdateCountryRequest: CreateCountryRequest
     {

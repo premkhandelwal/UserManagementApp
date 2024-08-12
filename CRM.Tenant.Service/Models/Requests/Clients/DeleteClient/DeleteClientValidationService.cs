@@ -1,5 +1,5 @@
-﻿using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
-using CRM.Tenant.Service.Models.Requests.Clients.DeleteClient;
+﻿using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
+using Crm.Tenant.Service.Models.Requests.Clients.DeleteClient;
 using FluentValidation;
 
 namespace Crm.Tenant.Service.Services.Models.Requests.Clients.DeleteClient

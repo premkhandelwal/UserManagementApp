@@ -1,19 +1,23 @@
 ﻿using AutoMapper;
-using Crm.Tenant.Data.Models.Masters;
-using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Service.Services.Models.Requests.Clients;
-using CRM.Data.Models.Masters;
-using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
-using CRM.Tenant.Service.Models.Requests.Clients.DeleteClient;
-using CRM.Tenant.Service.Models.Requests.Clients.UpdateClient;
-using CRM.Tenant.Service.Models.Requests.Countries.CreateCountry;
-using CRM.Tenant.Service.Models.Requests.Countries.DeleteCountry;
-using CRM.Tenant.Service.Models.Requests.Countries.UpdateCountry;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Crm.Tenant.Data.Models.Masters;
+using Crm.Tenant.Data.Repositories;
+using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
+using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
+using Crm.Tenant.Service.Models.Requests.Currencies.CreateCurrency;
+using Crm.Tenant.Service.Models.Requests.DeliveredTo.CreateDeliveredTo;
+using Crm.Tenant.Service.Models.Requests.DeliveryTime.CreateDeliveryTime;
+using Crm.Tenant.Service.Models.Requests.Material.CreateMaterial;
+using Crm.Tenant.Service.Models.Requests.MtcType.CreateMtcType;
+using Crm.Tenant.Service.Models.Requests.Product.CreateProduct;
+using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.CreateQuotationCloseReason;
+using Crm.Tenant.Service.Models.Requests.TransportMode.CreateTransportMode;
+using Crm.Tenant.Service.Models.Requests.Validity.CreateValidity;
+using Crm.Tenant.Service.Models.Requests.PaymentType.CreatePaymentType;
 
-namespace CRM.Tenant.Service
+namespace Crm.Tenant.Service
 {
     public static class TenantServicesRegistration
     {
@@ -22,7 +26,16 @@ namespace CRM.Tenant.Service
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             RegisterScopedService<ClientModel, ClientService, CreateClientRequest, CreateClientValidationService<CreateClientRequest>>(services);
             RegisterScopedService<CountryModel, CountryService, CreateCountryRequest, CreateCountryValidationService<CreateCountryRequest>>(services);
-
+            RegisterScopedService<CurrencyModel, CurrencyService, CreateCurrencyRequest, CreateCurrencyValidationService<CreateCurrencyRequest>>(services);
+            RegisterScopedService<DeliveredToModel, DeliveredToService, CreateDeliveredToRequest, CreateDeliveredToValidationService<CreateDeliveredToRequest>>(services);
+            RegisterScopedService<DeliveryTimeModel, DeliveryTimeService, CreateDeliveryTimeRequest, CreateDeliveryTimeValidationService<CreateDeliveryTimeRequest>>(services);
+            RegisterScopedService<MaterialModel, MaterialService, CreateMaterialRequest, CreateMaterialValidationService<CreateMaterialRequest>>(services);
+            RegisterScopedService<MtcTypeModel, MtcTypeService, CreateMtcTypeRequest, CreateMtcTypeValidationService<CreateMtcTypeRequest>>(services);
+            RegisterScopedService<PaymentTypeModel, PaymentTypeService, CreatePaymentTypeRequest, CreatePaymentTypeValidationService<CreatePaymentTypeRequest>>(services);
+            RegisterScopedService<ProductModel, ProductService, CreateProductRequest, CreateProductValidationService<CreateProductRequest>>(services);
+            RegisterScopedService<QuotationCloseReasonModel, QuotationCloseReasonService, CreateQuotationCloseReasonRequest, CreateQuotationCloseReasonValidationService<CreateQuotationCloseReasonRequest>>(services);
+            RegisterScopedService<TransportModeModel, TransportModeService, CreateTransportModeRequest, CreateTransportModeValidationService<CreateTransportModeRequest>>(services);
+            RegisterScopedService<ValidityModel, ValidityService, CreateValidityRequest, CreateValidityValidationService<CreateValidityRequest>>(services);
         }
 
         private static void RegisterScopedService<TModel, TService, TRequest, TValidator>(IServiceCollection services)

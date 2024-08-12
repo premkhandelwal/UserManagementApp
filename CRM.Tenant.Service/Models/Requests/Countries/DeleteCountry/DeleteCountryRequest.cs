@@ -1,6 +1,6 @@
-﻿using CRM.Tenant.Service.Models.Requests.Countries.CreateCountry;
+﻿using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
 
-namespace CRM.Tenant.Service.Models.Requests.Countries.DeleteCountry
+namespace Crm.Tenant.Service.Models.Requests.Currencies.DeleteCountry
 {
     public class DeleteCountryRequest: CreateCountryRequest
     {

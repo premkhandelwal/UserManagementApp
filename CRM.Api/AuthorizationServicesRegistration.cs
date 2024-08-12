@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
 
-namespace CRM.Api
+namespace Crm.Api
 {
     public static class AuthorizationServicesRegistration
     {

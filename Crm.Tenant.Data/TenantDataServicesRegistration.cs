@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
-namespace CRM.Tenant.Service
+namespace Crm.Tenant.Service
 {
     public static class TenantDataServicesRegistration
     {
@@ -17,7 +17,6 @@ namespace CRM.Tenant.Service
                 options.UseSqlServer(configuration.GetConnectionString("ClientConnectionString"));
             });
 
-            services.AddScoped<ClientRepository>();
             services.AddScoped(typeof(BaseRepository<>));
 
 

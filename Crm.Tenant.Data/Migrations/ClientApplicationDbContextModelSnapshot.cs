@@ -22,7 +22,7 @@ namespace Crm.Tenant.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationItemModel", b =>
+            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationItemModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +70,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("QuotationItems");
                 });
 
-            modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationModel", b =>
+            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +136,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Quotations");
                 });
 
-            modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationTermsModel", b =>
+            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationTermsModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -192,7 +192,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("QuotationTerms");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.CountryModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.CountryModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -217,7 +217,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.CurrencyModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.CurrencyModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +245,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Currencies");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.DeliveredToModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.DeliveredToModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -275,7 +275,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("DeliveredTo");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.DeliveryTimeModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.DeliveryTimeModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +300,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("DeliveryTime");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.MaterialModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.MaterialModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -325,7 +325,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Materials");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.MemberModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.MemberModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -370,7 +370,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Members");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.MtcTypeModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.MtcTypeModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -395,7 +395,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("MtcTypes");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.PaymentTypeModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.PaymentTypeModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -420,7 +420,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("PaymentTypes");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.ProductModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.ProductModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -445,7 +445,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.QuotationCloseReasonModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.QuotationCloseReasonModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -470,7 +470,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("QuotationCloseReasons");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.TransportModeModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.TransportModeModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -495,7 +495,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("TransportModes");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.ValidityModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.ValidityModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -554,53 +554,53 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationItemModel", b =>
+            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationItemModel", b =>
                 {
-                    b.HasOne("CRM.Api.Models.Quotation.QuotationModel", null)
+                    b.HasOne("Crm.Api.Models.Quotation.QuotationModel", null)
                         .WithMany("QuotationItems")
                         .HasForeignKey("QuotationModelId");
                 });
 
-            modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationModel", b =>
+            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationModel", b =>
                 {
-                    b.HasOne("CRM.Api.Models.Quotation.QuotationTermsModel", "QuotationTerms")
+                    b.HasOne("Crm.Api.Models.Quotation.QuotationTermsModel", "QuotationTerms")
                         .WithMany()
                         .HasForeignKey("QuotationTermsId");
 
                     b.Navigation("QuotationTerms");
                 });
 
-            modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationTermsModel", b =>
+            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationTermsModel", b =>
                 {
-                    b.HasOne("CRM.Data.Models.Masters.CountryModel", "CountryofOriginModel")
+                    b.HasOne("Crm.Data.Models.Masters.CountryModel", "CountryofOriginModel")
                         .WithMany()
                         .HasForeignKey("CountryofOriginId");
 
-                    b.HasOne("CRM.Data.Models.Masters.CurrencyModel", "CurrencyModel")
+                    b.HasOne("Crm.Data.Models.Masters.CurrencyModel", "CurrencyModel")
                         .WithMany()
                         .HasForeignKey("CurrencyId");
 
-                    b.HasOne("CRM.Data.Models.Masters.DeliveredToModel", "DeliveredToModel")
+                    b.HasOne("Crm.Data.Models.Masters.DeliveredToModel", "DeliveredToModel")
                         .WithMany()
                         .HasForeignKey("DelieveryNameId");
 
-                    b.HasOne("CRM.Data.Models.Masters.DeliveryTimeModel", "DeliveryTimeModel")
+                    b.HasOne("Crm.Data.Models.Masters.DeliveryTimeModel", "DeliveryTimeModel")
                         .WithMany()
                         .HasForeignKey("DeliveryTimeId");
 
-                    b.HasOne("CRM.Data.Models.Masters.MtcTypeModel", "MtcTypeModel")
+                    b.HasOne("Crm.Data.Models.Masters.MtcTypeModel", "MtcTypeModel")
                         .WithMany()
                         .HasForeignKey("MtcTypeId");
 
-                    b.HasOne("CRM.Data.Models.Masters.TransportModeModel", "PackingTypeModel")
+                    b.HasOne("Crm.Data.Models.Masters.TransportModeModel", "PackingTypeModel")
                         .WithMany()
                         .HasForeignKey("PackingTypeId");
 
-                    b.HasOne("CRM.Data.Models.Masters.PaymentTypeModel", "PaymentTypeModel")
+                    b.HasOne("Crm.Data.Models.Masters.PaymentTypeModel", "PaymentTypeModel")
                         .WithMany()
                         .HasForeignKey("PaymentId");
 
-                    b.HasOne("CRM.Data.Models.Masters.ValidityModel", "ValidityModel")
+                    b.HasOne("Crm.Data.Models.Masters.ValidityModel", "ValidityModel")
                         .WithMany()
                         .HasForeignKey("ValidityId");
 
@@ -621,16 +621,16 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("ValidityModel");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.DeliveredToModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.DeliveredToModel", b =>
                 {
-                    b.HasOne("CRM.Data.Models.Masters.TransportModeModel", "TransportMode")
+                    b.HasOne("Crm.Data.Models.Masters.TransportModeModel", "TransportMode")
                         .WithMany()
                         .HasForeignKey("TransportModeId");
 
                     b.Navigation("TransportMode");
                 });
 
-            modelBuilder.Entity("CRM.Data.Models.Masters.MemberModel", b =>
+            modelBuilder.Entity("Crm.Data.Models.Masters.MemberModel", b =>
                 {
                     b.HasOne("Crm.Tenant.Data.Models.Masters.ClientModel", "Client")
                         .WithMany()
@@ -639,7 +639,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("CRM.Api.Models.Quotation.QuotationModel", b =>
+            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationModel", b =>
                 {
                     b.Navigation("QuotationItems");
                 });

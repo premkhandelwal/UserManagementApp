@@ -1,7 +1,7 @@
-﻿using CRM.Tenant.Service;
-using CRM.Admin.Data;
-using CRM.Api;
-using CRM.Admin.Service;
+﻿using Crm.Tenant.Service;
+using Crm.Admin.Data;
+using Crm.Api;
+using Crm.Admin.Service;
 
 namespace Crm.Api
 {

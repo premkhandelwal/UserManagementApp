@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
+using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
 using FluentValidation;
 
 public class ClientService : BaseService<CreateClientRequest, ClientModel>

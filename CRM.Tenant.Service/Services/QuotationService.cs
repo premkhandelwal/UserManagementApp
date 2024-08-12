@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRM.Tenant.Service.Services
+namespace Crm.Tenant.Service.Services
 {
     public class QuotationService
     {

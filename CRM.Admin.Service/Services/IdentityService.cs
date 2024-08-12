@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using CRM.Admin.Data;
-using CRM.Admin.Service.Models;
-using CRM.Admin.Data.Models;
+using Crm.Admin.Data;
+using Crm.Admin.Service.Models;
+using Crm.Admin.Data.Models;
 
-namespace CRM.Admin.Service.Services
+namespace Crm.Admin.Service.Services
 {
     public class IdentityService
     {

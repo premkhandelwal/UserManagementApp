@@ -1,6 +1,6 @@
-﻿using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
+﻿using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
 
-namespace CRM.Tenant.Service.Models.Requests.Clients.UpdateClient
+namespace Crm.Tenant.Service.Models.Requests.Clients.UpdateClient
 {
     public class UpdateClientRequest: CreateClientRequest
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRM.Admin.Data.Models
+namespace Crm.Admin.Data.Models
 {
     public class CrmIdentityUser : IdentityUser
     {

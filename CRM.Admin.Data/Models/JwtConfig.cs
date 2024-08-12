@@ -1,4 +1,4 @@
-﻿namespace CRM.Admin.Data.Models
+﻿namespace Crm.Admin.Data.Models
 {
     public class JwtConfig
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CRM.Data.Models.Masters
+namespace Crm.Tenant.Data.Models.Masters
 {
     public class DeliveredToModel: BaseModelClass
     {

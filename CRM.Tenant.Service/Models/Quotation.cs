@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRM.Tenant.Service.Models
+namespace Crm.Tenant.Service.Models
 {
-    internal class Quotation
+    public class Quotation
     {
     }
 }

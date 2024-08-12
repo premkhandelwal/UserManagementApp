@@ -1,9 +1,9 @@
 ﻿using Crm.Tenant.Data.DbContexts;
-using CRM.Admin.Service.Models;
-using CRM.Api.Models.Quotation;
+using Crm.Admin.Service.Models;
+using Crm.Api.Models.Quotation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CRM.Api.Controllers.Quotation
+namespace Crm.Api.Controllers.Quotation
 {
     [Route("api/[controller]")]
     [ApiController]

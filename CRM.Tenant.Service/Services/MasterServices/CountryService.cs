@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using CRM.Data.Models.Masters;
-using CRM.Tenant.Service.Models.Requests.Clients.CreateClient;
-using CRM.Tenant.Service.Models.Requests.Countries.CreateCountry;
+using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
 using FluentValidation;
 
 public class CountryService : BaseService<CreateCountryRequest, CountryModel>

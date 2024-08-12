@@ -1,6 +1,6 @@
-﻿using CRM.Admin.Data;
-using CRM.Admin.Data.Models;
-using CRM.Admin.Service.Models;
+﻿using Crm.Admin.Data;
+using Crm.Admin.Data.Models;
+using Crm.Admin.Service.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRM.Admin.Service.Services
+namespace Crm.Admin.Service.Services
 {
     public class AuthService
     {

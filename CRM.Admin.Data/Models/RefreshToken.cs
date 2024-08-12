@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CRM.Admin.Data.Models
+namespace Crm.Admin.Data.Models
 {
     public class RefreshToken
     {

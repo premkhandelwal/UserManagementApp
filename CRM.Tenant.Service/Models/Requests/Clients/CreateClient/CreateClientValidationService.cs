@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace CRM.Tenant.Service.Models.Requests.Clients.CreateClient
+namespace Crm.Tenant.Service.Models.Requests.Clients.CreateClient
 {
     public class CreateClientValidationService<T> : AbstractValidator<T> where T : CreateClientRequest
     {
