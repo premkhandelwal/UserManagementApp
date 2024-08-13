@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.PaymentType.CreatePaymentType;
-using Crm.Tenant.Service.Models.Requests.PaymentType.DeletePaymentType;
-using Crm.Tenant.Service.Models.Requests.PaymentType.UpdatePaymentType;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.CreatePaymentType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.DeletePaymentType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.UpdatePaymentType;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

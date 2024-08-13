@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.DeliveryTime.CreateDeliveryTime;
-using Crm.Tenant.Service.Models.Requests.DeliveryTime.DeleteDeliveryTime;
-using Crm.Tenant.Service.Models.Requests.DeliveryTime.UpdateDeliveryTime;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.CreateDeliveryTime;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.DeleteDeliveryTime;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.UpdateDeliveryTime;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

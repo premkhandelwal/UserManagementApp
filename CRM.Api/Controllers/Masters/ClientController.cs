@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
-using Crm.Tenant.Service.Models.Requests.Clients.UpdateClient;
-using Crm.Tenant.Service.Models.Requests.Clients.DeleteClient;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.CreateClient;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.DeleteClient;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.UpdateClient;
 
 namespace Crm.Api.Controllers.Masters
 {

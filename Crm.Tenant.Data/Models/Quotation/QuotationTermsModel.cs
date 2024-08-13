@@ -2,14 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Crm.Tenant.Data.Models.Masters;
+using Crm.Tenant.Data.Models;
 
 namespace Crm.Api.Models.Quotation
 {
-    public class QuotationTermsModel
+    public class QuotationTermsModel: BaseModelClass
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Id { get; set; }
         public int QuotationId { get; set; }
         public int? DelieveryNameId { get; set; }
         public int? CurrencyId { get; set; }
@@ -43,5 +41,8 @@ namespace Crm.Api.Models.Quotation
 
         [ForeignKey(nameof(PackingTypeId))]
         public virtual TransportModeModel? PackingTypeModel { get; set; }
+
+        [ForeignKey(nameof(QuotationId))]
+        public QuotationFieldsModel? QuotationFieldsModel { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Crm.Tenant.Service.Models.Requests.Currencies.CreateCurrency;
-using Crm.Tenant.Service.Models.Requests.Currencies.DeleteCurrency;
-using Crm.Tenant.Service.Models.Requests.Currencies.UpdateCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.CreateCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.DeleteCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.UpdateCurrency;
 
 namespace Crm.Api.Controllers.Masters
 {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Service.Models.Requests.Member.CreateMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
 using FluentValidation;
 
 public class MemberService : BaseService<CreateMemberRequest, MemberModel>

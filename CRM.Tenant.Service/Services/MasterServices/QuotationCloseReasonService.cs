@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.CreateQuotationCloseReason;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.CreateQuotationCloseReason;
 using FluentValidation;
 
 public class QuotationCloseReasonService : BaseService<CreateQuotationCloseReasonRequest, QuotationCloseReasonModel>

@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.Product.CreateProduct;
-using Crm.Tenant.Service.Models.Requests.Product.DeleteProduct;
-using Crm.Tenant.Service.Models.Requests.Product.UpdateProduct;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.CreateProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.DeleteProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.UpdateProduct;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

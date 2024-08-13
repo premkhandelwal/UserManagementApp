@@ -1,40 +1,45 @@
 ﻿using AutoMapper;
+using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Masters;
-using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
-using Crm.Tenant.Service.Models.Requests.Clients.DeleteClient;
-using Crm.Tenant.Service.Models.Requests.Clients.UpdateClient;
-using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
-using Crm.Tenant.Service.Models.Requests.Currencies.CreateCurrency;
-using Crm.Tenant.Service.Models.Requests.Currencies.DeleteCountry;
-using Crm.Tenant.Service.Models.Requests.Currencies.DeleteCurrency;
-using Crm.Tenant.Service.Models.Requests.Currencies.UpdateCountry;
-using Crm.Tenant.Service.Models.Requests.Currencies.UpdateCurrency;
-using Crm.Tenant.Service.Models.Requests.DeliveredTo.CreateDeliveredTo;
-using Crm.Tenant.Service.Models.Requests.DeliveredTo.DeleteDeliveredTo;
-using Crm.Tenant.Service.Models.Requests.DeliveredTo.UpdateDeliveredTo;
-using Crm.Tenant.Service.Models.Requests.DeliveryTime.CreateDeliveryTime;
-using Crm.Tenant.Service.Models.Requests.DeliveryTime.DeleteDeliveryTime;
-using Crm.Tenant.Service.Models.Requests.DeliveryTime.UpdateDeliveryTime;
-using Crm.Tenant.Service.Models.Requests.Material.CreateMaterial;
-using Crm.Tenant.Service.Models.Requests.Material.DeleteMaterial;
-using Crm.Tenant.Service.Models.Requests.Material.UpdateMaterial;
-using Crm.Tenant.Service.Models.Requests.MtcType.CreateMtcType;
-using Crm.Tenant.Service.Models.Requests.MtcType.UpdateMtcType;
-using Crm.Tenant.Service.Models.Requests.PaymentType.CreatePaymentType;
-using Crm.Tenant.Service.Models.Requests.PaymentType.DeletePaymentType;
-using Crm.Tenant.Service.Models.Requests.PaymentType.UpdatePaymentType;
-using Crm.Tenant.Service.Models.Requests.Product.CreateProduct;
-using Crm.Tenant.Service.Models.Requests.Product.DeleteProduct;
-using Crm.Tenant.Service.Models.Requests.Product.UpdateProduct;
-using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.CreateQuotationCloseReason;
-using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.DeleteQuotationCloseReason;
-using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.UpdateQuotationCloseReason;
-using Crm.Tenant.Service.Models.Requests.TransportMode.CreateTransportMode;
-using Crm.Tenant.Service.Models.Requests.TransportMode.DeleteTransportMode;
-using Crm.Tenant.Service.Models.Requests.TransportMode.UpdateTransportMode;
-using Crm.Tenant.Service.Models.Requests.Validity.CreateValidity;
-using Crm.Tenant.Service.Models.Requests.Validity.DeleteValidity;
-using Crm.Tenant.Service.Models.Requests.Validity.UpdateValidity;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.CreateClient;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.DeleteClient;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.UpdateClient;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.CreateCountry;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.DeleteCountry;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.UpdateCountry;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.CreateCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.DeleteCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.UpdateCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.CreateDeliveredTo;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.DeleteDeliveredTo;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.UpdateDeliveredTo;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.CreateDeliveryTime;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.DeleteDeliveryTime;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.UpdateDeliveryTime;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.DeleteMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.UpdateMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.DeleteMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.UpdateMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.CreatePaymentType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.DeletePaymentType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.UpdatePaymentType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.CreateProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.DeleteProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.UpdateProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.CreateQuotationCloseReason;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.DeleteQuotationCloseReason;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.UpdateQuotationCloseReason;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.CreateTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.DeleteTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.UpdateTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.CreateValidity;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.DeleteValidity;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.UpdateValidity;
+using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields;
+using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
+using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
 
 
 namespace Crm.Tenant.Service.Services.Profiles
@@ -103,6 +108,12 @@ namespace Crm.Tenant.Service.Services.Profiles
             CreateMap<ValidityModel, CreateValidityRequest>().ReverseMap();
             CreateMap<ValidityModel, UpdateValidityRequest>().ReverseMap();
             CreateMap<ValidityModel, DeleteValidityRequest>().ReverseMap();
+
+            CreateMap<QuotationFieldsModel, CreateQuotationFieldsRequest>().ReverseMap();
+            CreateMap<QuotationItemModel, CreateQuotationItemsRequest>().ReverseMap();
+            CreateMap<QuotationTermsModel, CreateQuotationTermsRequest>().ReverseMap();
+
+
         }
     }
 }

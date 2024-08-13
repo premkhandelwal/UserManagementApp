@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Service.Models.Requests.MtcType.CreateMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
 using FluentValidation;
 
 public class MtcTypeService : BaseService<CreateMtcTypeRequest, MtcTypeModel>

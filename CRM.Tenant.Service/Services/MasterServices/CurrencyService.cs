@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Service.Models.Requests.Currencies.CreateCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.CreateCurrency;
 using FluentValidation;
 
 public class CurrencyService : BaseService<CreateCurrencyRequest, CurrencyModel>

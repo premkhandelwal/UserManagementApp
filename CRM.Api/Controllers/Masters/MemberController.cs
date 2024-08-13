@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.Member.CreateMember;
-using Crm.Tenant.Service.Models.Requests.Member.DeleteMember;
-using Crm.Tenant.Service.Models.Requests.Member.UpdateMember;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.DeleteMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.UpdateMember;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

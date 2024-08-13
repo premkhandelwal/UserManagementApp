@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.Validity.CreateValidity;
-using Crm.Tenant.Service.Models.Requests.Validity.DeleteValidity;
-using Crm.Tenant.Service.Models.Requests.Validity.UpdateValidity;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.CreateValidity;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.DeleteValidity;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.UpdateValidity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

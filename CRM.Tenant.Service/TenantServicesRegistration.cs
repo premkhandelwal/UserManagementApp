@@ -4,18 +4,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Service.Models.Requests.Clients.CreateClient;
-using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
-using Crm.Tenant.Service.Models.Requests.Currencies.CreateCurrency;
-using Crm.Tenant.Service.Models.Requests.DeliveredTo.CreateDeliveredTo;
-using Crm.Tenant.Service.Models.Requests.DeliveryTime.CreateDeliveryTime;
-using Crm.Tenant.Service.Models.Requests.Material.CreateMaterial;
-using Crm.Tenant.Service.Models.Requests.MtcType.CreateMtcType;
-using Crm.Tenant.Service.Models.Requests.Product.CreateProduct;
-using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.CreateQuotationCloseReason;
-using Crm.Tenant.Service.Models.Requests.TransportMode.CreateTransportMode;
-using Crm.Tenant.Service.Models.Requests.Validity.CreateValidity;
-using Crm.Tenant.Service.Models.Requests.PaymentType.CreatePaymentType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.CreateDeliveredTo;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.CreateCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.CreateCountry;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.CreateValidity;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.CreateProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.CreatePaymentType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.CreateTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.CreateQuotationCloseReason;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.CreateClient;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.CreateDeliveryTime;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
+using Crm.Tenant.Data.Models;
+using Crm.Tenant.Data.Models.Quotation;
+using CRM.Tenant.Service.Services.QuotationService;
+using Crm.Api.Models.Quotation;
+using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields;
+using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
+using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
 
 namespace Crm.Tenant.Service
 {
@@ -36,6 +43,11 @@ namespace Crm.Tenant.Service
             RegisterScopedService<QuotationCloseReasonModel, QuotationCloseReasonService, CreateQuotationCloseReasonRequest, CreateQuotationCloseReasonValidationService<CreateQuotationCloseReasonRequest>>(services);
             RegisterScopedService<TransportModeModel, TransportModeService, CreateTransportModeRequest, CreateTransportModeValidationService<CreateTransportModeRequest>>(services);
             RegisterScopedService<ValidityModel, ValidityService, CreateValidityRequest, CreateValidityValidationService<CreateValidityRequest>>(services);
+            RegisterScopedService<QuotationFieldsModel, QuotationFieldsService, CreateQuotationFieldsRequest, CreateQuotationFieldsValiditionService<CreateQuotationFieldsRequest>>(services);
+            RegisterScopedService<QuotationItemModel, QuotationItemsService, CreateQuotationItemsRequest, CreateQuotationItemsValiditionService<CreateQuotationItemsRequest>>(services);
+            RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValiditionService<CreateQuotationTermsRequest>>(services);
+            services.AddScoped<QuotationService>();
+
         }
 
         private static void RegisterScopedService<TModel, TService, TRequest, TValidator>(IServiceCollection services)

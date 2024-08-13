@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Data.Models.Masters;
+using Crm.Tenant.Data.Models;
 
 public  class BaseService<TRequest, TEntity> 
     where TRequest : class
@@ -21,7 +19,7 @@ public  class BaseService<TRequest, TEntity>
         _validator = validator;
     }
 
-    public async Task<TEntity?> CreateAsync(TRequest request)
+    public virtual async Task<TEntity?> CreateAsync(TRequest request)
     {
         ValidateRequest(request);
         TEntity entity = _mapper.Map<TEntity>(request);

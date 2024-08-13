@@ -1,5 +1,4 @@
-﻿using Crm.Tenant.Data.Models.Masters;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Crm.Tenant.Data.Models.Masters

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Crm.Tenant.Data.Models.Masters;
 
 namespace Crm.Tenant.Data.Models.Masters
 {

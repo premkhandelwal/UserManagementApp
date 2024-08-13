@@ -1,7 +1,7 @@
-﻿using Crm.Tenant.Service.Models.Requests.Currencies.CreateCountry;
-using Microsoft.AspNetCore.Mvc;
-using Crm.Tenant.Service.Models.Requests.Currencies.UpdateCountry;
-using Crm.Tenant.Service.Models.Requests.Currencies.DeleteCountry;
+﻿using Microsoft.AspNetCore.Mvc;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.CreateCountry;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.DeleteCountry;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.UpdateCountry;
 
 namespace Crm.Api.Controllers.Masters
 {

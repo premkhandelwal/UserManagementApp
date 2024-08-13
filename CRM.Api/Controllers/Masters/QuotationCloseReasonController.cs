@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.CreateQuotationCloseReason;
-using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.DeleteQuotationCloseReason;
-using Crm.Tenant.Service.Models.Requests.QuotationCloseReason.UpdateQuotationCloseReason;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.CreateQuotationCloseReason;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.DeleteQuotationCloseReason;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.UpdateQuotationCloseReason;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

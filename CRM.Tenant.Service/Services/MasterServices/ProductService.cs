@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Service.Models.Requests.Product.CreateProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.CreateProduct;
 using FluentValidation;
 
 public class ProductService : BaseService<CreateProductRequest, ProductModel>

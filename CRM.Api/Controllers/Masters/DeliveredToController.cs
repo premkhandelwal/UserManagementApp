@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.DeliveredTo.CreateDeliveredTo;
-using Crm.Tenant.Service.Models.Requests.DeliveredTo.DeleteDeliveredTo;
-using Crm.Tenant.Service.Models.Requests.DeliveredTo.UpdateDeliveredTo;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.CreateDeliveredTo;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.DeleteDeliveredTo;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.UpdateDeliveredTo;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

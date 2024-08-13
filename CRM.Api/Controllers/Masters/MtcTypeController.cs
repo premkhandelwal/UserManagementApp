@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.MtcType.CreateMtcType;
-using Crm.Tenant.Service.Models.Requests.MtcType.DeleteMtcType;
-using Crm.Tenant.Service.Models.Requests.MtcType.UpdateMtcType;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.DeleteMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.UpdateMtcType;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

@@ -22,7 +22,7 @@ namespace Crm.Tenant.Data.DbContexts
         public DbSet<TransportModeModel>? TransportModes { get; set; }
         public DbSet<ValidityModel>? Validities { get; set; }
 
-        public DbSet<QuotationModel>? Quotations { get; set; }
+        public DbSet<QuotationFieldsModel>? Quotations { get; set; }
         public DbSet<QuotationItemModel>? QuotationItems { get; set; }
         public DbSet<QuotationTermsModel>? QuotationTerms { get; set; }
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
@@ -48,7 +48,7 @@ namespace Crm.Tenant.Data.DbContexts
                 typeof(QuotationCloseReasonModel),
                 typeof(TransportModeModel),
                 typeof(ValidityModel),
-                typeof(QuotationModel),
+                typeof(QuotationFieldsModel),
                 typeof(QuotationItemModel),
             };
 

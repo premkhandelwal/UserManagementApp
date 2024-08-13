@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.TransportMode.CreateTransportMode;
-using Crm.Tenant.Service.Models.Requests.TransportMode.DeleteTransportMode;
-using Crm.Tenant.Service.Models.Requests.TransportMode.UpdateTransportMode;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.CreateTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.DeleteTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.UpdateTransportMode;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

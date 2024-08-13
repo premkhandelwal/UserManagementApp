@@ -1,14 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Crm.Tenant.Data.Models;
 
 namespace Crm.Api.Models.Quotation
 {
-    public class QuotationItemModel
+    public class QuotationItemModel: BaseModelClass
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Id { get; set; }
-
         public int QuotationId { get; set; } 
 
         public int SrNo { get; set; }
@@ -28,5 +25,8 @@ namespace Crm.Api.Models.Quotation
         public double UnitPrice { get; set; }
 
         public double TotalPrice { get; set; }
+
+        [ForeignKey(nameof(QuotationId))]
+        public QuotationFieldsModel? QuotationFieldsModel { get; set; }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Crm.Tenant.Service.Models.Requests.Material.CreateMaterial;
-using Crm.Tenant.Service.Models.Requests.Material.DeleteMaterial;
-using Crm.Tenant.Service.Models.Requests.Material.UpdateMaterial;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.DeleteMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.UpdateMaterial;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters

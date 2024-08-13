@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
-using Crm.Tenant.Service.Models.Requests.Material.CreateMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
 using FluentValidation;
 
 public class MaterialService : BaseService<CreateMaterialRequest, MaterialModel>
