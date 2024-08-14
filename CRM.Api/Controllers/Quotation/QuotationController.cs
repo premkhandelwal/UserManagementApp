@@ -1,7 +1,4 @@
-﻿using Crm.Tenant.Data.DbContexts;
-using Crm.Admin.Service.Models;
-using Crm.Api.Models.Quotation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using CRM.Tenant.Service.Models.Requests.Quotation;
 using CRM.Tenant.Service.Services.QuotationService;
 
@@ -22,6 +19,13 @@ namespace Crm.Api.Controllers.Quotation
         {
             var result = await _quotationService.Create(quotationRequest);
             return StatusCode(StatusCodes.Status200OK, result);    
+        }
+
+        [HttpGet("GetQuotations")]
+        public async Task<IActionResult> GetQuotations()
+        {
+            var result = await _quotationService.Get();
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
     }

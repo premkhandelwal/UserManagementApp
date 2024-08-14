@@ -27,6 +27,6 @@ namespace Crm.Api.Models.Quotation
         public double TotalPrice { get; set; }
 
         [ForeignKey(nameof(QuotationId))]
-        public QuotationFieldsModel? QuotationFieldsModel { get; set; }
+        public virtual QuotationFieldsModel? QuotationFieldsModel { get; set; }
     }
 }

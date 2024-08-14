@@ -37,8 +37,5 @@ namespace Crm.Api.Models.Quotation
         public double OtherCharges { get; set; }
 
         public double GrandTotal { get; set; }
-        public DateTime? AddedOn { get; set; }
-        public DateTime? ModifiedOn { get; set; }
-        public bool IsDeleted { get; set; } = false;
     }
 }

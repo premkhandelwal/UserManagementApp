@@ -43,6 +43,6 @@ namespace Crm.Api.Models.Quotation
         public virtual TransportModeModel? PackingTypeModel { get; set; }
 
         [ForeignKey(nameof(QuotationId))]
-        public QuotationFieldsModel? QuotationFieldsModel { get; set; }
+        public virtual QuotationFieldsModel? QuotationFieldsModel { get; set; }
     }
 }
