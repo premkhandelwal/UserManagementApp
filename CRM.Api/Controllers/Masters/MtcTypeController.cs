@@ -1,119 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
-using CRM.Api.Models.Masters;
-using CRM.Api.Models.UserManagementRequests;
-using CRM.Admin.Data;
-using CRM.Admin.Service.Models;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.DeleteMtcType;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.UpdateMtcType;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CRM.Api.Controllers.Masters
+namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MtcTypeController : ControllerBase
     {
-
-        private ClientApplicationDbContext _context;
-        public MtcTypeController(ClientApplicationDbContext clientApplicationDbContext)
+        private MtcTypeService _mtctypeService;
+        public MtcTypeController(MtcTypeService mtctypeService)
         {
-            _context = clientApplicationDbContext;
+            _mtctypeService = mtctypeService;
         }
 
         [HttpPost("CreateMtcType")]
-        public async Task<IActionResult> CreateMtcType([FromBody] MtcTypeModel mtctype)
+        public async Task<IActionResult> CreateMtcType([FromBody] CreateMtcTypeRequest mtctype)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to add Mtc Type!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            mtctype.Id = Guid.NewGuid().ToString();
-            mtctype.AddedOn = DateTime.Now;
-            mtctype.IsDeleted = false;
-            await _context.MtcTypes!.AddAsync(mtctype);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Mtc Type created successfully!!";
-                response.StatusCode = 201;
-                return StatusCode(StatusCodes.Status201Created, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
-        }
-
-        [HttpGet("ReadMtcTypes")]
-        public IActionResult ReadMtcTypes()
-        {
-            List<MtcTypeModel> result = _context.MtcTypes!.Where(mtctype => mtctype.IsDeleted == false).ToList();
+            var result = await _mtctypeService.CreateAsync(mtctype);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
         [HttpPut("UpdateMtcType")]
-        public async Task<IActionResult> UpdateMtcType([FromBody] MtcTypeModel mtctype)
+        public async Task<IActionResult> UpdateMtcType([FromBody] UpdateMtcTypeRequest mtctype)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to update Mtc Type!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            mtctype.IsDeleted = false;
-            _context.Update(mtctype);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Mtc Type updated successfully!!";
-                response.StatusCode = 200;
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            var result = await _mtctypeService.UpdateAsync(mtctype);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
-
         [HttpDelete("DeleteMtcType")]
-        public async Task<IActionResult> DeleteMtcType([FromBody] MtcTypeModel mtctype)
+        public async Task<IActionResult> DeleteMtcType([FromBody] DeleteMtcTypeRequest mtctype)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to delete Mtc Type!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            mtctype.IsDeleted = true;
-            _context.Update(mtctype);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Mtc Type deleted successfully!!";
-                response.StatusCode = 200;
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            var result = await _mtctypeService.DeleteAsync(mtctype);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet("ReadMtcTypes")]
+        public async Task<IActionResult> ReadMtcTypes()
+        {
+            var result = await _mtctypeService.ReadAsync();
+            return StatusCode(StatusCodes.Status200OK, result);
         }
     }
 }

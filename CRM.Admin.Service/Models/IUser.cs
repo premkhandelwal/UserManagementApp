@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CRM.Admin.Service.Models
+namespace Crm.Admin.Service.Models
 {
     public class IUser
     {
+        public string UserId { get; set; } = null!;
         [Required(ErrorMessage = "User Name is required")]
         public string Username { get; set; } = null!;
 

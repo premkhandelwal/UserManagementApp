@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CRM.Admin.Data.Migrations
+namespace Crm.Admin.Data.Migrations
 {
     public partial class AddRefreshTokentable : Migration
     {

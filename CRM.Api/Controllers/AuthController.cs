@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using CRM.Api.Models;
-using CRM.Api.Models.UserManagementRequests;
-using CRM.Admin.Service;
-using CRM.Admin.Service.Models;
+using Crm.Api.Models;
+using Crm.Api.Models.UserManagementRequests;
+using Crm.Admin.Service.Models;
+using Crm.Admin.Service.Services;
 
-namespace CRM.Api.Controllers
+namespace Crm.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -80,7 +80,7 @@ namespace CRM.Api.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Policy = "ViewUsers")]
+        //[Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
             IApiResponse<List<IUser>> response = await _identityService.GetAllUsers();
@@ -160,7 +160,7 @@ namespace CRM.Api.Controllers
         }
 
         [HttpPost("AddClaimsForUser")]
-        //[Authorize(Policy = "RolePolicy")]
+        [Authorize(Policy = "RolePolicy")]
         public async Task<IActionResult> AddClaimsForUser([FromBody] AddMultipleClaimsForUserRequest request)
         {
             IApiResponse<string> response = await _identityService.AddClaimsForUser(request.emailId, request.claims);

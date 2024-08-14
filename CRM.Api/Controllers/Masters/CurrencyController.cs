@@ -1,119 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
-using CRM.Api.Models.Masters;
-using CRM.Api.Models.UserManagementRequests;
-using CRM.Admin.Data;
-using CRM.Admin.Service.Models;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.CreateCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.DeleteCurrency;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.UpdateCurrency;
 
-namespace CRM.Api.Controllers.Masters
+namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CurrencyController : ControllerBase
     {
-
-        private ClientApplicationDbContext _context;
-        public CurrencyController(ClientApplicationDbContext clientApplicationDbContext)
+        private CurrencyService _currencyService;
+        public CurrencyController(CurrencyService currencyService)
         {
-            _context = clientApplicationDbContext;
+            _currencyService = currencyService;
         }
 
         [HttpPost("CreateCurrency")]
-        public async Task<IActionResult> CreateCurrency([FromBody] CurrencyModel currency)
+        public async Task<IActionResult> CreateCurrency([FromBody] CreateCurrencyRequest currency)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to add Currency!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            currency.Id = Guid.NewGuid().ToString();
-            currency.IsDeleted = false;
-            currency.AddedOn = DateTime.Now;
-            await _context.Currencies!.AddAsync(currency);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Currency created successfully!!";
-                response.StatusCode = 201;
-                return StatusCode(StatusCodes.Status201Created, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
-        }
-
-        [HttpGet("ReadCurrencies")]
-        public IActionResult ReadCurrencies()
-        {
-            List<CurrencyModel> result = _context.Currencies!.Where(Currency => Currency.IsDeleted == false).ToList();
+            var result = await _currencyService.CreateAsync(currency);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
         [HttpPut("UpdateCurrency")]
-        public async Task<IActionResult> UpdateCurrency([FromBody] CurrencyModel currency)
+        public async Task<IActionResult> UpdateCurrency([FromBody] UpdateCurrencyRequest currency)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to update Currency!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            currency.IsDeleted = false;
-            _context.Update(currency);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Currency updated successfully!!";
-                response.StatusCode = 200;
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            var result = await _currencyService.UpdateAsync(currency);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
-
         [HttpDelete("DeleteCurrency")]
-        public async Task<IActionResult> DeleteCurrency([FromBody] CurrencyModel currency)
+        public async Task<IActionResult> DeleteCurrency([FromBody] DeleteCurrencyRequest currency)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to delete Currency!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            currency.IsDeleted = true;
-            _context.Update(currency);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Currency deleted successfully!!";
-                response.StatusCode = 200;
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            var result = await _currencyService.DeleteAsync(currency);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet("ReadCurrencies")]
+        public async Task<IActionResult> ReadCurrencies()
+        {
+            var result = await _currencyService.ReadAsync();
+            return StatusCode(StatusCodes.Status200OK, result);
         }
     }
 }

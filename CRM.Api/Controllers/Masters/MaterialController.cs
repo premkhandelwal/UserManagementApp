@@ -1,119 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
-using CRM.Api.Models.Masters;
-using CRM.Api.Models.UserManagementRequests;
-using CRM.Admin.Data;
-using CRM.Admin.Service.Models;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.DeleteMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.UpdateMaterial;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CRM.Api.Controllers.Masters
+namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MaterialController : ControllerBase
     {
-
-        private ClientApplicationDbContext _context;
-        public MaterialController(ClientApplicationDbContext clientApplicationDbContext)
+        private MaterialService _materialService;
+        public MaterialController(MaterialService materialService)
         {
-            _context = clientApplicationDbContext;
+            _materialService = materialService;
         }
 
         [HttpPost("CreateMaterial")]
-        public async Task<IActionResult> CreateMaterial([FromBody] MaterialModel material)
+        public async Task<IActionResult> CreateMaterial([FromBody] CreateMaterialRequest material)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to add Material!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            material.Id = Guid.NewGuid().ToString();
-            material.AddedOn = DateTime.Now;
-            material.IsDeleted = false;
-            await _context.Materials!.AddAsync(material);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Material created successfully!!";
-                response.StatusCode = 201;
-                return StatusCode(StatusCodes.Status201Created, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
-        }
-
-        [HttpGet("ReadMaterials")]
-        public IActionResult ReadMaterials()
-        {
-            List<MaterialModel> result = _context.Materials!.Where(material => material.IsDeleted == false).ToList();
+            var result = await _materialService.CreateAsync(material);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
         [HttpPut("UpdateMaterial")]
-        public async Task<IActionResult> UpdateMaterial([FromBody] MaterialModel material)
+        public async Task<IActionResult> UpdateMaterial([FromBody] UpdateMaterialRequest material)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to update Material!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            material.IsDeleted = false;
-            _context.Update(material);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Material updated successfully!!";
-                response.StatusCode = 200;
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            var result = await _materialService.UpdateAsync(material);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
-
         [HttpDelete("DeleteMaterial")]
-        public async Task<IActionResult> DeleteMaterial([FromBody] MaterialModel material)
+        public async Task<IActionResult> DeleteMaterial([FromBody] DeleteMaterialRequest material)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to delete Material!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            material.IsDeleted = true;
-            _context.Update(material);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "Material deleted successfully!!";
-                response.StatusCode = 200;
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            var result = await _materialService.DeleteAsync(material);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet("ReadMaterials")]
+        public async Task<IActionResult> ReadMaterials()
+        {
+            var result = await _materialService.ReadAsync();
+            return StatusCode(StatusCodes.Status200OK, result);
         }
     }
 }

@@ -1,129 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.Metrics;
-using CRM.Api.Models.Masters;
-using CRM.Api.Models.UserManagementRequests;
-using CRM.Admin.Data;
-using CRM.Admin.Service.Models;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.CreateTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.DeleteTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.UpdateTransportMode;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CRM.Api.Controllers.Masters
+namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TransportModeController : ControllerBase
     {
-
-        private ClientApplicationDbContext _context;
-        public TransportModeController(ClientApplicationDbContext clientApplicationDbContext)
+        private TransportModeService _transportmodeService;
+        public TransportModeController(TransportModeService transportmodeService)
         {
-            _context = clientApplicationDbContext;
+            _transportmodeService = transportmodeService;
         }
 
         [HttpPost("CreateTransportMode")]
-        public async Task<IActionResult> CreateTransportMode([FromBody] TransportModeModel transportmode)
+        public async Task<IActionResult> CreateTransportMode([FromBody] CreateTransportModeRequest transportmode)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to add  Transport Mode!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            transportmode.Id = Guid.NewGuid().ToString();
-            transportmode.AddedOn = DateTime.Now;
-            transportmode.IsDeleted = false;
-            await _context.TransportModes!.AddAsync(transportmode);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = " Transport Mode created successfully!!";
-                response.StatusCode = 201;
-                return StatusCode(StatusCodes.Status201Created, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
-        }
-
-        [HttpGet("ReadTransportModes")]
-        public IActionResult ReadTransportModes()
-        {
-            List<TransportModeModel> result = _context.TransportModes!.Where(transportmode => transportmode.IsDeleted == false).ToList();
+            var result = await _transportmodeService.CreateAsync(transportmode);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
         [HttpPut("UpdateTransportMode")]
-        public async Task<IActionResult> UpdateTransportMode([FromBody] TransportModeModel transportmode)
+        public async Task<IActionResult> UpdateTransportMode([FromBody] UpdateTransportModeRequest transportmode)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to update  Transport Mode!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            transportmode.IsDeleted = false;
-            _context.Update(transportmode);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "TransportMode updated successfully!!";
-                response.StatusCode = 200;
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            var result = await _transportmodeService.UpdateAsync(transportmode);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
-
         [HttpDelete("DeleteTransportMode")]
-        public async Task<IActionResult> DeleteTransportMode([FromBody] TransportModeModel transportmode)
+        public async Task<IActionResult> DeleteTransportMode([FromBody] DeleteTransportModeRequest transportmode)
         {
-            IApiResponse<string> response = new IApiResponse<string>
-            {
-                IsSuccess = false,
-                Response = "Failed to delete  Transport Mode!!",
-                StatusCode = 501
-            };
-            if (ModelState.IsValid == false)
-            {
-                response.IsSuccess = false;
-                response.Response = "Bad request!!";
-                response.StatusCode = 400;
-                return StatusCode(StatusCodes.Status400BadRequest, response);
-            }
-            bool hasReferences = await _context.DeliveredTo!.AnyAsync(e => e.TransportModeId == transportmode.Id);
-            if (hasReferences)
-            {
-                response.IsSuccess = false;
-                response.Response = "Cannot delete Delivered To as it is referenced in other records.";
-                response.StatusCode = 409; // Conflict
-                return StatusCode(StatusCodes.Status409Conflict, response);
-            }
+            var result = await _transportmodeService.DeleteAsync(transportmode);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
 
-            transportmode.IsDeleted = true;
-            _context.Update(transportmode);
-            int result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                response.IsSuccess = true;
-                response.Response = "TransportMode deleted successfully!!";
-                response.StatusCode = 200;
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+        [HttpGet("ReadTransportModes")]
+        public async Task<IActionResult> ReadTransportModes()
+        {
+            var result = await _transportmodeService.ReadAsync();
+            return StatusCode(StatusCodes.Status200OK, result);
         }
     }
 }
