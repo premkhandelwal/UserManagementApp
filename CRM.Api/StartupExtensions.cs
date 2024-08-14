@@ -12,12 +12,12 @@ namespace Crm.Api
         {
 
             builder.Services.AddAdminServices(builder.Configuration);
-            builder.Services.AddAuthorizationServices(builder.Configuration);
-            builder.Services.AddAdminDataServices(builder.Configuration);
             builder.Services.AddTenantDataServices(builder.Configuration);
             builder.Services.AddTenantServices(builder.Configuration);
-            builder.Services.AddControllers();
+            builder.Services.AddAdminDataServices(builder.Configuration);
+            builder.Services.AddAuthorizationServices(builder.Configuration);
             builder.Services.AddCors();
+            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -27,25 +27,22 @@ namespace Crm.Api
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
 
-            app.UseCors("open");
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseHttpsRedirection();
-            app.MapControllers();
-
             app.UseCors(opt =>
             {
                 opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200");
             });
+            app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapControllers();
 
 
             app.Use(async (context, next) =>
@@ -57,7 +54,6 @@ namespace Crm.Api
                 context.Response.Headers.Add("Referrer-Policy", "no-referrer");
                 await next();
             });
-
 
             return app;
         }

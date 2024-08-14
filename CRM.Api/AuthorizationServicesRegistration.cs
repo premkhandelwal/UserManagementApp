@@ -7,22 +7,18 @@ namespace Crm.Api
     {
         public static void AddAuthorizationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<CookiePolicyOptions>(options =>
+            /*services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
                 options.HttpOnly = HttpOnlyPolicy.Always;
                 options.Secure = CookieSecurePolicy.Always;
                 // you can add more options here and they will be applied to all cookies (middleware and manually created cookies)
-            });
+            });*/
             services.AddScoped<IAuthorizationHandler, RoleOrPolicyHandler>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RolePolicy",
-                    policy => policy.RequireClaim("claimRole", new[]
-                    {
-            "admin"
-                    }));
+                options.AddPolicy("RolePolicy", policy => policy.RequireClaim("permissions", new[] { "ViewUsers" }));
 
                 options.AddPolicy("ViewUsers", policy => policy.RequireClaim("permissions", new[] { "ViewUsers" }));
                 options.AddPolicy("UpdateUsers", policy => policy.RequireClaim("permissions", new[] { "UpdateUsers" }));

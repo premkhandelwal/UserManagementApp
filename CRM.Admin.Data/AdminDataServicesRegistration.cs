@@ -12,6 +12,9 @@ namespace Crm.Admin.Data
     {
         public static void AddAdminDataServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddIdentity<CrmIdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AdminDbContext>()
+                .AddDefaultTokenProviders();
             services.AddScoped<RefreshToken>();
 
             services.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
@@ -45,9 +48,7 @@ namespace Crm.Admin.Data
                 jwt.SaveToken = true;
                 jwt.TokenValidationParameters = tokenValidationParameters;
             });
-            services.AddIdentity<CrmIdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<AdminDbContext>()
-                .AddDefaultTokenProviders();
+            
 
         }
     }

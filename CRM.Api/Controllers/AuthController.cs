@@ -80,7 +80,7 @@ namespace Crm.Api.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Policy = "ViewUsers")]
+        //[Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
             IApiResponse<List<IUser>> response = await _identityService.GetAllUsers();

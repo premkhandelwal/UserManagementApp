@@ -19,6 +19,9 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.UpdateDeliv
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.DeleteMaterial;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.UpdateMaterial;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.DeleteMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.UpdateMember;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.DeleteMtcType;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.UpdateMtcType;
@@ -42,7 +45,7 @@ using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotati
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
 
 
-namespace Crm.Tenant.Service.Services.Profiles
+namespace CRM.Tenant.Service.Profiles
 {
     public class Mappings : Profile
     {
@@ -77,6 +80,11 @@ namespace Crm.Tenant.Service.Services.Profiles
             CreateMap<MaterialModel, CreateMaterialRequest>().ReverseMap();
             CreateMap<MaterialModel, UpdateMaterialRequest>().ReverseMap();
             CreateMap<MaterialModel, DeleteMaterialRequest>().ReverseMap();
+
+            // Member mappings
+            CreateMap<MemberModel, CreateMemberRequest>().ReverseMap();
+            CreateMap<MemberModel, UpdateMemberRequest>().ReverseMap();
+            CreateMap<MemberModel, DeleteMemberRequest>().ReverseMap();
 
             // MtcType mappings
             CreateMap<MtcTypeModel, CreateMtcTypeRequest>().ReverseMap();

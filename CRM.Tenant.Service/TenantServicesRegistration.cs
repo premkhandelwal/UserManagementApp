@@ -17,12 +17,12 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.CreateDeliveryTime;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
 using Crm.Tenant.Data.Models;
-using Crm.Tenant.Data.Models.Quotation;
-using CRM.Tenant.Service.Services.QuotationService;
+using CRM.Tenant.Service.Service.QuotationService;
 using Crm.Api.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
 
 namespace Crm.Tenant.Service
 {
@@ -37,6 +37,7 @@ namespace Crm.Tenant.Service
             RegisterScopedService<DeliveredToModel, DeliveredToService, CreateDeliveredToRequest, CreateDeliveredToValidationService<CreateDeliveredToRequest>>(services);
             RegisterScopedService<DeliveryTimeModel, DeliveryTimeService, CreateDeliveryTimeRequest, CreateDeliveryTimeValidationService<CreateDeliveryTimeRequest>>(services);
             RegisterScopedService<MaterialModel, MaterialService, CreateMaterialRequest, CreateMaterialValidationService<CreateMaterialRequest>>(services);
+            RegisterScopedService<MemberModel, MemberService, CreateMemberRequest, CreateMemberValidationService<CreateMemberRequest>>(services);
             RegisterScopedService<MtcTypeModel, MtcTypeService, CreateMtcTypeRequest, CreateMtcTypeValidationService<CreateMtcTypeRequest>>(services);
             RegisterScopedService<PaymentTypeModel, PaymentTypeService, CreatePaymentTypeRequest, CreatePaymentTypeValidationService<CreatePaymentTypeRequest>>(services);
             RegisterScopedService<ProductModel, ProductService, CreateProductRequest, CreateProductValidationService<CreateProductRequest>>(services);
