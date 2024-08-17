@@ -5,7 +5,7 @@ namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuo
     public class CreateQuotationTermsRequest
     {
         public int? QuotationId { get; set; }
-        public int? DelieveryNameId { get; set; }
+        public int? DeliveryNameId { get; set; }
         public int? CurrencyId { get; set; }
         public int? DeliveryTimeId { get; set; }
         public int? CountryofOriginId { get; set; }

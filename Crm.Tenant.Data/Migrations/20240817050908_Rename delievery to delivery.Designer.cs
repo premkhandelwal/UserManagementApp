@@ -4,6 +4,7 @@ using Crm.Tenant.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crm.Tenant.Data.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240817050908_Rename delievery to delivery")]
+    partial class Renamedelieverytodelivery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +91,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Quotations", (string)null);
+                    b.ToTable("Quotations");
                 });
 
             modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationItemModel", b =>
@@ -143,7 +145,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasIndex("QuotationId");
 
-                    b.ToTable("QuotationItems", (string)null);
+                    b.ToTable("QuotationItems");
                 });
 
             modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationTermsModel", b =>
@@ -210,7 +212,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasIndex("ValidityId");
 
-                    b.ToTable("QuotationTerms", (string)null);
+                    b.ToTable("QuotationTerms");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.ClientModel", b =>
@@ -244,7 +246,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.CountryModel", b =>
@@ -269,7 +271,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.CurrencyModel", b =>
@@ -297,7 +299,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies", (string)null);
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.DeliveredToModel", b =>
@@ -327,7 +329,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasIndex("TransportModeId");
 
-                    b.ToTable("DeliveredTo", (string)null);
+                    b.ToTable("DeliveredTo");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.DeliveryTimeModel", b =>
@@ -352,7 +354,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryTime", (string)null);
+                    b.ToTable("DeliveryTime");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.MaterialModel", b =>
@@ -377,7 +379,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Materials", (string)null);
+                    b.ToTable("Materials");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.MemberModel", b =>
@@ -422,7 +424,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Members", (string)null);
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.MtcTypeModel", b =>
@@ -447,7 +449,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MtcTypes", (string)null);
+                    b.ToTable("MtcTypes");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.PaymentTypeModel", b =>
@@ -472,7 +474,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes", (string)null);
+                    b.ToTable("PaymentTypes");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.ProductModel", b =>
@@ -497,7 +499,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.QuotationCloseReasonModel", b =>
@@ -522,7 +524,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("QuotationCloseReasons", (string)null);
+                    b.ToTable("QuotationCloseReasons");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.TransportModeModel", b =>
@@ -547,7 +549,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransportModes", (string)null);
+                    b.ToTable("TransportModes");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.ValidityModel", b =>
@@ -572,7 +574,7 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Validities", (string)null);
+                    b.ToTable("Validities");
                 });
 
             modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationItemModel", b =>

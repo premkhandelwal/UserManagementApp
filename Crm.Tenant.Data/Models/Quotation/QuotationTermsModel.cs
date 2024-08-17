@@ -9,7 +9,7 @@ namespace Crm.Api.Models.Quotation
     public class QuotationTermsModel: BaseModelClass
     {
         public int QuotationId { get; set; }
-        public int? DelieveryNameId { get; set; }
+        public int? DeliveryNameId { get; set; }
         public int? CurrencyId { get; set; }
         public int? DeliveryTimeId { get; set; }
         public int? CountryofOriginId { get; set; }
@@ -18,7 +18,7 @@ namespace Crm.Api.Models.Quotation
         public int? ValidityId { get; set; }
         public int? PackingTypeId { get; set; }
 
-        [ForeignKey(nameof(DelieveryNameId))]
+        [ForeignKey(nameof(DeliveryNameId))]
         public virtual DeliveredToModel? DeliveredToModel { get; set; }
 
         [ForeignKey(nameof(CurrencyId))]

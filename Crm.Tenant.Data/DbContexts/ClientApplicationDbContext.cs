@@ -81,7 +81,7 @@ namespace Crm.Tenant.Data.DbContexts
             modelBuilder.Entity<QuotationTermsModel>()
                 .HasOne(m => m.DeliveredToModel)
                 .WithMany()
-                .HasForeignKey(m => m.DelieveryNameId);
+                .HasForeignKey(m => m.DeliveryNameId);
 
             modelBuilder.Entity<QuotationTermsModel>()
                 .HasOne(m => m.DeliveryTimeModel)
