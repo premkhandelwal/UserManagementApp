@@ -1,4 +1,5 @@
 ﻿using Crm.Tenant.Data.Models;
+using Crm.Tenant.Data.Models.Masters;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Crm.Api.Models.Quotation
@@ -12,17 +13,21 @@ namespace Crm.Api.Models.Quotation
 
         public DateTime QuotationDate { get; set; }
 
-        public string? QuotationStage { get; set; }
-
         public int? QuotationCompanyId { get; set; }
 
         public int? QuotationAttentionId { get; set; }
 
         public string? Reference { get; set; }
 
+        public int QuotationPriority { get; set; }
+
+        public string? QuotationStage { get; set; }
+        
         public string? QuotationImportance { get; set; }
 
-        public int QuotationPriority { get; set; }
+        public string? QuotationStatus { get; set; } = "Open";
+
+        public int? QuotationCloseReasonId { get; set; }
 
         public double GstPercent { get; set; }
 
@@ -37,5 +42,8 @@ namespace Crm.Api.Models.Quotation
         public double OtherCharges { get; set; }
 
         public double GrandTotal { get; set; }
+
+        [ForeignKey(nameof(QuotationCloseReasonId))]
+        public virtual QuotationCloseReasonModel? QuotationCloseReasonsModel { get; set; }
     }
 }

@@ -26,23 +26,28 @@ public  class BaseService<TRequest, TEntity>
         return await _repository.AddAsync(entity);
     }
 
-    public async Task<TEntity?> UpdateAsync(TRequest request)
+    public virtual async Task<TEntity?> UpdateAsync(TRequest request)
     {
         ValidateRequest(request);
         TEntity entity = _mapper.Map<TEntity>(request);
         return await _repository.UpdateAsync(entity);
     }
 
-    public async Task<TEntity?> DeleteAsync(TRequest request)
+    public virtual async Task<TEntity?> DeleteAsync(TRequest request)
     {
         ValidateRequest(request);
         TEntity entity = _mapper.Map<TEntity>(request);
         return await _repository.DeleteAsync(entity);
     }
 
-    public async Task<List<TEntity>> ReadAsync()
+    public virtual async Task<List<TEntity>> ReadAsync()
     {
         return await _repository.ReadAsync();
+    }
+
+    public virtual async Task<List<TEntity>> GetByIdAsync(int id)
+    {
+        return await _repository.GetByIdAsync(id);
     }
 
     private void ValidateRequest(TRequest request)

@@ -23,6 +23,8 @@ using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotati
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
 using CRM.Tenant.Service.Services.QuotationService;
+using Crm.Tenant.Data.Models.Quotation;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
 
 namespace Crm.Tenant.Service
 {
@@ -47,6 +49,9 @@ namespace Crm.Tenant.Service
             RegisterScopedService<QuotationFieldsModel, QuotationFieldsService, CreateQuotationFieldsRequest, CreateQuotationFieldsValiditionService<CreateQuotationFieldsRequest>>(services);
             RegisterScopedService<QuotationItemModel, QuotationItemsService, CreateQuotationItemsRequest, CreateQuotationItemsValiditionService<CreateQuotationItemsRequest>>(services);
             RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValiditionService<CreateQuotationTermsRequest>>(services);
+            RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValiditionService<CreateQuotationTermsRequest>>(services);
+            RegisterScopedService<QuotationFollowUpModel, QuotationFollowUpService, CreateQuotationFollowUpRequest, CreateQuotationFollowUpValidationService<CreateQuotationFollowUpRequest>>(services);
+
             services.AddScoped<QuotationService>();
 
         }

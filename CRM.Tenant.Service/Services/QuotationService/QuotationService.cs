@@ -1,6 +1,8 @@
 ﻿using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.Quotation;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
 
 namespace CRM.Tenant.Service.Services.QuotationService
 {
@@ -40,6 +42,36 @@ namespace CRM.Tenant.Service.Services.QuotationService
             return -1;
         }
 
+        public async Task<int> Update(UpdateQuotationRequest request)
+        {
+            QuotationFieldsModel? quotationFields = await _quotationFields.UpdateAsync(request.quotationFields);
+            List<QuotationItemModel> quotationItems = new List<QuotationItemModel> { };
+            if (quotationFields != null && quotationFields.Id != null)
+            {
+                foreach (var item in request.quotationItems)
+                {
+                    item.QuotationId = quotationFields.Id;
+                    QuotationItemModel? savedItem = null;
+                    if (item.Id == null)
+                    {
+                        savedItem = await _quotationItems.CreateAsync(item);
+                    }
+                    else
+                    {
+                        savedItem = await _quotationItems.UpdateAsync(item);
+                    }
+                    if (savedItem != null)
+                    {
+                        quotationItems.Add(savedItem);
+                    }
+                }
+                request.quotationTerms.QuotationId = quotationFields.Id;
+                QuotationTermsModel? quotationTerms = await _quotationTerms.UpdateAsync(request.quotationTerms);
+                return (int)quotationFields.Id;
+            }
+            return -1;
+        }
+
         public async Task<List<QuotationModel>> Get()
         {
             List<QuotationModel> result = new List<QuotationModel>();
@@ -51,8 +83,8 @@ namespace CRM.Tenant.Service.Services.QuotationService
                 int? id = quotation.Id;
                 if (id != null)
                 {
-                   List<QuotationItemModel> qItems = quotationItems.Where(item => item.Id == id).ToList();
-                    QuotationTermsModel? qTerms = quotationTerms.Where((item) => item.Id == id).FirstOrDefault();
+                   List<QuotationItemModel> qItems = quotationItems.Where(item => item.QuotationId == id).ToList();
+                    QuotationTermsModel? qTerms = quotationTerms.Where((item) => item.QuotationId == id).FirstOrDefault();
                     result.Add(new QuotationModel() { 
                         quotationFields = quotation,
                         quotationItems = qItems,

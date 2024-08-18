@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Masters;
+using Crm.Tenant.Data.Models.Quotation;
 
 namespace Crm.Tenant.Data.DbContexts
 {
@@ -25,6 +26,8 @@ namespace Crm.Tenant.Data.DbContexts
         public DbSet<QuotationFieldsModel>? Quotations { get; set; }
         public DbSet<QuotationItemModel>? QuotationItems { get; set; }
         public DbSet<QuotationTermsModel>? QuotationTerms { get; set; }
+
+        public DbSet<QuotationFollowUpModel>? QuotationFollowUp { get; set; }
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
         {
 
@@ -50,6 +53,7 @@ namespace Crm.Tenant.Data.DbContexts
                 typeof(ValidityModel),
                 typeof(QuotationFieldsModel),
                 typeof(QuotationItemModel),
+                typeof(QuotationFollowUpModel),
             };
 
             foreach (var entity in entitiesWithPrimaryKey)
@@ -67,6 +71,11 @@ namespace Crm.Tenant.Data.DbContexts
                 .HasOne(m => m.Client)
                 .WithMany()
                 .HasForeignKey(m => m.ClientId);
+
+            modelBuilder.Entity<QuotationFieldsModel>()
+                .HasOne(modelBuilder => modelBuilder.QuotationCloseReasonsModel)
+                .WithMany()
+                .HasForeignKey(m => m.QuotationCloseReasonId);
 
             modelBuilder.Entity<QuotationTermsModel>()
                 .HasOne(m => m.CountryofOriginModel)
@@ -107,6 +116,9 @@ namespace Crm.Tenant.Data.DbContexts
                 .HasOne(m => m.ValidityModel)
                 .WithMany()
                 .HasForeignKey(m => m.ValidityId);
+
+
+
         }
 
     }

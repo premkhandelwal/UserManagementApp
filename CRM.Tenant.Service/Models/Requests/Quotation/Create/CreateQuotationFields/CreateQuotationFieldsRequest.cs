@@ -1,6 +1,4 @@
-﻿using CRM.Tenant.Service.Services;
-
-namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields
+﻿namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields
 {
     public class CreateQuotationFieldsRequest
     {

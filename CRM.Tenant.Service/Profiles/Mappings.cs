@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Masters;
+using Crm.Tenant.Data.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.CreateClient;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.DeleteClient;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.UpdateClient;
@@ -43,6 +44,10 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.UpdateValidity;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationTerms;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
 
 
 namespace CRM.Tenant.Service.Profiles
@@ -120,6 +125,12 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<QuotationFieldsModel, CreateQuotationFieldsRequest>().ReverseMap();
             CreateMap<QuotationItemModel, CreateQuotationItemsRequest>().ReverseMap();
             CreateMap<QuotationTermsModel, CreateQuotationTermsRequest>().ReverseMap();
+
+            CreateMap<QuotationFieldsModel, UpdateQuotationFieldsRequest>().ReverseMap();
+            CreateMap<QuotationItemModel, UpdateQuotationItemsRequest>().ReverseMap();
+            CreateMap<QuotationTermsModel, UpdateQuotationTermsRequest>().ReverseMap();
+
+            CreateMap<QuotationFollowUpModel, CreateQuotationFollowUpRequest>().ReverseMap();
 
 
         }

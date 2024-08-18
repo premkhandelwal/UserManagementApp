@@ -4,6 +4,7 @@ using Crm.Tenant.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crm.Tenant.Data.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240818143836_Add Quotation Follow up")]
+    partial class AddQuotationFollowup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -583,48 +585,6 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Validities");
                 });
 
-            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationFollowUpModel", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("AddedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FollowUpDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FollowUpDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FollowUpRemarks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("NextFollowUpDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("QuotationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SrNo")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuotationId");
-
-                    b.ToTable("QuotationFollowUp");
-                });
-
             modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationFieldsModel", b =>
                 {
                     b.HasOne("Crm.Tenant.Data.Models.Masters.QuotationCloseReasonModel", "QuotationCloseReasonsModel")
@@ -720,17 +680,6 @@ namespace Crm.Tenant.Data.Migrations
                         .HasForeignKey("ClientId");
 
                     b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationFollowUpModel", b =>
-                {
-                    b.HasOne("Crm.Api.Models.Quotation.QuotationFieldsModel", "QuotationFieldsModel")
-                        .WithMany()
-                        .HasForeignKey("QuotationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("QuotationFieldsModel");
                 });
 #pragma warning restore 612, 618
         }
