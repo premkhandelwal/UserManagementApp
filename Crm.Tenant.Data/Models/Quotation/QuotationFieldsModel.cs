@@ -29,19 +29,19 @@ namespace Crm.Api.Models.Quotation
 
         public int? QuotationCloseReasonId { get; set; }
 
-        public double GstPercent { get; set; }
+        public double? GstPercent { get; set; }
 
-        public double NetTotal { get; set; }
+        public double? NetTotal { get; set; }
 
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
 
         public string? DiscountType { get; set; }
 
-        public double GstAmount { get; set; }
+        public double? GstAmount { get; set; }
 
-        public double OtherCharges { get; set; }
+        public double? OtherCharges { get; set; }
 
-        public double GrandTotal { get; set; }
+        public double? GrandTotal { get; set; }
 
         [ForeignKey(nameof(QuotationCloseReasonId))]
         public virtual QuotationCloseReasonModel? QuotationCloseReasonsModel { get; set; }

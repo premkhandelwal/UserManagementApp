@@ -5,7 +5,7 @@ namespace Crm.Admin.Service.Models
 {
     public class IUser
     {
-        public string UserId { get; set; } = null!;
+        public string? UserId { get; set; } = null!;
         [Required(ErrorMessage = "User Name is required")]
         public string Username { get; set; } = null!;
 

@@ -8,7 +8,7 @@ namespace Crm.Api.Models.Quotation
 {
     public class QuotationTermsModel: BaseModelClass
     {
-        public int QuotationId { get; set; }
+        public int? QuotationId { get; set; }
         public int? DeliveryNameId { get; set; }
         public int? CurrencyId { get; set; }
         public int? DeliveryTimeId { get; set; }

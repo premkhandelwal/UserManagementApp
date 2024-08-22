@@ -37,6 +37,12 @@ public  class BaseService<TRequest, TEntity>
     {
         ValidateRequest(request);
         TEntity entity = _mapper.Map<TEntity>(request);
+        bool hasReferences = await _repository.HasReferencesAsync(entity);
+        if (hasReferences)
+        {
+            throw new InvalidOperationException("The entity cannot be deleted because it is referenced by other entities.");
+        }
+        entity.IsDeleted = true;
         return await _repository.DeleteAsync(entity);
     }
 
