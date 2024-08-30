@@ -95,5 +95,12 @@ namespace CRM.Tenant.Service.Services.QuotationService
             }
             return result;
         }
+
+        public async Task<QuotationFieldsModel?> GetQuotationById(int id) 
+        {
+            List<QuotationFieldsModel> quotation =  await _quotationFields.GetByIdAsync(id);
+            return quotation.FirstOrDefault();
+        }
+
     }
 }

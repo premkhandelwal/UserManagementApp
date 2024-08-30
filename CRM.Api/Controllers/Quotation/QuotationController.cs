@@ -37,5 +37,12 @@ namespace Crm.Api.Controllers.Quotation
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
+        [HttpGet("GetQuotationById")]
+        public async Task<IActionResult> GetQuotationById(int id)
+        {
+            var result = await _quotationService.GetQuotationById(id);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
     }
 }

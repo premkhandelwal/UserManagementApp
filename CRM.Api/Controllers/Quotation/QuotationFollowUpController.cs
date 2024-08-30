@@ -30,5 +30,13 @@ namespace CRM.Api.Controllers.Quotation
             var result = await quotationFollowUpService.GetByIdAsync(quotationId);
             return StatusCode(StatusCodes.Status200OK, result);
         }
+
+        [HttpGet("GetAllFollowUps")]
+        public async Task<IActionResult> GetAllFollowUps()
+        {
+            var result = await quotationFollowUpService.ReadAsync();
+            return StatusCode(StatusCodes.Status200OK, result);
+
+        }
     }
 }
