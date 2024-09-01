@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Admin.Service.Models;
 using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.Quotation;
@@ -48,6 +49,7 @@ using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationTerms;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
+using CRM.Tenant.Service.Models.Requests.UserRequests;
 
 
 namespace CRM.Tenant.Service.Profiles
@@ -132,7 +134,7 @@ namespace CRM.Tenant.Service.Profiles
 
             CreateMap<QuotationFollowUpModel, CreateQuotationFollowUpRequest>().ReverseMap();
 
-
+            CreateMap<UserModel, CreateUserRequest>().ReverseMap();
         }
     }
 }

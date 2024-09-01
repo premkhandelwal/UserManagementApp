@@ -1,6 +1,7 @@
 ﻿using Crm.Admin.Data;
 using Crm.Admin.Data.Models;
 using Crm.Admin.Service.Models;
+using CRM.Admin.Service.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -44,7 +45,7 @@ namespace Crm.Admin.Service.Services
             SecurityToken jwtSecurityToken = await GenerateJwtAuthSecurityToken(applicationUser);
             string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
             string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, applicationUser.Id);
-            return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Success", AuthToken = jwtAuthToken, RefreshToken = refreshToken };
+            return new TokenResponse<string> { IsSuccess = true, StatusCode = 201,  Response = applicationUser.Id, AuthToken = jwtAuthToken, RefreshToken = refreshToken };
         }
 
         public async Task<IApiResponse<string>> RefreshToken(string authToken, string refreshToken)

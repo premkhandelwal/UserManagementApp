@@ -4,11 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.Quotation;
+using Crm.Admin.Service.Models;
+using Crm.Admin.Data.Models;
 
 namespace Crm.Tenant.Data.DbContexts
 {
     public class ClientApplicationDbContext : DbContext
     {
+        public DbSet<UserModel> Users { get; set; } 
         public DbSet<ClientModel>? Clients { get; set; }
         public DbSet<CountryModel>? Countries { get; set; }
         public DbSet<CurrencyModel>? Currencies { get; set; }
@@ -116,7 +119,6 @@ namespace Crm.Tenant.Data.DbContexts
                 .HasOne(m => m.ValidityModel)
                 .WithMany()
                 .HasForeignKey(m => m.ValidityId);
-
 
 
         }

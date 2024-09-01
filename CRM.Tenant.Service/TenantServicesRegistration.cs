@@ -25,6 +25,9 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
 using CRM.Tenant.Service.Services.QuotationService;
 using Crm.Tenant.Data.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
+using Crm.Admin.Service.Models;
+using CRM.Tenant.Service.Services;
+using CRM.Tenant.Service.Models.Requests.UserRequests;
 
 namespace Crm.Tenant.Service
 {
@@ -32,7 +35,9 @@ namespace Crm.Tenant.Service
     {
         public static void AddTenantServices(this IServiceCollection services, IConfiguration configuration)
         {
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            RegisterScopedService<UserModel, UserService, CreateUserRequest, CreateUserValidationService<CreateUserRequest>>(services);
             RegisterScopedService<ClientModel, ClientService, CreateClientRequest, CreateClientValidationService<CreateClientRequest>>(services);
             RegisterScopedService<CountryModel, CountryService, CreateCountryRequest, CreateCountryValidationService<CreateCountryRequest>>(services);
             RegisterScopedService<CurrencyModel, CurrencyService, CreateCurrencyRequest, CreateCurrencyValidationService<CreateCurrencyRequest>>(services);

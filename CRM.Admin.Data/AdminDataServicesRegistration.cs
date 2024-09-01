@@ -34,7 +34,7 @@ namespace Crm.Admin.Data
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidateLifetime = false,
-                RequireExpirationTime = false
+                RequireExpirationTime = false                  
             };
             services.AddSingleton(tokenValidationParameters);
 

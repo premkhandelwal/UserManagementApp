@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Crm.Admin.Data;
 using Crm.Admin.Service.Models;
 using Crm.Admin.Data.Models;
+using CRM.Admin.Service.Models;
 
 namespace Crm.Admin.Service.Services
 {
@@ -22,24 +23,24 @@ namespace Crm.Admin.Service.Services
             _adminDbContext = adminDbContext;
         }
 
-        public async Task<TokenResponse<string>> CreateUser(IUser registerUser)
+        public async Task<TokenResponse<string>> CreateUser(string emailId, string userName, string password, string role)
         {
             using var transaction = _adminDbContext.Database.BeginTransaction();
-            CrmIdentityUser? existingUser = await _userManager.FindByEmailAsync(registerUser.EmailId);
+            CrmIdentityUser? existingUser = await _userManager.FindByEmailAsync(emailId);
             if (existingUser != null)
             {
                 return new TokenResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User Already Exists!!" };
             }
             CrmIdentityUser newUser = new()
             {
-                Email = registerUser.EmailId,
-                UserName = registerUser.Username,
+                Email = emailId,
+                UserName = userName,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
-            IdentityResult result = await _userManager.CreateAsync(newUser, registerUser.Password);
+            IdentityResult result = await _userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
             {
-                IApiResponse<string>? roleAssignResponse = await AssignRoleToUser(registerUser.EmailId, registerUser.Role);
+                IApiResponse<string>? roleAssignResponse = await AssignRoleToUser(emailId, role);
                 if (roleAssignResponse.IsSuccess)
                 {
                     //SecurityToken jwtSecurityToken = await GenerateJwtAuthSecurityToken(newUser);
@@ -51,8 +52,8 @@ namespace Crm.Admin.Service.Services
                     string jwtAuthToken = null;
                     string? refreshToken = null;
                     await transaction.CommitAsync();
-
-                    return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Success", AuthToken = jwtAuthToken, RefreshToken = refreshToken };
+                    CrmIdentityUser? newCreatedUser = await _userManager.FindByEmailAsync(emailId);
+                    return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = newCreatedUser.Id, AuthToken = jwtAuthToken, RefreshToken = refreshToken };
                 }
                 else
                 {
@@ -64,28 +65,7 @@ namespace Crm.Admin.Service.Services
             return new TokenResponse<string> { IsSuccess = false, StatusCode = 500, Response = "Failed to assign role, user creation failed" };
         }
 
-        public async Task<IApiResponse<List<IUser>>> GetAllUsers()
-        {
-            List<CrmIdentityUser> applicationUsersList = await _userManager.Users.ToListAsync();
-            List<IUser> usersList = new List<IUser>();
-            if (applicationUsersList != null)
-            {
-                foreach (var user in applicationUsersList)
-                {
-                    var roles = await _userManager.GetRolesAsync(user);
-                    usersList.Add(new IUser()
-                    {
-                        UserId = user.Id,
-                        EmailId = user.Email,
-                        Username = user.UserName,
-                        Role = roles.FirstOrDefault() ?? ""
-                    });
-                }
-                return new IApiResponse<List<IUser>> { IsSuccess = true, StatusCode = 200, Response = usersList };
-            }
-            return new IApiResponse<List<IUser>> { IsSuccess = false, StatusCode = 501, Response = null };
-
-        }
+        
 
         public async Task<IApiResponse<string>> CreateRole(string role)
         {

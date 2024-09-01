@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Crm.Api.Models;
 using Crm.Api.Models.UserManagementRequests;
 using Crm.Admin.Service.Models;
 using Crm.Admin.Service.Services;
+using CRM.Admin.Service.Models;
+using CRM.Tenant.Service.Services;
+using Crm.Admin.Data.Models;
+using CRM.Tenant.Service.Models.Requests.UserRequests;
 
 namespace Crm.Api.Controllers
 {
@@ -13,21 +16,25 @@ namespace Crm.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IdentityService _identityService; 
+        private readonly IdentityService _identityService;
+        private readonly UserService _userService;
         private readonly AuthService _authService; 
-        public AuthController(IdentityService identityService, AuthService authService)
+        public AuthController(IdentityService identityService, UserService userService, AuthService authService)
         {
             _identityService = identityService;
+            _userService = userService;
             _authService = authService;
         }
 
         [HttpPost("CreateUser")]
-        public async Task<IActionResult> CreateUser([FromBody] IUser registerUser)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest registerUser)
         {
-            IApiResponse<string> response = await _identityService.CreateUser(registerUser);
+            IApiResponse<string> response = await _identityService.CreateUser(registerUser.EmailId, registerUser.Username, registerUser.Password, registerUser.Role);
             if (response.IsSuccess)
             {
-                return StatusCode(StatusCodes.Status200OK, response);
+                registerUser.UserId = response.Response;
+                UserModel? user = await _userService.CreateAsync(registerUser);
+                return StatusCode(StatusCodes.Status201Created, user);
             }
             return StatusCode(StatusCodes.Status501NotImplemented, response);
         }
@@ -42,25 +49,34 @@ namespace Crm.Api.Controllers
             TokenResponse<string> response = await _authService.Login(request.emailId, request.password);
             if (response.IsSuccess)
             {
-                /*var authCookieOptions = new CookieOptions
+                List<UserModel> usersList = await _userService.ReadAsync();
+                UserModel? user = usersList.Find(u => u.UserId == response.Response);
+                if (user == null) 
+                {    
+                    return StatusCode(StatusCodes.Status401Unauthorized);
+
+                }
+                var authCookieOptions = new CookieOptions
                 {
-                    HttpOnly = false,
+                    HttpOnly = true,
                     Secure = true, // Set to true if using HTTPS
                     SameSite = SameSiteMode.None,
                 };
                 var refreshCookieOptions = new CookieOptions
                 {
-                    HttpOnly = false,
+                    HttpOnly = true,
                     Secure = true, // Set to true if using HTTPS
                     SameSite = SameSiteMode.None,
                     
                 };
+
                 Response.Cookies.Append("AuthToken", response.AuthToken ?? "", authCookieOptions);
                 Response.Cookies.Append("RefreshToken", response.RefreshToken ?? "", refreshCookieOptions);
                 response.AuthToken = null;
-                response.RefreshToken = null;*/
-                return StatusCode(StatusCodes.Status200OK, response);
+                response.RefreshToken = null;
+                return StatusCode(StatusCodes.Status200OK, user);
             }
+
             return StatusCode(StatusCodes.Status401Unauthorized, response);
         }
 
@@ -83,12 +99,8 @@ namespace Crm.Api.Controllers
         //[Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            IApiResponse<List<IUser>> response = await _identityService.GetAllUsers();
-            if (response.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+            List<UserModel> response = await _userService.ReadAsync();
+            return StatusCode(StatusCodes.Status200OK, response);
         }
 
         [HttpPost("CreateRole")]

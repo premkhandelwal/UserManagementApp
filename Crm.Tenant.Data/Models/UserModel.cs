@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Crm.Admin.Data.Models;
+using Crm.Tenant.Data.Models;
+using Crm.Tenant.Data.Models.Masters;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Crm.Admin.Service.Models
 {
-    public class IUser
+    public class UserModel: BaseModelClass
     {
         public string? UserId { get; set; } = null!;
         [Required(ErrorMessage = "User Name is required")]
@@ -17,5 +21,7 @@ namespace Crm.Admin.Service.Models
         public string Password { get; set; } = null!;
 
         public string Role { get; set; } = null!;
+
+        public string MobileNo { get; set; } = null!;
     }
 }
