@@ -46,11 +46,12 @@ namespace Crm.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
             }
-            TokenResponse<string> response = await _authService.Login(request.emailId, request.password);
-            if (response.IsSuccess)
+            IApiResponse<string> response = await _authService.Login(request.emailId, request.password);
+            string[]? responseToken = response.Response?.Split("||");
+            if (response.IsSuccess && responseToken != null && responseToken.Length > 0)
             {
                 List<UserModel> usersList = await _userService.ReadAsync();
-                UserModel? user = usersList.Find(u => u.UserId == response.Response);
+                UserModel? user = usersList.Find(u => u.UserId == responseToken[0]);
                 if (user == null) 
                 {    
                     return StatusCode(StatusCodes.Status401Unauthorized);
@@ -69,18 +70,16 @@ namespace Crm.Api.Controllers
                     SameSite = SameSiteMode.None,
                     
                 };
-
-                Response.Cookies.Append("AuthToken", response.AuthToken ?? "", authCookieOptions);
-                Response.Cookies.Append("RefreshToken", response.RefreshToken ?? "", refreshCookieOptions);
-                response.AuthToken = null;
-                response.RefreshToken = null;
+                Response.Cookies.Append("AuthToken", responseToken[1] ?? "", authCookieOptions);
+                Response.Cookies.Append("RefreshToken", responseToken[2] ?? "", refreshCookieOptions);
+                
                 return StatusCode(StatusCodes.Status200OK, user);
             }
 
             return StatusCode(StatusCodes.Status401Unauthorized, response);
         }
 
-        [HttpPost("RefreshToken")]
+        /*[HttpPost("RefreshToken")]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequest request)
         {
             if (ModelState.IsValid == false)
@@ -93,10 +92,10 @@ namespace Crm.Api.Controllers
                 return StatusCode(StatusCodes.Status200OK, response);
             }
             return StatusCode(StatusCodes.Status401Unauthorized, response);
-        }
+        }*/
 
         [HttpGet("GetAllUsers")]
-        //[Authorize(Policy = "ViewUsers")]
+        [Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
             List<UserModel> response = await _userService.ReadAsync();

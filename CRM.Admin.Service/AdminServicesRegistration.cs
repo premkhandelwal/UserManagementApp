@@ -7,7 +7,7 @@ namespace Crm.Admin.Service
     {
         public static void AddAdminServices(this IServiceCollection services, IConfiguration configuration)
         {
-
+            services.AddScoped<TokenService>();
             services.AddScoped<AuthService>();
             services.AddScoped<IdentityService>();
         }

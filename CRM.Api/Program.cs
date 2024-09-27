@@ -1,13 +1,14 @@
+using Crm.Admin.Service.Services;
 using Crm.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var configuration = builder.Configuration;
+// Configure services
+builder.ConfigureServices(); // Call ConfigureServices
 
+var app = builder.Build(); // Build the application
 
-var app = builder
-       .ConfigureServices()
-       .ConfigurePipeline();
+// Configure middleware pipeline
+app.ConfigurePipeline(); // Call ConfigurePipeline
 
 app.Run();

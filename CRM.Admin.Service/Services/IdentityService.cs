@@ -23,13 +23,13 @@ namespace Crm.Admin.Service.Services
             _adminDbContext = adminDbContext;
         }
 
-        public async Task<TokenResponse<string>> CreateUser(string emailId, string userName, string password, string role)
+        public async Task<IApiResponse<string>> CreateUser(string emailId, string userName, string password, string role)
         {
             using var transaction = _adminDbContext.Database.BeginTransaction();
             CrmIdentityUser? existingUser = await _userManager.FindByEmailAsync(emailId);
             if (existingUser != null)
             {
-                return new TokenResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User Already Exists!!" };
+                return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User Already Exists!!" };
             }
             CrmIdentityUser newUser = new()
             {
@@ -47,22 +47,18 @@ namespace Crm.Admin.Service.Services
                     //string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
                     //string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, newUser.Id);
                     //await transaction.CommitAsync();
-
-                    SecurityToken jwtSecurityToken = null;
-                    string jwtAuthToken = null;
-                    string? refreshToken = null;
                     await transaction.CommitAsync();
                     CrmIdentityUser? newCreatedUser = await _userManager.FindByEmailAsync(emailId);
-                    return new TokenResponse<string> { IsSuccess = true, StatusCode = 201, Response = newCreatedUser.Id, AuthToken = jwtAuthToken, RefreshToken = refreshToken };
+                    return new IApiResponse<string> { IsSuccess = true, StatusCode = 201, Response = newCreatedUser.Id };
                 }
                 else
                 {
-                    return new TokenResponse<string> { IsSuccess = false, StatusCode = 500, Response = roleAssignResponse.Response };
+                    return new IApiResponse<string> { IsSuccess = false, StatusCode = 500, Response = roleAssignResponse.Response };
                 }
             }
             await _userManager.DeleteAsync(newUser);
             await transaction.RollbackAsync();
-            return new TokenResponse<string> { IsSuccess = false, StatusCode = 500, Response = "Failed to assign role, user creation failed" };
+            return new IApiResponse<string> { IsSuccess = false, StatusCode = 500, Response = "Failed to assign role, user creation failed" };
         }
 
         
