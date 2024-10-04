@@ -40,7 +40,7 @@ namespace Crm.Admin.Service.Services
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddSeconds(30),
+                Expires = DateTime.Now.AddSeconds(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
             };
             SecurityToken securityToken = jwtTokenHandler.CreateToken(tokenDescriptor);
@@ -239,7 +239,7 @@ namespace Crm.Admin.Service.Services
                     };
                 }
 
-                storedToken.IsUsed = true;
+                //storedToken.IsUsed = true;
                
 
                 CrmIdentityUser applicationUser = await _userManager.FindByIdAsync(storedToken.UserId);

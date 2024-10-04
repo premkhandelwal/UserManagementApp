@@ -18,7 +18,7 @@ namespace CRM.Admin.Service.Services
 
         public async Task Invoke(HttpContext context, TokenService tokenService)
         {
-            if (context.Request.Path.StartsWithSegments("/api/Auth/Login"))
+            if (!context.Request.Path.StartsWithSegments("/api/Auth/GetAllUsers") && !context.Request.Path.StartsWithSegments("/api/Auth/AddClaimsForUser"))
             {
                 // Skip doing anything in this middleware and continue as usual
                 await _next(context);
@@ -28,17 +28,23 @@ namespace CRM.Admin.Service.Services
             var accessToken = context.Request.Cookies["AuthToken"];
             var refreshToken = context.Request.Cookies["RefreshToken"];
 
+            if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("{\"message\":\"Session expired. Please log in again.\"}");
+                return;
+            }
+
             // Check if both tokens exist
             if (!string.IsNullOrEmpty(accessToken) && !string.IsNullOrEmpty(refreshToken))
             {
-                // Attempt to refresh the token
                 TokenRefreshResponse tokenResponse = tokenService.CheckTokenStatus(accessToken, refreshToken);
 
-                // Handle the token response based on the status
                 switch (tokenResponse.Status)
                 {
                     case TokenRefreshStatus.Success:
-                        // Attach the new access token to the request headers
+                        
                         context.Request.Headers["Authorization"] = $"Bearer {tokenResponse.AuthToken}";
                         break;
 
@@ -47,35 +53,44 @@ namespace CRM.Admin.Service.Services
                         if (res.IsSuccess)
                         {
                             context.Request.Headers["Authorization"] = $"Bearer {res.AuthToken}";
+                            context.Response.Cookies.Append("AuthToken", res.AuthToken ?? "");
+                            context.Response.Cookies.Append("RefreshToken", res.RefreshToken ?? "");
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync("{\"message\":\"Token expired. Please log in again.\"}");
+                            return;
                         }
                         break;
 
                     case TokenRefreshStatus.TokenNotYetExpired:
-                        // Access token is valid; proceed with the request
+                        // Proceed with the request
                         break;
 
                     case TokenRefreshStatus.TokenDoesNotExist:
                     case TokenRefreshStatus.TokenHasBeenUsed:
                     case TokenRefreshStatus.TokenHasBeenRevoked:
                     case TokenRefreshStatus.TokenDoesNotMatch:
-                        // Invalid refresh token; reject request
-                        context.Response.StatusCode = 401;
-                        await context.Response.WriteAsync("Session expired. Please log in again.");
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync("{\"message\":\"Session expired. Please log in again.\"}");
                         return;
 
                     case TokenRefreshStatus.InvalidTokenAlgorithm:
                     case TokenRefreshStatus.TokenExpiryTimeNotFound:
                     case TokenRefreshStatus.GeneralError:
-                        // Handle other errors
-                        context.Response.StatusCode = 500; // Internal Server Error
-                        await context.Response.WriteAsync("An error occurred during token validation.");
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync("{\"message\":\"An error occurred during token validation.\"}");
                         return;
                 }
             }
 
-            // If no tokens are present or the tokens are valid, proceed with the request
             await _next(context);
         }
+
 
         private void SetHttpOnlyCookie(HttpContext context, string key, string value, DateTime expiry)
         {

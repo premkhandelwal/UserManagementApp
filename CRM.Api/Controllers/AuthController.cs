@@ -46,38 +46,49 @@ namespace Crm.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
             }
-            IApiResponse<string> response = await _authService.Login(request.emailId, request.password);
-            string[]? responseToken = response.Response?.Split("||");
-            if (response.IsSuccess && responseToken != null && responseToken.Length > 0)
-            {
-                List<UserModel> usersList = await _userService.ReadAsync();
-                UserModel? user = usersList.Find(u => u.UserId == responseToken[0]);
-                if (user == null) 
-                {    
-                    return StatusCode(StatusCodes.Status401Unauthorized);
 
+            IApiResponse<dynamic> response = await _authService.Login(request.emailId, request.password);
+            if (response.IsSuccess)
+            {
+                var loginResponse = response.Response;
+
+                List<UserModel> usersList = await _userService.ReadAsync();
+                UserModel? user = usersList.Find(u => u.UserId == loginResponse.UserId);
+                if (user == null)
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized);
                 }
+
+                // Set the cookies with the tokens
                 var authCookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true, // Set to true if using HTTPS
                     SameSite = SameSiteMode.None,
                 };
+
                 var refreshCookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true, // Set to true if using HTTPS
                     SameSite = SameSiteMode.None,
-                    
                 };
-                Response.Cookies.Append("AuthToken", responseToken[1] ?? "", authCookieOptions);
-                Response.Cookies.Append("RefreshToken", responseToken[2] ?? "", refreshCookieOptions);
-                
+
+                var permissionCookieOptions = new CookieOptions
+                {
+                    SameSite = SameSiteMode.None,
+                };
+
+                Response.Cookies.Append("AuthToken", loginResponse?.JwtAuthToken ?? "", authCookieOptions);
+                Response.Cookies.Append("RefreshToken", loginResponse?.RefreshToken ?? "", refreshCookieOptions);
+                Response.Cookies.Append("Permissions", string.Join(",", loginResponse?.Permissions));
+
                 return StatusCode(StatusCodes.Status200OK, user);
             }
 
             return StatusCode(StatusCodes.Status401Unauthorized, response);
         }
+
 
         /*[HttpPost("RefreshToken")]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequest request)
