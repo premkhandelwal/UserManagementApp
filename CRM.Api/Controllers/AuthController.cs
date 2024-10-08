@@ -9,6 +9,8 @@ using CRM.Admin.Service.Models;
 using CRM.Tenant.Service.Services;
 using Crm.Admin.Data.Models;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
+using System.Transactions;
+using Crm.Tenant.Data.Models.UserManagementRequests;
 
 namespace Crm.Api.Controllers
 {
@@ -27,16 +29,22 @@ namespace Crm.Api.Controllers
         }
 
         [HttpPost("CreateUser")]
+        [Authorize]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest registerUser)
         {
-            IApiResponse<string> response = await _identityService.CreateUser(registerUser.EmailId, registerUser.Username, registerUser.Password, registerUser.Role);
-            if (response.IsSuccess)
-            {
-                registerUser.UserId = response.Response;
-                UserModel? user = await _userService.CreateAsync(registerUser);
-                return StatusCode(StatusCodes.Status201Created, user);
-            }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+                IApiResponse<string> response = await _identityService.CreateUser(registerUser.EmailId, registerUser.Username, registerUser.Password, registerUser.Role);
+
+                if (response.IsSuccess)
+                {
+                    registerUser.UserId = response.Response;
+                    UserModel? user = await _userService.CreateAsync(registerUser);
+                    return StatusCode(StatusCodes.Status201Created, user);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status501NotImplemented, response);
+                }
+            
         }
 
         [HttpPost("Login")]
@@ -114,9 +122,9 @@ namespace Crm.Api.Controllers
         }
 
         [HttpPost("CreateRole")]
-        public async Task<IActionResult> CreateRole([FromBody] string role)
+        public async Task<IActionResult> CreateRole([FromBody] CreateRoleRequest role)
         {
-            IApiResponse<string> response = await _identityService.CreateRole(role);
+            IApiResponse<string> response = await _identityService.CreateRole(role.Role);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -127,7 +135,8 @@ namespace Crm.Api.Controllers
         [HttpGet("GetAllRoles")]
         public async Task<IActionResult> GetAllRoles()
         {
-            IApiResponse<List<IdentityRole>> response = await _identityService.GetAllRoles();
+            IApiResponse<List<string>> response = await _identityService.GetAllRoles();
+
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -136,7 +145,7 @@ namespace Crm.Api.Controllers
         }
 
         [HttpPost("AssignRoleToUser")]
-        [Authorize(Policy = "RoleOrPolicy"), ]
+        [Authorize(Policy = "RoleOrPolicy")]
         public async Task<IActionResult> AssignRoleToUser([FromBody] AssignRoleRequest request)
         {
             IApiResponse<string> response = await _identityService.AssignRoleToUser(request.emailId, request.role);

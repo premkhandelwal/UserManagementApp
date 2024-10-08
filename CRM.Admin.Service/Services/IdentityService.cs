@@ -13,7 +13,6 @@ namespace Crm.Admin.Service.Services
     {
         private readonly UserManager<CrmIdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-
         private readonly AdminDbContext _adminDbContext;
 
         public IdentityService(UserManager<CrmIdentityUser> userManager, RoleManager<IdentityRole> roleManager, AdminDbContext adminDbContext)
@@ -25,7 +24,6 @@ namespace Crm.Admin.Service.Services
 
         public async Task<IApiResponse<string>> CreateUser(string emailId, string userName, string password, string role)
         {
-            using var transaction = _adminDbContext.Database.BeginTransaction();
             CrmIdentityUser? existingUser = await _userManager.FindByEmailAsync(emailId);
             if (existingUser != null)
             {
@@ -47,7 +45,6 @@ namespace Crm.Admin.Service.Services
                     //string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
                     //string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, newUser.Id);
                     //await transaction.CommitAsync();
-                    await transaction.CommitAsync();
                     CrmIdentityUser? newCreatedUser = await _userManager.FindByEmailAsync(emailId);
                     return new IApiResponse<string> { IsSuccess = true, StatusCode = 201, Response = newCreatedUser.Id };
                 }
@@ -57,7 +54,6 @@ namespace Crm.Admin.Service.Services
                 }
             }
             await _userManager.DeleteAsync(newUser);
-            await transaction.RollbackAsync();
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 500, Response = "Failed to assign role, user creation failed" };
         }
 
@@ -78,14 +74,15 @@ namespace Crm.Admin.Service.Services
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to create role!!" };
         }
 
-        public async Task<IApiResponse<List<IdentityRole>>> GetAllRoles()
+        public async Task<IApiResponse<List<string>>> GetAllRoles()
         {
-            List<IdentityRole> applicationRolesList = await _roleManager.Roles.ToListAsync();
-            if (applicationRolesList != null)
+            List<string> roleNames = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+            if (roleNames != null)
             {
-                return new IApiResponse<List<IdentityRole>> { IsSuccess = true, StatusCode = 200, Response = applicationRolesList };
+                
+                return new IApiResponse<List<string>> { IsSuccess = true, StatusCode = 200, Response = roleNames };
             }
-            return new IApiResponse<List<IdentityRole>> { IsSuccess = false, StatusCode = 501, Response = null };
+            return new IApiResponse<List<string>> { IsSuccess = false, StatusCode = 501, Response = null };
 
         }
 
