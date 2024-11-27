@@ -1,4 +1,5 @@
 ﻿using Crm.Admin.Data.Models;
+using CRM.Admin.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,22 @@ namespace Crm.Admin.Data
     {
         public static void AddAdminDataServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<CrmIdentityUser, IdentityRole>()
+            services.AddIdentity<CrmIdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 0;
+            })
                 .AddEntityFrameworkStores<AdminDbContext>()
                 .AddDefaultTokenProviders();
             services.AddScoped<RefreshToken>();
 
             services.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
+            services.Configure<SmtpConfig>(configuration.GetSection("SmtpSettings"));
+
 
             services.AddDbContext<AdminDbContext>(options =>
             {

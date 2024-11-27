@@ -23,5 +23,7 @@ namespace Crm.Admin.Service.Models
         public string Role { get; set; } = null!;
 
         public string MobileNo { get; set; } = null!;
+
+        public DateTime? LastLogin {  get; set; }   
     }
 }

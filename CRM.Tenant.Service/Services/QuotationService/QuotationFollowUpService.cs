@@ -10,13 +10,25 @@ namespace CRM.Tenant.Service.Services.QuotationService
 {
     public class QuotationFollowUpService : BaseService<CreateQuotationFollowUpRequest, QuotationFollowUpModel>
     {
-        public QuotationFollowUpService(IMapper mapper, BaseRepository<QuotationFollowUpModel> repository, IValidator<CreateQuotationFollowUpRequest> validator)
-            : base(mapper, repository, validator)
+        private QuotationService _quotationService;
+        public QuotationFollowUpService(IMapper mapper, BaseRepository<QuotationFollowUpModel> qfRepository,  IValidator<CreateQuotationFollowUpRequest> validator, QuotationService quotationService)
+            : base(mapper, qfRepository, validator)
         {
+            _quotationService = quotationService;
         }
         public async override Task<List<QuotationFollowUpModel>> GetByIdAsync(int quotationId){
             List<QuotationFollowUpModel> followUpList =  await ReadAsync();
             return followUpList.Where(fu => fu.QuotationId == quotationId).ToList();
+        }
+
+        public async Task<List<QuotationFollowUpModel>> GetFollowUpsForDate(DateTime dateTime, string userId) 
+        {
+            List<QuotationFollowUpModel> followUpList = await ReadAsync();
+            followUpList = followUpList.Where(f => f.NextFollowUpDate.Date == dateTime.Date).ToList();
+            var quotationIds = followUpList.Select(f => f.QuotationId).Distinct();
+            var quotations = await Task.WhenAll(quotationIds.Select(id => _quotationService.GetQuotationById(id)));
+            var todaysFollowUps = followUpList.Where(f => quotations.Any(q => q != null && (q.QuotationMadeById == userId || q.QuotationAssignedToId == userId ))).ToList();
+            return todaysFollowUps;
         }
     }
 }

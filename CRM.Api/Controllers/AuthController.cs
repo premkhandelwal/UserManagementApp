@@ -11,6 +11,7 @@ using Crm.Admin.Data.Models;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
 using System.Transactions;
 using Crm.Tenant.Data.Models.UserManagementRequests;
+using CRM.Admin.Service.Services;
 
 namespace Crm.Api.Controllers
 {
@@ -20,12 +21,16 @@ namespace Crm.Api.Controllers
     {
         private readonly IdentityService _identityService;
         private readonly UserService _userService;
-        private readonly AuthService _authService; 
-        public AuthController(IdentityService identityService, UserService userService, AuthService authService)
+        private readonly AuthService _authService;
+        private readonly EmailService _emailService;
+        private readonly OtpService _otpService;
+        public AuthController(IdentityService identityService, UserService userService, AuthService authService, EmailService emailService, OtpService otpService)
         {
             _identityService = identityService;
             _userService = userService;
             _authService = authService;
+            _emailService = emailService;
+            _otpService = otpService;
         }
 
         [HttpPost("CreateUser")]
@@ -44,7 +49,6 @@ namespace Crm.Api.Controllers
                 {
                     return StatusCode(StatusCodes.Status501NotImplemented, response);
                 }
-            
         }
 
         [HttpPost("Login")]
@@ -96,23 +100,6 @@ namespace Crm.Api.Controllers
 
             return StatusCode(StatusCodes.Status401Unauthorized, response);
         }
-
-
-        /*[HttpPost("RefreshToken")]
-        public async Task<IActionResult> RefreshToken([FromBody] TokenRequest request)
-        {
-            if (ModelState.IsValid == false)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
-            }
-            IApiResponse<string> response = await _authService.RefreshToken(request.AuthToken, request.RefreshToken);
-            if (response.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status200OK, response);
-            }
-            return StatusCode(StatusCodes.Status401Unauthorized, response);
-        }*/
-
         [HttpGet("GetAllUsers")]
         [Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()
@@ -225,6 +212,38 @@ namespace Crm.Api.Controllers
                 return StatusCode(StatusCodes.Status200OK, response);
             }
             return StatusCode(StatusCodes.Status501NotImplemented, response);
+        }
+
+        [HttpPost("GenerateOTP")]
+        public async Task<IActionResult> GenerateOtp([FromBody] OtpRequest request)
+        {
+            string otp = await _otpService.GenerateOtp(request.Email);
+
+            DateTime generatedTime = DateTime.Now;
+            string formattedTime = generatedTime.ToString("hh:mm tt");
+            int otpValidityMinutes = 10;
+            string messageBody = $@"You have requested for a new OTP to login to the Arihant CRM Application.
+Enter the following OTP to proceed
+OTP: {otp}
+(This OTP is generated at {formattedTime} and is valid for the next {otpValidityMinutes} minutes)";
+
+            await _emailService.SendEmailAsync(request.Email, "OTP for login - Arihant CRM Application", messageBody);
+
+            return Ok(new { message = "OTP sent to your email" });
+            
+        }
+
+        [HttpPost("ValidateOTP")]
+        public async Task<IActionResult> ValidateOtp([FromBody] OtpValidationRequest request)
+        {
+            var isValid = await _otpService.ValidateOtp(request.Email, request.Otp);
+            if (isValid)
+            {
+
+                await _userService.UpdateLastLoginTime(request.Email);
+                return StatusCode(StatusCodes.Status200OK, new { message = "OTP is valid." });
+            }
+            return StatusCode(StatusCodes.Status501NotImplemented, new { message = "Invalid or expired OTP." });
         }
     }
 }

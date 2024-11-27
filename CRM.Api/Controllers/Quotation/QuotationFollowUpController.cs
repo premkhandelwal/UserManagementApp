@@ -36,7 +36,13 @@ namespace CRM.Api.Controllers.Quotation
         {
             var result = await quotationFollowUpService.ReadAsync();
             return StatusCode(StatusCodes.Status200OK, result);
+        }
 
+        [HttpGet("GetFollowUpsForDate")]
+        public async Task<IActionResult> GetFollowUpsForDate(DateTime date,string userId)
+        {
+            var result = await quotationFollowUpService.GetFollowUpsForDate(date, userId);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
     }
 }
