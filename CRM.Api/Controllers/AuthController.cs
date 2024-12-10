@@ -91,6 +91,7 @@ namespace Crm.Api.Controllers
                     SameSite = SameSiteMode.None,
                 };
 
+                await _userService.UpdateLastLoginTime(request.emailId);
                 Response.Cookies.Append("AuthToken", loginResponse?.JwtAuthToken ?? "", authCookieOptions);
                 Response.Cookies.Append("RefreshToken", loginResponse?.RefreshToken ?? "", refreshCookieOptions);
                 Response.Cookies.Append("Permissions", string.Join(",", loginResponse?.Permissions));
@@ -111,13 +112,40 @@ namespace Crm.Api.Controllers
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole([FromBody] CreateRoleRequest role)
         {
-            IApiResponse<string> response = await _identityService.CreateRole(role.Role);
-            if (response.IsSuccess)
+            if (role == null || string.IsNullOrEmpty(role.Role))
             {
-                return StatusCode(StatusCodes.Status200OK, response);
+                return BadRequest(new IApiResponse<string> { IsSuccess = false, StatusCode = 400, Response = "Invalid Role Data" });
             }
-            return StatusCode(StatusCodes.Status501NotImplemented, response);
+
+            // Call the service to create the role
+            var createRoleResponse = await _identityService.CreateRole(role.Role);
+
+            if (!createRoleResponse.IsSuccess)
+            {
+                return StatusCode(createRoleResponse.StatusCode, createRoleResponse);
+            }
+
+            // Add claim if IsAdmin is true
+            if (role.IsAdmin)
+            {
+                var addClaimResponse = await _identityService.AddClaimForRole(role.Role, "adminRole");
+
+                if (!addClaimResponse.IsSuccess)
+                {
+                    // Rollback the role creation if adding claim fails
+                    await _identityService.DeleteRole(role.Role);
+                    return StatusCode(addClaimResponse.StatusCode, new IApiResponse<string>
+                    {
+                        IsSuccess = false,
+                        StatusCode = addClaimResponse.StatusCode,
+                        Response = "Failed to add Admin claim! Role creation rolled back."
+                    });
+                }
+            }
+
+            return Ok(new IApiResponse<string> { IsSuccess = true, StatusCode = 201, Response = "Role created with claim successfully!" });
         }
+
 
         [HttpGet("GetAllRoles")]
         public async Task<IActionResult> GetAllRoles()
@@ -193,9 +221,9 @@ namespace Crm.Api.Controllers
 
         [HttpPost("AddClaimForRole")]
         //[Authorize(Policy = "RolePolicy")]
-        public async Task<IActionResult> AddClaimForRole(string emailId, string claimValue)
+        public async Task<IActionResult> AddClaimForRole([FromBody] AddClaimForRoleRequest request)
         {
-            IApiResponse<string> response = await _identityService.AddClaimForRole(emailId, claimValue);
+            IApiResponse<string> response = await _identityService.AddClaimForRole(request.roleName, request.claimValue);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -240,7 +268,7 @@ OTP: {otp}
             if (isValid)
             {
 
-                await _userService.UpdateLastLoginTime(request.Email);
+                //await _userService.UpdateLastLoginTime(request.Email);
                 return StatusCode(StatusCodes.Status200OK, new { message = "OTP is valid." });
             }
             return StatusCode(StatusCodes.Status501NotImplemented, new { message = "Invalid or expired OTP." });

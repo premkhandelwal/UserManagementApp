@@ -3,6 +3,8 @@ using CRM.Tenant.Service.Models.Requests.Quotation;
 using CRM.Tenant.Service.Services.QuotationService;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Crm.Api.Controllers.Quotation
 {
@@ -31,10 +33,29 @@ namespace Crm.Api.Controllers.Quotation
         }
 
         [HttpGet("GetQuotations")]
+        [Authorize]
         public async Task<IActionResult> GetQuotations()
         {
-            var result = await _quotationService.Get();
-            return StatusCode(StatusCodes.Status200OK, result);
+
+            var isAdmin = User.HasClaim(c => c.Type == ClaimTypes.Role && c.Value == "admnRole");
+            string? userId = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(new { Message = "User is not authorized." });
+            }
+
+            if (User.IsInRole("adminRole"))
+            {
+                // User is an Admin, return all quotations
+                var quotations = await _quotationService.Get();
+                return Ok(quotations);
+            }
+            else
+            {
+                var userQuotations = await _quotationService.GetQuotationsForUser(userId);
+                return Ok(userQuotations);
+            }
+
         }
 
         [HttpGet("GetQuotationById")]

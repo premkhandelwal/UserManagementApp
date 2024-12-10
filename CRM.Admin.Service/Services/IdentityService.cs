@@ -239,5 +239,23 @@ namespace Crm.Admin.Service.Services
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to add claim" };
         }
 
+        public async Task<IApiResponse<string>> DeleteRole(string roleName)
+        {
+            IdentityRole role = await _roleManager.FindByNameAsync(roleName);
+            if (role == null)
+            {
+                return new IApiResponse<string> { IsSuccess = false, StatusCode = 404, Response = "Role not found for deletion!" };
+            }
+
+            IdentityResult result = await _roleManager.DeleteAsync(role);
+            if (result.Succeeded)
+            {
+                return new IApiResponse<string> { IsSuccess = true, StatusCode = 200, Response = "Role deleted successfully!" };
+            }
+
+            return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to delete role!" };
+        }
+
+
     }
 }

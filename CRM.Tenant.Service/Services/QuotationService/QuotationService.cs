@@ -102,5 +102,38 @@ namespace CRM.Tenant.Service.Services.QuotationService
             return quotation.FirstOrDefault();
         }
 
+        public async Task<List<QuotationModel>> GetQuotationsForUser(string userId)
+        {
+            List<QuotationModel> result = new List<QuotationModel>();
+
+            // Fetch all relevant data
+            List<QuotationFieldsModel> quotationFields = await _quotationFields.ReadAsync();
+            List<QuotationItemModel> quotationItems = await _quotationItems.ReadAsync();
+            List<QuotationTermsModel> quotationTerms = await _quotationTerms.ReadAsync();
+
+            // Filter quotations where userId matches the creator or assignee
+            var userQuotations = quotationFields
+                .Where(q => q.QuotationAssignedToId == userId || q.QuotationMadeById == userId);
+
+            foreach (var quotation in userQuotations)
+            {
+                int? id = quotation.Id;
+                if (id != null)
+                {
+                    List<QuotationItemModel> qItems = quotationItems.Where(item => item.QuotationId == id).ToList();
+                    QuotationTermsModel? qTerms = quotationTerms.Where(item => item.QuotationId == id).FirstOrDefault();
+                    result.Add(new QuotationModel()
+                    {
+                        quotationFields = quotation,
+                        quotationItems = qItems,
+                        quotationTerms = qTerms ?? new QuotationTermsModel()
+                    });
+                }
+            }
+
+            return result;
+        }
+
+
     }
 }
