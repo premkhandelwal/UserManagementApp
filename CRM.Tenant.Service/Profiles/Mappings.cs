@@ -39,6 +39,7 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.Upd
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.CreateTransportMode;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.DeleteTransportMode;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.UpdateTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Unit.CreateUnit;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.CreateValidity;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.DeleteValidity;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.UpdateValidity;
@@ -119,6 +120,8 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<TransportModeModel, UpdateTransportModeRequest>().ReverseMap();
             CreateMap<TransportModeModel, DeleteTransportModeRequest>().ReverseMap();
 
+            CreateMap<UnitModel, CreateUnitRequest>().ReverseMap();   
+
             // Validity mappings
             CreateMap<ValidityModel, CreateValidityRequest>().ReverseMap();
             CreateMap<ValidityModel, UpdateValidityRequest>().ReverseMap();
@@ -138,4 +141,5 @@ namespace CRM.Tenant.Service.Profiles
         }
     }
 }
+
 

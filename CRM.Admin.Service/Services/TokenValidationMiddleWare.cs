@@ -53,6 +53,8 @@ namespace CRM.Admin.Service.Services
                         if (res.IsSuccess)
                         {
                             context.Request.Headers["Authorization"] = $"Bearer {res.AuthToken}";
+                            context.Response.Cookies.Delete("AuthToken");
+                            context.Response.Cookies.Delete("RefreshToken");
                             context.Response.Cookies.Append("AuthToken", res.AuthToken ?? "");
                             context.Response.Cookies.Append("RefreshToken", res.RefreshToken ?? "");
                         }

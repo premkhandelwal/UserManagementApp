@@ -25,12 +25,11 @@ namespace Crm.Tenant.Data.DbContexts
         public DbSet<QuotationCloseReasonModel>? QuotationCloseReasons { get; set; }
         public DbSet<TransportModeModel>? TransportModes { get; set; }
         public DbSet<ValidityModel>? Validities { get; set; }
-
         public DbSet<QuotationFieldsModel>? Quotations { get; set; }
         public DbSet<QuotationItemModel>? QuotationItems { get; set; }
         public DbSet<QuotationTermsModel>? QuotationTerms { get; set; }
-
         public DbSet<QuotationFollowUpModel>? QuotationFollowUp { get; set; }
+        public DbSet<UnitModel>? Units { get; set; }
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
         {
 
@@ -57,6 +56,7 @@ namespace Crm.Tenant.Data.DbContexts
                 typeof(QuotationFieldsModel),
                 typeof(QuotationItemModel),
                 typeof(QuotationFollowUpModel),
+                typeof(UnitModel),
             };
 
             foreach (var entity in entitiesWithPrimaryKey)

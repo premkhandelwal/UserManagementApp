@@ -28,6 +28,8 @@ using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
 using Crm.Admin.Service.Models;
 using CRM.Tenant.Service.Services;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
+using CRM.Tenant.Service.Services.MasterServices;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Unit.CreateUnit;
 
 namespace Crm.Tenant.Service
 {
@@ -56,7 +58,7 @@ namespace Crm.Tenant.Service
             RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValiditionService<CreateQuotationTermsRequest>>(services);
             RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValiditionService<CreateQuotationTermsRequest>>(services);
             RegisterScopedService<QuotationFollowUpModel, QuotationFollowUpService, CreateQuotationFollowUpRequest, CreateQuotationFollowUpValidationService<CreateQuotationFollowUpRequest>>(services);
-
+            RegisterScopedService<UnitModel, UnitService, CreateUnitRequest, CreateUnitValidationService<CreateUnitRequest>>(services);
             services.AddScoped<QuotationService>();
 
         }

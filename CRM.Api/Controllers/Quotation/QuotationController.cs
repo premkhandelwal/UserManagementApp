@@ -33,7 +33,7 @@ namespace Crm.Api.Controllers.Quotation
         }
 
         [HttpGet("GetQuotations")]
-        [Authorize]
+        [Authorize()]
         public async Task<IActionResult> GetQuotations()
         {
 
