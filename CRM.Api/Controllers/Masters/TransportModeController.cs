@@ -1,12 +1,14 @@
 ﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.CreateTransportMode;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.DeleteTransportMode;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.UpdateTransportMode;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TransportModeController : ControllerBase
     {
         private TransportModeService _transportmodeService;

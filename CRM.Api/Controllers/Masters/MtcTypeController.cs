@@ -1,12 +1,14 @@
 ﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.DeleteMtcType;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.UpdateMtcType;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MtcTypeController : ControllerBase
     {
         private MtcTypeService _mtctypeService;

@@ -1,12 +1,14 @@
 ﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.CreateProduct;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.DeleteProduct;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.UpdateProduct;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private ProductService _productService;

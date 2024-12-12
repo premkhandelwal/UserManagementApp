@@ -1,6 +1,7 @@
 ﻿using CRM.Tenant.Service.Models.Requests.Quotation;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
 using CRM.Tenant.Service.Services.QuotationService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace CRM.Api.Controllers.Quotation
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuotationFollowUpController : ControllerBase
     {
         private QuotationFollowUpService quotationFollowUpService;

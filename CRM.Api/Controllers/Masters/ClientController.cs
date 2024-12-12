@@ -2,11 +2,13 @@
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.CreateClient;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.DeleteClient;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.UpdateClient;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         private ClientService _clientService;

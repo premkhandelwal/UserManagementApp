@@ -18,7 +18,7 @@ namespace CRM.Admin.Service.Services
 
         public async Task Invoke(HttpContext context, TokenService tokenService)
         {
-            if (!context.Request.Path.StartsWithSegments("/api/Auth/CreateUser") && !context.Request.Path.StartsWithSegments("/api/Auth/GetAllUsers") && !context.Request.Path.StartsWithSegments("/api/Auth/AddClaimsForUser") && !context.Request.Path.StartsWithSegments("/api/Quotation/GetQuotations"))
+            if (context.Request.Path.StartsWithSegments("/api/Auth/Login"))
             {
                 // Skip doing anything in this middleware and continue as usual
                 await _next(context);

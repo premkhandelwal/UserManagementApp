@@ -1,12 +1,14 @@
 ﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.CreatePaymentType;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.DeletePaymentType;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.UpdatePaymentType;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PaymentTypeController : ControllerBase
     {
         private PaymentTypeService _paymenttypeService;

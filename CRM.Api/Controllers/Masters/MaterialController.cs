@@ -1,12 +1,14 @@
 ﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.DeleteMaterial;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.UpdateMaterial;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MaterialController : ControllerBase
     {
         private MaterialService _materialService;

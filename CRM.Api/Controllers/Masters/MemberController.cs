@@ -1,12 +1,14 @@
 ﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.DeleteMember;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.UpdateMember;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MemberController : ControllerBase
     {
         private MemberService _memberService;

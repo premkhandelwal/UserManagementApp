@@ -10,6 +10,7 @@ namespace Crm.Api.Controllers.Quotation
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuotationController : ControllerBase
     {
         QuotationService _quotationService;

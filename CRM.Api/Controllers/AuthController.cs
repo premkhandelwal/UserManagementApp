@@ -17,6 +17,7 @@ namespace Crm.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly IdentityService _identityService;
@@ -34,7 +35,6 @@ namespace Crm.Api.Controllers
         }
 
         [HttpPost("CreateUser")]
-        [Authorize]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest registerUser)
         {
                 IApiResponse<string> response = await _identityService.CreateUser(registerUser.EmailId, registerUser.Username, registerUser.Password, registerUser.Role);
@@ -52,6 +52,7 @@ namespace Crm.Api.Controllers
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             if (ModelState.IsValid == false)
