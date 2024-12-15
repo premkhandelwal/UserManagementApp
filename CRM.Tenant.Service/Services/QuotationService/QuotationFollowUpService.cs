@@ -16,7 +16,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
         {
             _quotationService = quotationService;
         }
-        public async override Task<List<QuotationFollowUpModel>> GetByIdAsync(int quotationId){
+        public async Task<List<QuotationFollowUpModel>> GetFollowUpsForIdAsync(int quotationId){
             List<QuotationFollowUpModel> followUpList =  await ReadAsync();
             return followUpList.Where(fu => fu.QuotationId == quotationId).ToList();
         }
@@ -27,7 +27,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
             followUpList = followUpList.Where(f => f.NextFollowUpDate.Date == dateTime.Date).ToList();
             var quotationIds = followUpList.Select(f => f.QuotationId).Distinct();
             var quotations = await Task.WhenAll(quotationIds.Select(id => _quotationService.GetQuotationById(id)));
-            var todaysFollowUps = followUpList.Where(f => quotations.Any(q => q != null && (q.QuotationMadeById == userId || q.QuotationAssignedToId == userId ))).ToList();
+            var todaysFollowUps = followUpList.Where(f => quotations.Any(q => q != null && (q.quotationFields.QuotationMadeById == userId || q.quotationFields.QuotationAssignedToId == userId ))).ToList();
             return todaysFollowUps;
         }
     }

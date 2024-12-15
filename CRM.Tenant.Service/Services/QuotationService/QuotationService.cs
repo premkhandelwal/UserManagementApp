@@ -96,10 +96,31 @@ namespace CRM.Tenant.Service.Services.QuotationService
             return result;
         }
 
-        public async Task<QuotationFieldsModel?> GetQuotationById(int id) 
+        public async Task<QuotationModel?> GetQuotationById(int id) 
         {
-            List<QuotationFieldsModel> quotation =  await _quotationFields.GetByIdAsync(id);
-            return quotation.FirstOrDefault();
+            QuotationModel result = new QuotationModel();
+
+            QuotationFieldsModel? quotation =  _quotationFields.GetByIdAsync(id);
+            List<QuotationItemModel> quotationItems = await _quotationItems.ReadAsync();
+            List<QuotationTermsModel> quotationTerms = await _quotationTerms.ReadAsync();
+            if (quotation != null)
+            {
+                int? qId = quotation.Id;
+                if (qId != null)
+                {
+                    List<QuotationItemModel> qItems = quotationItems.Where(item => item.QuotationId == qId).ToList();
+                    QuotationTermsModel? qTerms = quotationTerms.Where(item => item.QuotationId == qId).FirstOrDefault();
+                    return new QuotationModel()
+                    {
+                        quotationFields = quotation,
+                        quotationItems = qItems,
+                        quotationTerms = qTerms ?? new QuotationTermsModel()
+                    };
+                }
+            }
+                
+            
+            return null;
         }
 
         public async Task<List<QuotationModel>> GetQuotationsForUser(string userId)

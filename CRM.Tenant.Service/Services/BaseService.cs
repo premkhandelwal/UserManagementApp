@@ -51,9 +51,10 @@ public  class BaseService<TRequest, TEntity>
         return await _repository.ReadAsync();
     }
 
-    public virtual async Task<List<TEntity>> GetByIdAsync(int id)
+    public virtual TEntity? GetByIdAsync(int id)
     {
-        return await _repository.GetByIdAsync(id);
+        TEntity? entities =  _repository.GetByIdAsync(id);
+        return entities;
     }
 
     private void ValidateRequest(TRequest request)

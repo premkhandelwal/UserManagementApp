@@ -43,9 +43,9 @@ namespace Crm.Tenant.Data.Repositories
             return entityList;
         }
 
-        public virtual async Task<List<T>> GetByIdAsync(int id)
+        public virtual T? GetByIdAsync(int id)
         {
-            List<T> entity = await _dbContext.Set<T>().Where(e => e.Id == id && e.IsDeleted == false).ToListAsync();
+            T? entity = _dbContext.Set<T>().FirstOrDefault(e => e.Id == id && e.IsDeleted == false);
             return entity;
         }
 

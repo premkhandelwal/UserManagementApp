@@ -29,7 +29,7 @@ namespace CRM.Api.Controllers.Quotation
         [HttpGet("GetQuotationFollowUps")]
         public async Task<IActionResult> GetQuotationFollowUps(int quotationId)
         {
-            var result = await quotationFollowUpService.GetByIdAsync(quotationId);
+            var result = await quotationFollowUpService.GetFollowUpsForIdAsync(quotationId);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 

@@ -10,14 +10,12 @@ namespace Crm.Tenant.Service
     {
         public static void AddTenantDataServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ClientApplicationDbContext>();
-
             services.AddDbContext<ClientApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("ClientConnectionString"));
-            });
+            }, ServiceLifetime.Transient);
 
-            services.AddScoped(typeof(BaseRepository<>));
+            services.AddTransient(typeof(BaseRepository<>));
         }
     }
 }

@@ -51,6 +51,46 @@ namespace Crm.Api.Controllers
                 }
         }
 
+        [HttpPost("UpdateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest updateUserRequest)
+        {
+            var previousUserDetails = _userService.GetByIdAsync(updateUserRequest.Id);
+            try { 
+            // Step 1: Update in UserService
+            if (previousUserDetails == null)
+            {
+                return NotFound(new { message = "User not found in UserService." });
+            }
+
+            var userServiceUpdateResult = await _identityService.UpdateUserDetails(updateUserRequest.UserId, updateUserRequest.EmailId, updateUserRequest.Username, updateUserRequest.Role);
+            if (!userServiceUpdateResult.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new { message = "Failed to update user in UserService." });
+            }
+
+                return Ok(new { message = "User updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                if (previousUserDetails != null)
+                {
+                    await _userService.UpdateAsync(new CreateUserRequest()
+                    {
+                        Username = previousUserDetails.Username,
+                        EmailId = previousUserDetails.EmailId,
+                        UserId = previousUserDetails.UserId,
+                        Password = previousUserDetails.Password,
+                        Role = previousUserDetails.Role,
+                        MobileNo = previousUserDetails.MobileNo,
+                        AddedOn = previousUserDetails.AddedOn,
+                        ModifiedOn = previousUserDetails.ModifiedOn
+                    });
+                }
+                return StatusCode(StatusCodes.Status400BadRequest, new { message = $"Failed to update user: {ex.Message}" });
+            }
+        }
+
+
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)

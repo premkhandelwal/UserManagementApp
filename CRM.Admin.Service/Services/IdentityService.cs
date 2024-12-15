@@ -256,6 +256,114 @@ namespace Crm.Admin.Service.Services
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to delete role!" };
         }
 
+        public async Task<IApiResponse<string>> UpdateUserDetails(string userId, string emailId, string userName, string newRole)
+        {
+            CrmIdentityUser user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return new IApiResponse<string>
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Response = "User not found!"
+                };
+            }
+
+            using (var transaction = await _adminDbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Update Email if needed
+                    if (!string.IsNullOrWhiteSpace(emailId) && !user.Email.Equals(emailId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        user.Email = emailId;
+                        IdentityResult emailUpdateResult = await _userManager.UpdateAsync(user);
+                        if (!emailUpdateResult.Succeeded)
+                        {
+                            await transaction.RollbackAsync();
+                            return new IApiResponse<string>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Response = "Failed to update email!"
+                            };
+                        }
+                    }
+
+                    // Update Username if needed
+                    if (!string.IsNullOrWhiteSpace(userName) && !user.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        user.UserName = userName;
+                        IdentityResult usernameUpdateResult = await _userManager.UpdateAsync(user);
+                        if (!usernameUpdateResult.Succeeded)
+                        {
+                            await transaction.RollbackAsync();
+                            return new IApiResponse<string>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Response = "Failed to update username!"
+                            };
+                        }
+                    }
+
+                    // Update Role if needed
+                    if (!string.IsNullOrWhiteSpace(newRole))
+                    {
+                        var userRoles = await _userManager.GetRolesAsync(user);
+                        if (!userRoles.Contains(newRole, StringComparer.OrdinalIgnoreCase))
+                        {
+                            // Remove old roles
+                            IdentityResult removeRolesResult = await _userManager.RemoveFromRolesAsync(user, userRoles);
+                            if (!removeRolesResult.Succeeded)
+                            {
+                                await transaction.RollbackAsync();
+                                return new IApiResponse<string>
+                                {
+                                    IsSuccess = false,
+                                    StatusCode = 400,
+                                    Response = "Failed to remove old roles!"
+                                };
+                            }
+
+                            // Add the new role
+                            IdentityResult addRoleResult = await _userManager.AddToRoleAsync(user, newRole);
+                            if (!addRoleResult.Succeeded)
+                            {
+                                await transaction.RollbackAsync();
+                                return new IApiResponse<string>
+                                {
+                                    IsSuccess = false,
+                                    StatusCode = 400,
+                                    Response = "Failed to assign new role!"
+                                };
+                            }
+                        }
+                    }
+
+                    await transaction.CommitAsync();
+                    return new IApiResponse<string>
+                    {
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Response = "User details updated successfully!"
+                    };
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return new IApiResponse<string>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Response = $"An error occurred: {ex.Message}"
+                    };
+                }
+            }
+        }
+
+
+
 
     }
 }
