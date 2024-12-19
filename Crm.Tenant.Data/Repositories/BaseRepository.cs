@@ -24,6 +24,13 @@ namespace Crm.Tenant.Data.Repositories
 
         public virtual async Task<T> UpdateAsync(T entity)
         {
+            var local = _dbContext.Set<T>()
+        .Local
+        .FirstOrDefault(entry => entry.Id.Equals(entity.Id));
+            if (local != null)
+            {
+                _dbContext.Entry(local).State = EntityState.Detached;
+            }
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext. SaveChangesAsync();
             return entity;
@@ -43,7 +50,7 @@ namespace Crm.Tenant.Data.Repositories
             return entityList;
         }
 
-        public virtual T? GetByIdAsync(int id)
+        public virtual T? GetById(int id)
         {
             T? entity = _dbContext.Set<T>().FirstOrDefault(e => e.Id == id && e.IsDeleted == false);
             return entity;

@@ -256,7 +256,7 @@ namespace Crm.Admin.Service.Services
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to delete role!" };
         }
 
-        public async Task<IApiResponse<string>> UpdateUserDetails(string userId, string emailId, string userName, string newRole)
+        public async Task<IApiResponse<string>> UpdateUserDetails(string userId, string emailId, string password, string userName, string newRole)
         {
             CrmIdentityUser user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -341,6 +341,26 @@ namespace Crm.Admin.Service.Services
                         }
                     }
 
+                    if (!string.IsNullOrWhiteSpace(password))
+                    {
+                        IdentityResult passwordUpdateResult = await _userManager.RemovePasswordAsync(user);
+                        if (passwordUpdateResult.Succeeded)
+                        {
+                            passwordUpdateResult = await _userManager.AddPasswordAsync(user, password);
+                        }
+
+                        if (!passwordUpdateResult.Succeeded)
+                        {
+                            await transaction.RollbackAsync();
+                            return new IApiResponse<string>
+                            {
+                                IsSuccess = false,
+                                StatusCode = 400,
+                                Response = "Failed to update password!"
+                            };
+                        }
+                    }
+
                     await transaction.CommitAsync();
                     return new IApiResponse<string>
                     {
@@ -361,9 +381,5 @@ namespace Crm.Admin.Service.Services
                 }
             }
         }
-
-
-
-
     }
 }

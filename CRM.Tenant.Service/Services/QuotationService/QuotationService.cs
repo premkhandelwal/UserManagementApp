@@ -100,7 +100,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
         {
             QuotationModel result = new QuotationModel();
 
-            QuotationFieldsModel? quotation =  _quotationFields.GetByIdAsync(id);
+            QuotationFieldsModel? quotation =  _quotationFields.GetById(id);
             List<QuotationItemModel> quotationItems = await _quotationItems.ReadAsync();
             List<QuotationTermsModel> quotationTerms = await _quotationTerms.ReadAsync();
             if (quotation != null)

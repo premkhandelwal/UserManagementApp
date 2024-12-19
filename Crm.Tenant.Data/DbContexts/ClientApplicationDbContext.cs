@@ -119,8 +119,6 @@ namespace Crm.Tenant.Data.DbContexts
                 .HasOne(m => m.ValidityModel)
                 .WithMany()
                 .HasForeignKey(m => m.ValidityId);
-
-
         }
 
     }

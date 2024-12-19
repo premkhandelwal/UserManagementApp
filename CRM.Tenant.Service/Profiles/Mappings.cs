@@ -138,6 +138,7 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<QuotationFollowUpModel, CreateQuotationFollowUpRequest>().ReverseMap();
 
             CreateMap<UserModel, CreateUserRequest>().ReverseMap();
+            CreateMap<UserModel, UpdateUserRequest>().ReverseMap();
         }
     }
 }

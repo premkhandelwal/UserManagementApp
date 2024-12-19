@@ -51,9 +51,9 @@ public  class BaseService<TRequest, TEntity>
         return await _repository.ReadAsync();
     }
 
-    public virtual TEntity? GetByIdAsync(int id)
+    public virtual TEntity? GetById(int id)
     {
-        TEntity? entities =  _repository.GetByIdAsync(id);
+        TEntity? entities =  _repository.GetById(id);
         return entities;
     }
 

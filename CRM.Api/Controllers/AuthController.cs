@@ -54,41 +54,58 @@ namespace Crm.Api.Controllers
         [HttpPost("UpdateUser")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest updateUserRequest)
         {
-            var previousUserDetails = _userService.GetByIdAsync(updateUserRequest.Id);
-            try { 
-            // Step 1: Update in UserService
+            var previousUserDetails = _userService.GetById(updateUserRequest.Id);
             if (previousUserDetails == null)
             {
                 return NotFound(new { message = "User not found in UserService." });
             }
 
-            var userServiceUpdateResult = await _identityService.UpdateUserDetails(updateUserRequest.UserId, updateUserRequest.EmailId, updateUserRequest.Username, updateUserRequest.Role);
-            if (!userServiceUpdateResult.IsSuccess)
+            try
             {
-                return StatusCode(StatusCodes.Status400BadRequest, new { message = "Failed to update user in UserService." });
-            }
+                // Step 1: Update in UserService
+                var userServiceUpdateResult = await _userService.UpdateAsync(updateUserRequest);
+                if (userServiceUpdateResult == null)
+                {
+                    return BadRequest(new { message = "Failed to update user in UserService." });
+                }
+
+                // Step 2: Update in IdentityService
+                var identityServiceUpdateResult = await _identityService.UpdateUserDetails(
+                    updateUserRequest.UserId,
+                    updateUserRequest.EmailId,
+                    updateUserRequest.Password,
+                    updateUserRequest.Username,
+                    updateUserRequest.Role
+                );
+
+                if (!identityServiceUpdateResult.IsSuccess)
+                {
+                    throw new Exception("Failed to update user");
+                }
 
                 return Ok(new { message = "User updated successfully." });
             }
             catch (Exception ex)
             {
-                if (previousUserDetails != null)
+                // Rollback: Attempt to restore original user details
+                await _userService.UpdateAsync(new UpdateUserRequest
                 {
-                    await _userService.UpdateAsync(new CreateUserRequest()
-                    {
-                        Username = previousUserDetails.Username,
-                        EmailId = previousUserDetails.EmailId,
-                        UserId = previousUserDetails.UserId,
-                        Password = previousUserDetails.Password,
-                        Role = previousUserDetails.Role,
-                        MobileNo = previousUserDetails.MobileNo,
-                        AddedOn = previousUserDetails.AddedOn,
-                        ModifiedOn = previousUserDetails.ModifiedOn
-                    });
-                }
-                return StatusCode(StatusCodes.Status400BadRequest, new { message = $"Failed to update user: {ex.Message}" });
+                    Id = (int)previousUserDetails.Id,
+                    Username = previousUserDetails.Username,
+                    EmailId = previousUserDetails.EmailId,
+                    UserId = previousUserDetails.UserId,
+                    Password = previousUserDetails.Password,
+                    Role = previousUserDetails.Role,
+                    MobileNo = previousUserDetails.MobileNo,
+                    AddedOn = previousUserDetails.AddedOn,
+                    ModifiedOn = previousUserDetails.ModifiedOn
+                });
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { message = $"Failed to update user: {ex.Message}" });
             }
         }
+
 
 
         [HttpPost("Login")]

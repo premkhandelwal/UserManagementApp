@@ -33,7 +33,7 @@ namespace Crm.Admin.Data
             services.AddDbContext<AdminDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("AdminConnectionString"));
-            });
+            }, ServiceLifetime.Transient);
 
             byte[] key = Encoding.ASCII.GetBytes(configuration["JwtConfig:Secret"]);
 
