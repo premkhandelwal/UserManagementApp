@@ -19,9 +19,6 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.UpdateDelive
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.CreateDeliveryTime;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.DeleteDeliveryTime;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.UpdateDeliveryTime;
-using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.CreateHsn;
-using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.DeleteHsn;
-using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.UpdateHsn;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.DeleteMaterial;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.UpdateMaterial;
@@ -37,6 +34,15 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.UpdatePaymen
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.CreateProduct;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.DeleteProduct;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.UpdateProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.CreateHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.DeleteHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.UpdateHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Vendor.CreateVendor;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Vendor.DeleteVendor;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Vendor.UpdateVendor;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.CreateVendorMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.DeleteVendorMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.UpdateVendorMember;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.CreateQuotationCloseReason;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.DeleteQuotationCloseReason;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.UpdateQuotationCloseReason;
@@ -147,6 +153,16 @@ namespace CRM.Tenant.Service.Profiles
 
             CreateMap<UserModel, CreateUserRequest>().ReverseMap();
             CreateMap<UserModel, UpdateUserRequest>().ReverseMap();
+
+            CreateMap<VendorModel, CreateVendorRequest>().ReverseMap();
+            CreateMap<VendorModel, UpdateVendorRequest>().ReverseMap();
+            CreateMap<VendorModel, DeleteVendorRequest>().ReverseMap();
+
+            CreateMap<VendorMemberModel, CreateVendorMemberRequest>().ReverseMap();
+            CreateMap<VendorMemberModel, UpdateVendorMemberRequest>().ReverseMap();
+            CreateMap<VendorMemberModel, DeleteVendorMemberRequest>().ReverseMap();
+
+
         }
     }
 }

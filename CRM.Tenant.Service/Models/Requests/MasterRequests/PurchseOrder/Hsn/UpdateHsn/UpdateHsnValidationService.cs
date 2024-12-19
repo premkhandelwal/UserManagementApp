@@ -1,8 +1,7 @@
-﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.CreateHsn;
-using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.UpdateHsn;
+﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.CreateHsn;
 using FluentValidation;
 
-namespace CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.UpdateDeliveredTo
+namespace CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.UpdateHsn
 {
     public class UpdateHsnValidationService : CreateHsnValidationService<UpdateHsnRequest>
     {

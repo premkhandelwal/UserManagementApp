@@ -1,4 +1,4 @@
-﻿namespace CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.CreateHsn
+﻿namespace CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.CreateHsn
 {
     public class CreateHsnRequest
     {

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Crm.Tenant.Data.Models.Masters
+﻿namespace Crm.Tenant.Data.Models.Masters
 {
     public class ClientModel: BaseModelClass
     {

@@ -31,7 +31,10 @@ using CRM.Tenant.Service.Models.Requests.UserRequests;
 using CRM.Tenant.Service.Services.MasterServices;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Unit.CreateUnit;
 using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
-using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.CreateHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.CreateHsn;
+using CRM.Tenant.Service.Services.MasterServices.PurchaseOrder;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Vendor.CreateVendor;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.CreateVendorMember;
 
 namespace Crm.Tenant.Service
 {
@@ -62,7 +65,8 @@ namespace Crm.Tenant.Service
             RegisterScopedService<QuotationFollowUpModel, QuotationFollowUpService, CreateQuotationFollowUpRequest, CreateQuotationFollowUpValidationService<CreateQuotationFollowUpRequest>>(services);
             RegisterScopedService<UnitModel, UnitService, CreateUnitRequest, CreateUnitValidationService<CreateUnitRequest>>(services);
             RegisterScopedService<HsnModel, HsnService, CreateHsnRequest, CreateHsnValidationService<CreateHsnRequest>>(services);
-
+            RegisterScopedService<VendorModel, VendorService, CreateVendorRequest, CreateVendorValidationService<CreateVendorRequest>>(services);
+            RegisterScopedService<VendorMemberModel, VendorMemberService, CreateVendorMemberRequest, CreateVendorMemberValidationService<CreateVendorMemberRequest>>(services);
             services.AddScoped<QuotationService>();
 
         }

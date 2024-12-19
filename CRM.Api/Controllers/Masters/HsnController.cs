@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.CreateHsn;
-using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.DeleteHsn;
-using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.UpdateHsn;
 using Microsoft.AspNetCore.Authorization;
-using CRM.Tenant.Service.Services.MasterServices;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.CreateHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.DeleteHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.UpdateHsn;
+using CRM.Tenant.Service.Services.MasterServices.PurchaseOrder;
 
 namespace Crm.Api.Controllers.Masters
 {

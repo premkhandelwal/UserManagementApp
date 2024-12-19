@@ -31,8 +31,9 @@ namespace Crm.Tenant.Data.DbContexts
         public DbSet<QuotationTermsModel>? QuotationTerms { get; set; }
         public DbSet<QuotationFollowUpModel>? QuotationFollowUp { get; set; }
         public DbSet<UnitModel>? Units { get; set; }
-
         public DbSet<HsnModel> Hsn { get; set; }
+        public DbSet<VendorModel>? Vendor { get; set; }
+        public DbSet<VendorMemberModel> VendorMember { get; set; }
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
         {
 
@@ -61,7 +62,8 @@ namespace Crm.Tenant.Data.DbContexts
                 typeof(QuotationFollowUpModel),
                 typeof(UnitModel),
                 typeof(HsnModel),
-
+                typeof(VendorModel),
+                typeof(VendorMemberModel),
             };
 
             foreach (var entity in entitiesWithPrimaryKey)
@@ -79,6 +81,11 @@ namespace Crm.Tenant.Data.DbContexts
                 .HasOne(m => m.Client)
                 .WithMany()
                 .HasForeignKey(m => m.ClientId);
+
+            modelBuilder.Entity<VendorMemberModel>()
+                .HasOne(m => m.Vendor)
+                .WithMany()
+                .HasForeignKey(m => m.VendorId);
 
             modelBuilder.Entity<QuotationFieldsModel>()
                 .HasOne(modelBuilder => modelBuilder.QuotationCloseReasonsModel)
