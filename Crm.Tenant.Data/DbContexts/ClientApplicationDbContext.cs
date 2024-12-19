@@ -6,6 +6,7 @@ using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.Quotation;
 using Crm.Admin.Service.Models;
 using Crm.Admin.Data.Models;
+using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
 
 namespace Crm.Tenant.Data.DbContexts
 {
@@ -30,6 +31,8 @@ namespace Crm.Tenant.Data.DbContexts
         public DbSet<QuotationTermsModel>? QuotationTerms { get; set; }
         public DbSet<QuotationFollowUpModel>? QuotationFollowUp { get; set; }
         public DbSet<UnitModel>? Units { get; set; }
+
+        public DbSet<HsnModel> Hsn { get; set; }
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
         {
 
@@ -57,6 +60,8 @@ namespace Crm.Tenant.Data.DbContexts
                 typeof(QuotationItemModel),
                 typeof(QuotationFollowUpModel),
                 typeof(UnitModel),
+                typeof(HsnModel),
+
             };
 
             foreach (var entity in entitiesWithPrimaryKey)

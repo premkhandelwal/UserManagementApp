@@ -30,6 +30,8 @@ using CRM.Tenant.Service.Services;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
 using CRM.Tenant.Service.Services.MasterServices;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Unit.CreateUnit;
+using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.CreateHsn;
 
 namespace Crm.Tenant.Service
 {
@@ -59,6 +61,8 @@ namespace Crm.Tenant.Service
             RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValiditionService<CreateQuotationTermsRequest>>(services);
             RegisterScopedService<QuotationFollowUpModel, QuotationFollowUpService, CreateQuotationFollowUpRequest, CreateQuotationFollowUpValidationService<CreateQuotationFollowUpRequest>>(services);
             RegisterScopedService<UnitModel, UnitService, CreateUnitRequest, CreateUnitValidationService<CreateUnitRequest>>(services);
+            RegisterScopedService<HsnModel, HsnService, CreateHsnRequest, CreateHsnValidationService<CreateHsnRequest>>(services);
+
             services.AddScoped<QuotationService>();
 
         }

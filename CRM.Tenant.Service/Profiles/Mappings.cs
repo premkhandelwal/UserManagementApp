@@ -2,6 +2,7 @@
 using Crm.Admin.Service.Models;
 using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Masters;
+using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
 using Crm.Tenant.Data.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.CreateClient;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.DeleteClient;
@@ -18,6 +19,9 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.UpdateDelive
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.CreateDeliveryTime;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.DeleteDeliveryTime;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.UpdateDeliveryTime;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.CreateHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.DeleteHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Hsn.UpdateHsn;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.DeleteMaterial;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.UpdateMaterial;
@@ -83,6 +87,10 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<DeliveryTimeModel, CreateDeliveryTimeRequest>().ReverseMap();
             CreateMap<DeliveryTimeModel, UpdateDeliveryTimeRequest>().ReverseMap();
             CreateMap<DeliveryTimeModel, DeleteDeliveryTimeRequest>().ReverseMap();
+
+            CreateMap<HsnModel, CreateHsnRequest>().ReverseMap();
+            CreateMap<HsnModel, UpdateHsnRequest>().ReverseMap();
+            CreateMap<HsnModel, DeleteHsnRequest>().ReverseMap();
 
             // Material mappings
             CreateMap<MaterialModel, CreateMaterialRequest>().ReverseMap();
