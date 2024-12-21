@@ -37,7 +37,7 @@ public  class BaseService<TRequest, TEntity>
     {
         ValidateRequest(request);
         TEntity entity = _mapper.Map<TEntity>(request);
-        bool hasReferences = await _repository.HasReferencesAsync(entity);
+        bool hasReferences = await HasReferences(entity);
         if (hasReferences)
         {
             throw new InvalidOperationException("The entity cannot be deleted because it is referenced by other entities.");
@@ -64,5 +64,11 @@ public  class BaseService<TRequest, TEntity>
         {
             throw new ValidationException(validationResult.ToString());
         }
+    }
+
+    public virtual async Task<bool> HasReferences(TEntity entity)
+    {
+        await Task.Delay(0);
+        return false;
     }
 }

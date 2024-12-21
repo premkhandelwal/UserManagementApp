@@ -1,5 +1,4 @@
-﻿using Crm.Api.Models.Quotation;
-using Crm.Tenant.Data.DbContexts;
+﻿using Crm.Tenant.Data.DbContexts;
 using Crm.Tenant.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,12 +53,6 @@ namespace Crm.Tenant.Data.Repositories
         {
             T? entity = _dbContext.Set<T>().FirstOrDefault(e => e.Id == id && e.IsDeleted == false);
             return entity;
-        }
-
-        public virtual async Task<bool> HasReferencesAsync(T entity)
-        {
-            List<QuotationFieldsModel> quotationFields = await _dbContext.Set<QuotationFieldsModel>().ToListAsync();
-            return entity.IsModelReferenced(quotationFields);
         }
     }
 }

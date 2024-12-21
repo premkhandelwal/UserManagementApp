@@ -1,9 +1,5 @@
-﻿using Crm.Admin.Data.Models;
-using Crm.Tenant.Data.Models;
-using Crm.Tenant.Data.Models.Masters;
-using System;
+﻿using Crm.Tenant.Data.Models;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Crm.Admin.Service.Models
 {
@@ -24,6 +20,6 @@ namespace Crm.Admin.Service.Models
 
         public string MobileNo { get; set; } = null!;
 
-        public DateTime? LastLogin {  get; set; }   
+        public DateTime? LastLogin {  get; set; }
     }
 }

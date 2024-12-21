@@ -7,5 +7,7 @@
         public string? Address { get; set; }    
 
         public string? GstNo {  get; set; }
+
+        public string? ContactNo { get; set; }
     }
 }
