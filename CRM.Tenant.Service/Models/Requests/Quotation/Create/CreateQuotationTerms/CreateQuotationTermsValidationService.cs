@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms
 {
-    public class CreateQuotationTermsValiditionService<T> : AbstractValidator<T> where T : CreateQuotationTermsRequest
+    public class CreateQuotationTermsValidationService<T> : AbstractValidator<T> where T : CreateQuotationTermsRequest
     {
-        public CreateQuotationTermsValiditionService()
+        public CreateQuotationTermsValidationService()
         {
         }
     }

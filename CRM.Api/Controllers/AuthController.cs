@@ -35,20 +35,35 @@ namespace Crm.Api.Controllers
         }
 
         [HttpPost("CreateUser")]
+
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest registerUser)
         {
-                IApiResponse<string> response = await _identityService.CreateUser(registerUser.EmailId, registerUser.Username, registerUser.Password, registerUser.Role);
+                UserModel? user = await _userService.CreateAsync(registerUser);
 
-                if (response.IsSuccess)
+                if (user != null)
                 {
-                    registerUser.UserId = response.Response;
-                    UserModel? user = await _userService.CreateAsync(registerUser);
-                    return StatusCode(StatusCodes.Status201Created, user);
+                    IApiResponse<string> response = await _identityService.CreateUser(registerUser.EmailId, registerUser.Username, registerUser.Password, registerUser.Role, (int) user.Id!);
+                    if (response.IsSuccess)
+                    {
+                        UpdateUserRequest req = new UpdateUserRequest()
+                        {
+                            Id = (int)user.Id,
+                            AddedOn = user.AddedOn,
+                            EmailId = user.EmailId,
+                            Username = user.Username,
+                            LastLogin = user.LastLogin,
+                            MobileNo = user.MobileNo,
+                            ModifiedOn = user.ModifiedOn,
+                            Password = user.Password,
+                            Role = user.Role,
+                            UserId = response.Response!
+                        };
+                        await _userService.UpdateAsync(req);
+                        return StatusCode(StatusCodes.Status201Created, req);
+                
+                    }
                 }
-                else
-                {
-                    return StatusCode(StatusCodes.Status501NotImplemented, response);
-                }
+                return BadRequest(new { message = "Failed to create user." }); ;
         }
 
         [HttpPost("UpdateUser")]

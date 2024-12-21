@@ -21,7 +21,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
             return followUpList.Where(fu => fu.QuotationId == quotationId).ToList();
         }
 
-        public async Task<List<QuotationFollowUpModel>> GetFollowUpsForDate(DateTime dateTime, string userId) 
+        public async Task<List<QuotationFollowUpModel>> GetFollowUpsForDate(DateTime dateTime, int userId) 
         {
             List<QuotationFollowUpModel> followUpList = await ReadAsync();
             followUpList = followUpList.Where(f => f.NextFollowUpDate.Date == dateTime.Date).ToList();

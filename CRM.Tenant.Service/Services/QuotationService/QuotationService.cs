@@ -123,7 +123,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
             return null;
         }
 
-        public async Task<List<QuotationModel>> GetQuotationsForUser(string userId)
+        public async Task<List<QuotationModel>> GetQuotationsForUser(int userId)
         {
             List<QuotationModel> result = new List<QuotationModel>();
 

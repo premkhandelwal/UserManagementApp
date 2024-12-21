@@ -35,6 +35,10 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.CreateH
 using CRM.Tenant.Service.Services.MasterServices.PurchaseOrder;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Vendor.CreateVendor;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.CreateVendorMember;
+using CRM.Tenant.Service.Services.PurchaseOrderService;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderFields;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderItems;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderTerms;
 
 namespace Crm.Tenant.Service
 {
@@ -58,16 +62,20 @@ namespace Crm.Tenant.Service
             RegisterScopedService<QuotationCloseReasonModel, QuotationCloseReasonService, CreateQuotationCloseReasonRequest, CreateQuotationCloseReasonValidationService<CreateQuotationCloseReasonRequest>>(services);
             RegisterScopedService<TransportModeModel, TransportModeService, CreateTransportModeRequest, CreateTransportModeValidationService<CreateTransportModeRequest>>(services);
             RegisterScopedService<ValidityModel, ValidityService, CreateValidityRequest, CreateValidityValidationService<CreateValidityRequest>>(services);
-            RegisterScopedService<QuotationFieldsModel, QuotationFieldsService, CreateQuotationFieldsRequest, CreateQuotationFieldsValiditionService<CreateQuotationFieldsRequest>>(services);
-            RegisterScopedService<QuotationItemModel, QuotationItemsService, CreateQuotationItemsRequest, CreateQuotationItemsValiditionService<CreateQuotationItemsRequest>>(services);
-            RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValiditionService<CreateQuotationTermsRequest>>(services);
-            RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValiditionService<CreateQuotationTermsRequest>>(services);
+            RegisterScopedService<QuotationFieldsModel, QuotationFieldsService, CreateQuotationFieldsRequest, CreateQuotationFieldsValidationService<CreateQuotationFieldsRequest>>(services);
+            RegisterScopedService<QuotationItemModel, QuotationItemsService, CreateQuotationItemsRequest, CreateQuotationItemsValidationService<CreateQuotationItemsRequest>>(services);
+            RegisterScopedService<QuotationTermsModel, QuotationTermsService, CreateQuotationTermsRequest, CreateQuotationTermsValidationService<CreateQuotationTermsRequest>>(services);
             RegisterScopedService<QuotationFollowUpModel, QuotationFollowUpService, CreateQuotationFollowUpRequest, CreateQuotationFollowUpValidationService<CreateQuotationFollowUpRequest>>(services);
             RegisterScopedService<UnitModel, UnitService, CreateUnitRequest, CreateUnitValidationService<CreateUnitRequest>>(services);
             RegisterScopedService<HsnModel, HsnService, CreateHsnRequest, CreateHsnValidationService<CreateHsnRequest>>(services);
             RegisterScopedService<VendorModel, VendorService, CreateVendorRequest, CreateVendorValidationService<CreateVendorRequest>>(services);
             RegisterScopedService<VendorMemberModel, VendorMemberService, CreateVendorMemberRequest, CreateVendorMemberValidationService<CreateVendorMemberRequest>>(services);
+            RegisterScopedService<PurchaseOrderFieldsModel, PurchaseOrderFieldsService, CreatePurchaseOrderFieldsRequest, CreatePurchaseOrderFieldsValidationService<CreatePurchaseOrderFieldsRequest>>(services);
+            RegisterScopedService<PurchaseOrderItemModel, PurchaseOrderItemsService, CreatePurchaseOrderItemsRequest, CreatePurchaseOrderItemsValidationService<CreatePurchaseOrderItemsRequest>>(services);
+            RegisterScopedService<PurchaseOrderTermsModel, PurchaseOrderTermsService, CreatePurchaseOrderTermsRequest, CreatePurchaseOrderTermsValidationService<CreatePurchaseOrderTermsRequest>>(services);
+
             services.AddScoped<QuotationService>();
+            services.AddScoped<PurchaseOrderService>();
 
         }
 

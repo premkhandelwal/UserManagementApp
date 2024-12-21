@@ -2,7 +2,6 @@
 {
     public class CreateUserRequest
     {
-        public string? UserId { get; set; }
         public string Username { get; set; } = null!;
 
         public string EmailId { get; set; } = null!;

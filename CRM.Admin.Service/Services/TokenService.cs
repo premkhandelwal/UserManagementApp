@@ -84,7 +84,7 @@ namespace Crm.Admin.Service.Services
 
             List<Claim> claims = new List<Claim>
             {
-                new Claim("Id", user.Id),
+                new Claim("Id", user.UserId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

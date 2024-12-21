@@ -5,6 +5,7 @@ namespace CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFie
     public class UpdateQuotationFieldsRequest: CreateQuotationFieldsRequest
     {
         public int? Id { get; set; }
+
         public string? QuotationStatus { get; set; }
 
         public int? QuotationCloseReasonId { get; set; }

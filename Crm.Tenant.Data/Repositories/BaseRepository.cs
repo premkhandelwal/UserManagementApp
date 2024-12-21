@@ -1,6 +1,7 @@
 ﻿using Crm.Tenant.Data.DbContexts;
 using Crm.Tenant.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Crm.Tenant.Data.Repositories
 {
@@ -15,10 +16,10 @@ namespace Crm.Tenant.Data.Repositories
 
         public virtual async Task<T> AddAsync(T entity)
         {
-            await _dbContext.Set<T>().AddAsync(entity);
+            EntityEntry<T> res = await _dbContext.Set<T>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
 
-            return entity;
+            return res.Entity;
         }
 
         public virtual async Task<T> UpdateAsync(T entity)

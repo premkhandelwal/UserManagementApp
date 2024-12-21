@@ -39,8 +39,9 @@ namespace Crm.Api.Controllers.Quotation
         {
 
             var isAdmin = User.HasClaim(c => c.Type == ClaimTypes.Role && c.Value == "admnRole");
-            string? userId = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
-            if (string.IsNullOrEmpty(userId))
+            int userId = -1;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value, out userId);
+            if (userId == -1)
             {
                 return Unauthorized(new { Message = "User is not authorized." });
             }

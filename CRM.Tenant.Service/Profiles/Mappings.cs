@@ -53,6 +53,12 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.Unit.CreateUnit;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.CreateValidity;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.DeleteValidity;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.UpdateValidity;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderFields;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderItems;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderTerms;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderFields;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderItems;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderTerms;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
@@ -161,6 +167,14 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<VendorMemberModel, CreateVendorMemberRequest>().ReverseMap();
             CreateMap<VendorMemberModel, UpdateVendorMemberRequest>().ReverseMap();
             CreateMap<VendorMemberModel, DeleteVendorMemberRequest>().ReverseMap();
+
+            CreateMap<PurchaseOrderFieldsModel, CreatePurchaseOrderFieldsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderItemModel, CreatePurchaseOrderItemsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderTermsModel, CreatePurchaseOrderTermsRequest>().ReverseMap();
+
+            CreateMap<PurchaseOrderFieldsModel, UpdatePurchaseOrderFieldsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderItemModel, UpdatePurchaseOrderItemsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderTermsModel, UpdatePurchaseOrderTermsRequest>().ReverseMap();
 
 
         }

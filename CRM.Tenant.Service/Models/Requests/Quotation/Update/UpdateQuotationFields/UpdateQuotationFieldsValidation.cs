@@ -1,12 +1,13 @@
-﻿using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
+﻿using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields;
 using FluentValidation;
 
-namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields
+namespace CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields
 {
-    public class UpdateQuotationFieldsValiditionService<T> : AbstractValidator<T> where T : UpdateQuotationFieldsRequest
+    public class UpdateQuotationFieldsValidationService : CreateQuotationFieldsValidationService<UpdateQuotationFieldsRequest>
     {
-        public UpdateQuotationFieldsValiditionService()
+        public UpdateQuotationFieldsValidationService()
         {
+            RuleFor(x => x.Id).NotEmpty().WithMessage("Id is required.");
         }
     }
 }

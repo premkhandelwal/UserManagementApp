@@ -22,7 +22,7 @@ namespace Crm.Admin.Service.Services
             _adminDbContext = adminDbContext;
         }
 
-        public async Task<IApiResponse<string>> CreateUser(string emailId, string userName, string password, string role)
+        public async Task<IApiResponse<string>> CreateUser(string emailId, string userName, string password, string role, int userId)
         {
             CrmIdentityUser? existingUser = await _userManager.FindByEmailAsync(emailId);
             if (existingUser != null)
@@ -31,6 +31,7 @@ namespace Crm.Admin.Service.Services
             }
             CrmIdentityUser newUser = new()
             {
+                UserId = userId,
                 Email = emailId,
                 UserName = userName,
                 SecurityStamp = Guid.NewGuid().ToString(),
