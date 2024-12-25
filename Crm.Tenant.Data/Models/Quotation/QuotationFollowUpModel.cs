@@ -1,5 +1,4 @@
-﻿using Crm.Api.Models.Quotation;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Crm.Tenant.Data.Models.Quotation
 {

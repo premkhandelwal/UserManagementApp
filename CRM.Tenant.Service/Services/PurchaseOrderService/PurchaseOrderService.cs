@@ -1,5 +1,4 @@
-﻿using Crm.Api.Models.Quotation;
-using Crm.Tenant.Data.Models.PurchaseOrder;
+﻿using Crm.Tenant.Data.Models.PurchaseOrder;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update;
 

@@ -33,7 +33,6 @@ namespace Crm.Api.Controllers.PurchaseOrder
         }
 
         [HttpGet("GetPurchaseOrders")]
-        [Authorize()]
         public async Task<IActionResult> GetPurchaseOrders()
         {
 

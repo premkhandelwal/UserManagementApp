@@ -2,6 +2,7 @@
 using Crm.Tenant.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
 
 namespace Crm.Tenant.Data.Repositories
 {
@@ -54,6 +55,11 @@ namespace Crm.Tenant.Data.Repositories
         {
             T? entity = _dbContext.Set<T>().FirstOrDefault(e => e.Id == id && e.IsDeleted == false);
             return entity;
+        }
+
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().AnyAsync(predicate);
         }
     }
 }

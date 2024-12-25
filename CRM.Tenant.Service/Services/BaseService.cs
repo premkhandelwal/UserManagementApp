@@ -2,6 +2,7 @@
 using FluentValidation;
 using Crm.Tenant.Data.Repositories;
 using Crm.Tenant.Data.Models;
+using System.Linq.Expressions;
 
 public  class BaseService<TRequest, TEntity> 
     where TRequest : class
@@ -70,5 +71,10 @@ public  class BaseService<TRequest, TEntity>
     {
         await Task.Delay(0);
         return false;
+    }
+
+    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        return await _repository.ExistsAsync(predicate);
     }
 }

@@ -1,6 +1,4 @@
-﻿using Crm.Api.Models.Quotation;
-
-namespace Crm.Tenant.Data.Models.PurchaseOrder
+﻿namespace Crm.Tenant.Data.Models.PurchaseOrder
 {
     public class PurchaseOrderModel
     {

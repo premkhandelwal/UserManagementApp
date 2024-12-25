@@ -1,10 +1,8 @@
 ﻿using Crm.Admin.Service.Models;
-using Crm.Tenant.Data.Models;
-using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Crm.Api.Models.Quotation
+namespace Crm.Tenant.Data.Models.PurchaseOrder
 {
     public class PurchaseOrderFieldsModel : BaseModelClass
     {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Crm.Api.Models.Quotation;
+using Crm.Tenant.Data.Models.Quotation;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
 using FluentValidation;

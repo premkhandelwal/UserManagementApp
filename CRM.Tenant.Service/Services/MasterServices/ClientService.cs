@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Crm.Api.Models.Quotation;
 using Crm.Tenant.Data.Models.Masters;
+using Crm.Tenant.Data.Models.Quotation;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.CreateClient;
 using FluentValidation;

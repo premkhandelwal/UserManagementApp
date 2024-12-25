@@ -4,22 +4,23 @@
 
 namespace Crm.Tenant.Data.Migrations
 {
-    public partial class AddedContactNumberinVendortable : Migration
+    public partial class Addstatusforitem : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ContactNo",
-                table: "Vendor",
+                name: "DeliveryStatus",
+                table: "PurchaseOrderItems",
                 type: "nvarchar(max)",
-                nullable: true);
+                nullable: false,
+                defaultValue: "");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ContactNo",
-                table: "Vendor");
+                name: "DeliveryStatus",
+                table: "PurchaseOrderItems");
         }
     }
 }

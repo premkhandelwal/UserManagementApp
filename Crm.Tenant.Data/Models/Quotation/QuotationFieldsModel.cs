@@ -1,9 +1,8 @@
 ﻿using Crm.Admin.Service.Models;
-using Crm.Tenant.Data.Models;
 using Crm.Tenant.Data.Models.Masters;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Crm.Api.Models.Quotation
+namespace Crm.Tenant.Data.Models.Quotation
 {
     public class QuotationFieldsModel: BaseModelClass
     {

@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Crm.Tenant.Data.Models;
-using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
 
-namespace Crm.Api.Models.Quotation
+namespace Crm.Tenant.Data.Models.PurchaseOrder
 {
     public class PurchaseOrderItemModel : BaseModelClass
     {
@@ -19,7 +17,9 @@ namespace Crm.Api.Models.Quotation
 
         public string? Unit { get; set; }
 
-        public int? HsnId {  get; set; }
+        public int? Hsn {  get; set; }
+
+        public string DeliveryStatus { get; set; } = "pending";
 
         public double UnitPrice { get; set; }
 
@@ -28,7 +28,7 @@ namespace Crm.Api.Models.Quotation
         [ForeignKey(nameof(PurchaseOrderId))]
         public virtual PurchaseOrderFieldsModel? PurchaseOrderFieldsModel { get; set; }
 
-        [ForeignKey(nameof(HsnId))]
+        [ForeignKey(nameof(Hsn))]
         public virtual HsnModel? HsnModel { get; set; }
     }
 }

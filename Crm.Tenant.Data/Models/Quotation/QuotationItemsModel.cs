@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using Crm.Tenant.Data.Models;
 
-namespace Crm.Api.Models.Quotation
+namespace Crm.Tenant.Data.Models.Quotation
 {
     public class QuotationItemModel: BaseModelClass
     {

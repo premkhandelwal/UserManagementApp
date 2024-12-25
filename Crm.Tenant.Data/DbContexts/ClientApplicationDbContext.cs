@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Crm.Api.Models.Quotation;
+﻿using Microsoft.EntityFrameworkCore;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.Quotation;
 using Crm.Admin.Service.Models;
-using Crm.Admin.Data.Models;
 using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
-using System.Reflection.Emit;
-using Crm.Tenant.Data.Models;
+using Crm.Tenant.Data.Models.PurchaseOrder;
 
 namespace Crm.Tenant.Data.DbContexts
 {

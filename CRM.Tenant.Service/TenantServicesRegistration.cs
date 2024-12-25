@@ -17,7 +17,6 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.CreateDeliveryTime;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Material.CreateMaterial;
 using Crm.Tenant.Data.Models;
-using Crm.Api.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
@@ -39,6 +38,7 @@ using CRM.Tenant.Service.Services.PurchaseOrderService;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderFields;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderItems;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderTerms;
+using Crm.Tenant.Data.Models.PurchaseOrder;
 
 namespace Crm.Tenant.Service
 {

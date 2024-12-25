@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Crm.Admin.Service.Models;
-using Crm.Api.Models.Quotation;
+using Crm.Tenant.Data.Models.PurchaseOrder;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
 using Crm.Tenant.Data.Models.Quotation;

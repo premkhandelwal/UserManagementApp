@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Crm.Api.Models.Quotation;
+using Crm.Tenant.Data.Models.PurchaseOrder;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderFields;
 using FluentValidation;

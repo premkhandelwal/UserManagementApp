@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Crm.Tenant.Data.Models.Masters;
-using Crm.Tenant.Data.Models;
 
-namespace Crm.Api.Models.Quotation
+namespace Crm.Tenant.Data.Models.PurchaseOrder
 {
     public class PurchaseOrderTermsModel : BaseModelClass
     {

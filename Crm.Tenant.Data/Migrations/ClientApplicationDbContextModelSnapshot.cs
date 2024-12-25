@@ -70,399 +70,6 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Crm.Api.Models.Quotation.PurchaseOrderFieldsModel", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("AddedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double?>("Discount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("DiscountType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("GrandTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("GstAmount")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("GstPercent")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double?>("NetTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("OtherCharges")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("PurchaseOrderAssignedToId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PurchaseOrderAttentionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PurchaseOrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PurchaseOrderMadeById")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PurchaseOrderVendorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PurchaseOrderAssignedToId");
-
-                    b.HasIndex("PurchaseOrderAttentionId");
-
-                    b.HasIndex("PurchaseOrderMadeById");
-
-                    b.HasIndex("PurchaseOrderVendorId");
-
-                    b.ToTable("PurchaseOrders");
-                });
-
-            modelBuilder.Entity("Crm.Api.Models.Quotation.PurchaseOrderItemModel", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("AddedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("HsnId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PurchaseOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
-                    b.Property<int>("SrNo")
-                        .HasColumnType("int");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HsnId");
-
-                    b.HasIndex("PurchaseOrderId");
-
-                    b.ToTable("PurchaseOrderItems");
-                });
-
-            modelBuilder.Entity("Crm.Api.Models.Quotation.PurchaseOrderTermsModel", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("AddedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CountryofOriginId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CurrencyId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DeliveryNameId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DeliveryTimeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("MtcTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PackingTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PurchaseOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ValidityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryofOriginId");
-
-                    b.HasIndex("CurrencyId");
-
-                    b.HasIndex("DeliveryNameId");
-
-                    b.HasIndex("DeliveryTimeId");
-
-                    b.HasIndex("MtcTypeId");
-
-                    b.HasIndex("PackingTypeId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.HasIndex("PurchaseOrderId");
-
-                    b.HasIndex("ValidityId");
-
-                    b.ToTable("PurchaseOrderTerms");
-                });
-
-            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationFieldsModel", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("AddedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double?>("Discount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("DiscountType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("GrandTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("GstAmount")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("GstPercent")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double?>("NetTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("OtherCharges")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("QuotationAssignedToId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuotationAttentionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuotationCloseReasonId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuotationCompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("QuotationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("QuotationImportance")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("QuotationMadeById")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuotationPriority")
-                        .HasColumnType("int");
-
-                    b.Property<string>("QuotationStage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QuotationStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Reference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuotationAssignedToId");
-
-                    b.HasIndex("QuotationAttentionId");
-
-                    b.HasIndex("QuotationCloseReasonId");
-
-                    b.HasIndex("QuotationCompanyId");
-
-                    b.HasIndex("QuotationMadeById");
-
-                    b.ToTable("Quotations");
-                });
-
-            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationItemModel", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("AddedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<double>("Margin")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("PackagingCharges")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
-                    b.Property<int>("QuotationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SrNo")
-                        .HasColumnType("int");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuotationId");
-
-                    b.ToTable("QuotationItems");
-                });
-
-            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationTermsModel", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("AddedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CountryofOriginId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CurrencyId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DeliveryNameId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DeliveryTimeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("MtcTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PackingTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuotationId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ValidityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryofOriginId");
-
-                    b.HasIndex("CurrencyId");
-
-                    b.HasIndex("DeliveryNameId");
-
-                    b.HasIndex("DeliveryTimeId");
-
-                    b.HasIndex("MtcTypeId");
-
-                    b.HasIndex("PackingTypeId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.HasIndex("QuotationId");
-
-                    b.HasIndex("ValidityId");
-
-                    b.ToTable("QuotationTerms");
-                });
-
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.ClientModel", b =>
                 {
                     b.Property<int?>("Id")
@@ -963,6 +570,282 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Validities");
                 });
 
+            modelBuilder.Entity("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderFieldsModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("GrandTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("GstAmount")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("GstPercent")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("NetTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("OtherCharges")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("PurchaseOrderAssignedToId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseOrderAttentionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PurchaseOrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PurchaseOrderMadeById")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseOrderVendorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurchaseOrderAssignedToId");
+
+                    b.HasIndex("PurchaseOrderAttentionId");
+
+                    b.HasIndex("PurchaseOrderMadeById");
+
+                    b.HasIndex("PurchaseOrderVendorId");
+
+                    b.ToTable("PurchaseOrders");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderItemModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeliveryStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Hsn")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PurchaseOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.Property<int>("SrNo")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Hsn");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.ToTable("PurchaseOrderItems");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderTermsModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CountryofOriginId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DeliveryNameId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DeliveryTimeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("MtcTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PackingTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ValidityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryofOriginId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("DeliveryNameId");
+
+                    b.HasIndex("DeliveryTimeId");
+
+                    b.HasIndex("MtcTypeId");
+
+                    b.HasIndex("PackingTypeId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.HasIndex("ValidityId");
+
+                    b.ToTable("PurchaseOrderTerms");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationFieldsModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("GrandTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("GstAmount")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("GstPercent")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("NetTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("OtherCharges")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("QuotationAssignedToId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuotationAttentionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuotationCloseReasonId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuotationCompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("QuotationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("QuotationImportance")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("QuotationMadeById")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuotationPriority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QuotationStage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuotationStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuotationAssignedToId");
+
+                    b.HasIndex("QuotationAttentionId");
+
+                    b.HasIndex("QuotationCloseReasonId");
+
+                    b.HasIndex("QuotationCompanyId");
+
+                    b.HasIndex("QuotationMadeById");
+
+                    b.ToTable("Quotations");
+                });
+
             modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationFollowUpModel", b =>
                 {
                     b.Property<int?>("Id")
@@ -1005,7 +888,155 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("QuotationFollowUp");
                 });
 
-            modelBuilder.Entity("Crm.Api.Models.Quotation.PurchaseOrderFieldsModel", b =>
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationItemModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Margin")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("PackagingCharges")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.Property<int>("QuotationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SrNo")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuotationId");
+
+                    b.ToTable("QuotationItems");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationTermsModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CountryofOriginId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DeliveryNameId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DeliveryTimeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("MtcTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PackingTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuotationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ValidityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryofOriginId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("DeliveryNameId");
+
+                    b.HasIndex("DeliveryTimeId");
+
+                    b.HasIndex("MtcTypeId");
+
+                    b.HasIndex("PackingTypeId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("QuotationId");
+
+                    b.HasIndex("ValidityId");
+
+                    b.ToTable("QuotationTerms");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.DeliveredToModel", b =>
+                {
+                    b.HasOne("Crm.Tenant.Data.Models.Masters.TransportModeModel", "TransportMode")
+                        .WithMany()
+                        .HasForeignKey("TransportModeId");
+
+                    b.Navigation("TransportMode");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.MemberModel", b =>
+                {
+                    b.HasOne("Crm.Tenant.Data.Models.Masters.ClientModel", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.PurchaseOrder.VendorMemberModel", b =>
+                {
+                    b.HasOne("Crm.Tenant.Data.Models.Masters.PurchaseOrder.VendorModel", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId");
+
+                    b.Navigation("Vendor");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderFieldsModel", b =>
                 {
                     b.HasOne("Crm.Admin.Service.Models.UserModel", "PurchaseOrderAssignedToUserModel")
                         .WithMany()
@@ -1032,13 +1063,13 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("PurchaseOrderVendorModel");
                 });
 
-            modelBuilder.Entity("Crm.Api.Models.Quotation.PurchaseOrderItemModel", b =>
+            modelBuilder.Entity("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderItemModel", b =>
                 {
                     b.HasOne("Crm.Tenant.Data.Models.Masters.PurchaseOrder.HsnModel", "HsnModel")
                         .WithMany()
-                        .HasForeignKey("HsnId");
+                        .HasForeignKey("Hsn");
 
-                    b.HasOne("Crm.Api.Models.Quotation.PurchaseOrderFieldsModel", "PurchaseOrderFieldsModel")
+                    b.HasOne("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderFieldsModel", "PurchaseOrderFieldsModel")
                         .WithMany()
                         .HasForeignKey("PurchaseOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1049,7 +1080,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("PurchaseOrderFieldsModel");
                 });
 
-            modelBuilder.Entity("Crm.Api.Models.Quotation.PurchaseOrderTermsModel", b =>
+            modelBuilder.Entity("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderTermsModel", b =>
                 {
                     b.HasOne("Crm.Tenant.Data.Models.Masters.CountryModel", "CountryofOriginModel")
                         .WithMany()
@@ -1079,7 +1110,7 @@ namespace Crm.Tenant.Data.Migrations
                         .WithMany()
                         .HasForeignKey("PaymentId");
 
-                    b.HasOne("Crm.Api.Models.Quotation.PurchaseOrderFieldsModel", "PurchaseOrderFieldsModel")
+                    b.HasOne("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderFieldsModel", "PurchaseOrderFieldsModel")
                         .WithMany()
                         .HasForeignKey("PurchaseOrderId");
 
@@ -1106,7 +1137,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("ValidityModel");
                 });
 
-            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationFieldsModel", b =>
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationFieldsModel", b =>
                 {
                     b.HasOne("Crm.Admin.Service.Models.UserModel", "QuotationAssignedToUserModel")
                         .WithMany()
@@ -1139,9 +1170,9 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("QuotationMadeByUserModel");
                 });
 
-            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationItemModel", b =>
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationFollowUpModel", b =>
                 {
-                    b.HasOne("Crm.Api.Models.Quotation.QuotationFieldsModel", "QuotationFieldsModel")
+                    b.HasOne("Crm.Tenant.Data.Models.Quotation.QuotationFieldsModel", "QuotationFieldsModel")
                         .WithMany()
                         .HasForeignKey("QuotationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1150,7 +1181,18 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("QuotationFieldsModel");
                 });
 
-            modelBuilder.Entity("Crm.Api.Models.Quotation.QuotationTermsModel", b =>
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationItemModel", b =>
+                {
+                    b.HasOne("Crm.Tenant.Data.Models.Quotation.QuotationFieldsModel", "QuotationFieldsModel")
+                        .WithMany()
+                        .HasForeignKey("QuotationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuotationFieldsModel");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationTermsModel", b =>
                 {
                     b.HasOne("Crm.Tenant.Data.Models.Masters.CountryModel", "CountryofOriginModel")
                         .WithMany()
@@ -1180,7 +1222,7 @@ namespace Crm.Tenant.Data.Migrations
                         .WithMany()
                         .HasForeignKey("PaymentId");
 
-                    b.HasOne("Crm.Api.Models.Quotation.QuotationFieldsModel", "QuotationFieldsModel")
+                    b.HasOne("Crm.Tenant.Data.Models.Quotation.QuotationFieldsModel", "QuotationFieldsModel")
                         .WithMany()
                         .HasForeignKey("QuotationId");
 
@@ -1205,44 +1247,6 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("QuotationFieldsModel");
 
                     b.Navigation("ValidityModel");
-                });
-
-            modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.DeliveredToModel", b =>
-                {
-                    b.HasOne("Crm.Tenant.Data.Models.Masters.TransportModeModel", "TransportMode")
-                        .WithMany()
-                        .HasForeignKey("TransportModeId");
-
-                    b.Navigation("TransportMode");
-                });
-
-            modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.MemberModel", b =>
-                {
-                    b.HasOne("Crm.Tenant.Data.Models.Masters.ClientModel", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.PurchaseOrder.VendorMemberModel", b =>
-                {
-                    b.HasOne("Crm.Tenant.Data.Models.Masters.PurchaseOrder.VendorModel", "Vendor")
-                        .WithMany()
-                        .HasForeignKey("VendorId");
-
-                    b.Navigation("Vendor");
-                });
-
-            modelBuilder.Entity("Crm.Tenant.Data.Models.Quotation.QuotationFollowUpModel", b =>
-                {
-                    b.HasOne("Crm.Api.Models.Quotation.QuotationFieldsModel", "QuotationFieldsModel")
-                        .WithMany()
-                        .HasForeignKey("QuotationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("QuotationFieldsModel");
                 });
 #pragma warning restore 612, 618
         }

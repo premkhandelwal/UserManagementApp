@@ -14,7 +14,9 @@
 
         public string? Unit { get; set; }
 
-        public int? HsnId { get; set; }
+        public int? Hsn { get; set; }
+
+        public string DeliveryStatus { get; set; } = "pending";
 
         public double UnitPrice { get; set; }
 
