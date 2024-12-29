@@ -17,6 +17,6 @@ public class MemberService : BaseService<CreateMemberRequest, MemberModel>
 
     public async override Task<bool> HasReferences(MemberModel entity)
     {
-        return await _quotationFieldsService.ExistsAsync(p => p.QuotationAssignedToId == entity.Id);
+        return await _quotationFieldsService.ExistsAsync(p => p.QuotationAttentionId == entity.Id);
     }
 }
