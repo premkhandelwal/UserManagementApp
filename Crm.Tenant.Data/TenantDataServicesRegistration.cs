@@ -12,7 +12,7 @@ namespace Crm.Tenant.Service
         {
             services.AddDbContext<ClientApplicationDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("ClientConnectionString"));
+                options.UseMySql(configuration.GetConnectionString("ClientConnectionString"), new MySqlServerVersion(new Version(8, 0, 31)));
             }, ServiceLifetime.Transient);
 
             services.AddTransient(typeof(BaseRepository<>));

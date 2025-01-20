@@ -159,21 +159,27 @@ namespace Crm.Api.Controllers
                     SameSite = SameSiteMode.None,
                 };
 
-                var permissionCookieOptions = new CookieOptions
-                {
-                    SameSite = SameSiteMode.None,
-                };
-
                 await _userService.UpdateLastLoginTime(request.emailId);
                 Response.Cookies.Append("AuthToken", loginResponse?.JwtAuthToken ?? "", authCookieOptions);
                 Response.Cookies.Append("RefreshToken", loginResponse?.RefreshToken ?? "", refreshCookieOptions);
-                Response.Cookies.Append("Permissions", string.Join(",", loginResponse?.Permissions));
 
                 return StatusCode(StatusCodes.Status200OK, user);
             }
 
             return StatusCode(StatusCodes.Status401Unauthorized, response);
         }
+
+        [HttpGet("GetPermissions")]
+        public async Task<IActionResult> GetPermissionsForUser(string emailId)
+        {
+            IApiResponse<dynamic> response = await _authService.GetPermissions(emailId);
+            if (response.IsSuccess)
+            {
+                return StatusCode(response.StatusCode, response.Response);
+            }
+            return StatusCode(response.StatusCode, response);
+        }
+
         [HttpGet("GetAllUsers")]
         [Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()

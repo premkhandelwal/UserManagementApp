@@ -52,10 +52,29 @@ namespace Crm.Admin.Service.Services
                 UserId = applicationUser.Id,
                 JwtAuthToken = jwtAuthToken,
                 RefreshToken = refreshToken,
-                Permissions = permissions
             };
 
             return new IApiResponse<dynamic> { IsSuccess = true, StatusCode = 201, Response = loginResponse };
+        }
+
+        public async Task<dynamic> GetPermissions(string emailId)
+        {
+            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(emailId);
+            if (applicationUser == null)
+            {
+                return new IApiResponse<dynamic> { IsSuccess = false, StatusCode = 400, Response = "User not found!!" };
+            }
+            List<Claim> claims = await _tokenService.GetAllValidClaimsForUser(applicationUser);
+
+            var permissions = claims
+                                .Where(c => c.Type.Equals("permissions", StringComparison.OrdinalIgnoreCase))
+                                .Select(c => c.Value).ToList(); 
+            var permissionResponse = new PermissionResponse
+            {
+                Permissions = permissions
+            };
+
+            return new IApiResponse<dynamic> { IsSuccess = true, StatusCode = 200, Response = permissionResponse };
         }
 
     }
