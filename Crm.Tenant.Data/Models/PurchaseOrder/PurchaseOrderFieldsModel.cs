@@ -6,7 +6,7 @@ namespace Crm.Tenant.Data.Models.PurchaseOrder
 {
     public class PurchaseOrderFieldsModel : BaseModelClass
     {
-
+        public string? PurchaseOrderId { get; set; }
         public int? PurchaseOrderMadeById { get; set; }
 
         public int? PurchaseOrderAssignedToId { get; set; }

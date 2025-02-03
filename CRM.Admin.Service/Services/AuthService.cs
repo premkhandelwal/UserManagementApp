@@ -27,7 +27,9 @@ namespace Crm.Admin.Service.Services
         }
 
         public async Task<IApiResponse<dynamic>> Login(string emailId, string password)
-        {
+        { 
+            try{
+
             CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(emailId);
             if (applicationUser == null)
             {
@@ -43,9 +45,6 @@ namespace Crm.Admin.Service.Services
             SecurityToken jwtSecurityToken = await _tokenService.GenerateJwtAuthSecurityToken(applicationUser);
             string jwtAuthToken = _tokenService.GenerateJwtAuthToken(jwtSecurityToken);
             string refreshToken = await _tokenService.GenerateRefreshToken(jwtSecurityToken.Id, applicationUser.Id);
-            List<Claim> claims = await _tokenService.GetAllValidClaimsForUser(applicationUser);
-
-            var permissions = claims.Select(c => c.Value).ToList(); // Assuming claims contain the permissions.
 
             var loginResponse = new LoginResponse
             {
@@ -55,6 +54,17 @@ namespace Crm.Admin.Service.Services
             };
 
             return new IApiResponse<dynamic> { IsSuccess = true, StatusCode = 201, Response = loginResponse };
+            }
+            catch (Exception ex)
+            {
+                // Log the error and return a proper response
+                return new IApiResponse<dynamic>
+                {
+                    IsSuccess = false,
+                    StatusCode = 501,
+                    Response = $"Internal Server Error: {ex.Message}"
+                };
+            }
         }
 
         public async Task<dynamic> GetPermissions(string emailId)

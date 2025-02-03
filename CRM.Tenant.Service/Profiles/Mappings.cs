@@ -63,10 +63,10 @@ using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotati
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
-using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationTerms;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.UpdateQuotationItems;
 
 
 namespace CRM.Tenant.Service.Profiles

@@ -1,7 +1,7 @@
 ﻿using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
 using FluentValidation;
 
-namespace CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems
+namespace CRM.Tenant.Service.Models.Requests.QuotationFollowUp.UpdateQuotationItems
 {
     public class UpdateQuotationItemsValidationService<T> : CreateQuotationItemsValidationService<UpdateQuotationItemsRequest>
     {

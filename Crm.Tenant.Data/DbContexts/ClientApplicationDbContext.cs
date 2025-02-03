@@ -203,11 +203,6 @@ namespace Crm.Tenant.Data.DbContexts
                 .HasForeignKey(m => m.DeliveryNameId);
 
             modelBuilder.Entity<PurchaseOrderTermsModel>()
-                .HasOne(m => m.DeliveryTimeModel)
-                .WithMany()
-                .HasForeignKey(m => m.DeliveryTimeId);
-
-            modelBuilder.Entity<PurchaseOrderTermsModel>()
                 .HasOne(m => m.MtcTypeModel)
                 .WithMany()
                 .HasForeignKey(m => m.MtcTypeId);

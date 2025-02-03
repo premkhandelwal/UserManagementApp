@@ -2,6 +2,8 @@
 {
     public class CreatePurchaseOrderFieldsRequest
     {
+        public string? PurchaseOrderId = "";
+
         public int? PurchaseOrderMadeById { get; set; }
 
         public int? PurchaseOrderAssignedToId { get; set; }

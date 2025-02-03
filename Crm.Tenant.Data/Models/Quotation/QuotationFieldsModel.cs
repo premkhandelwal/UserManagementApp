@@ -6,7 +6,7 @@ namespace Crm.Tenant.Data.Models.Quotation
 {
     public class QuotationFieldsModel: BaseModelClass
     {
-
+        public string? QuotationId { get; set; }
         public int? QuotationMadeById { get; set; }
 
         public int? QuotationAssignedToId { get; set; }

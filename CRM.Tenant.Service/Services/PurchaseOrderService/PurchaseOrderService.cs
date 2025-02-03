@@ -1,6 +1,7 @@
 ﻿using Crm.Tenant.Data.Models.PurchaseOrder;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderFields;
 
 namespace CRM.Tenant.Service.Services.PurchaseOrderService
 {
@@ -17,13 +18,22 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
             _purchaseOrderItems = purchaseOrderItems;
             _purchaseOrderTerms = purchaseOrderTerms;
         }
+        private string GenerateQuotationId(int quotationId)
+        {
+            int currentYear = DateTime.UtcNow.Year;
+            int financialYearStart = DateTime.UtcNow.Month < 4 ? currentYear - 1 : currentYear;
+            int financialYearEnd = financialYearStart + 1;
 
-        public async Task<int?> Create(CreatePurchaseOrderRequest request)
+            return $"ATF/{financialYearStart % 100}-{financialYearEnd % 100}/{quotationId}";
+        }
+
+        public async Task<object> Create(CreatePurchaseOrderRequest request)
         {
             PurchaseOrderFieldsModel? purchaseOrderFields = await _purchaseOrderFields.CreateAsync(request.purchaseOrderFields);
             List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel> { };
             if (purchaseOrderFields != null && purchaseOrderFields.Id != null)
             {
+                purchaseOrderFields.PurchaseOrderId = GenerateQuotationId((int)purchaseOrderFields.Id);
                 foreach (var item in request.purchaseOrderItems)
                 {
                     item.PurchaseOrderId = purchaseOrderFields.Id;
@@ -33,19 +43,44 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
                         purchaseOrderItems.Add(savedItem);
                     }
                 }
+
+                UpdatePurchaseOrderFieldsRequest updReq = new UpdatePurchaseOrderFieldsRequest
+                {
+                    Id = purchaseOrderFields.Id,
+                    PurchaseOrderId = purchaseOrderFields.PurchaseOrderId,
+                    AddedOn = DateTime.UtcNow,
+                    Discount = request.purchaseOrderFields.Discount,
+                    DiscountType = request.purchaseOrderFields.DiscountType,
+                    GrandTotal = request.purchaseOrderFields.GrandTotal,
+                    GstAmount = request.purchaseOrderFields.GstAmount,
+                    GstPercent = request.purchaseOrderFields.GstPercent,
+                    ModifiedOn = DateTime.UtcNow,
+                    NetTotal = request.purchaseOrderFields.NetTotal,
+                    OtherCharges = request.purchaseOrderFields.OtherCharges,
+                    PurchaseOrderAssignedToId = request.purchaseOrderFields.PurchaseOrderAssignedToId,
+                    PurchaseOrderAttentionId = request.purchaseOrderFields.PurchaseOrderAttentionId,
+                    PurchaseOrderDate = request.purchaseOrderFields.PurchaseOrderDate,
+                    PurchaseOrderMadeById = request.purchaseOrderFields.PurchaseOrderMadeById,
+                    PurchaseOrderVendorId = request.purchaseOrderFields.PurchaseOrderVendorId
+                };
+                await _purchaseOrderFields.UpdateAsync(updReq);
                 request.purchaseOrderTerms.PurchaseOrderId = purchaseOrderFields.Id;
                 PurchaseOrderTermsModel? purchaseOrderTerms = await _purchaseOrderTerms.CreateAsync(request.purchaseOrderTerms);
-                return purchaseOrderFields.Id;
+                return new
+                {
+                    purchaseOrderFields.PurchaseOrderId
+                };
             }
-            return -1;
+            return new { Message = "Failed to create purchase order." };
         }
 
-        public async Task<int> Update(UpdatePurchaseOrderRequest request)
+        public async Task<object> Update(UpdatePurchaseOrderRequest request)
         {
             PurchaseOrderFieldsModel? purchaseOrderFields = await _purchaseOrderFields.UpdateAsync(request.purchaseOrderFields);
             List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel> { };
             if (purchaseOrderFields != null && purchaseOrderFields.Id != null)
             {
+                purchaseOrderFields.PurchaseOrderId = GenerateQuotationId((int)purchaseOrderFields.Id);
                 foreach (var item in request.purchaseOrderItems)
                 {
                     item.PurchaseOrderId = purchaseOrderFields.Id;
@@ -65,9 +100,12 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
                 }
                 request.purchaseOrderTerms.PurchaseOrderId = purchaseOrderFields.Id;
                 PurchaseOrderTermsModel? purchaseOrderTerms = await _purchaseOrderTerms.UpdateAsync(request.purchaseOrderTerms);
-                return (int)purchaseOrderFields.Id;
+                return new
+                {
+                    purchaseOrderFields.PurchaseOrderId
+                };
             }
-            return -1;
+            return new { Message = "Failed to update purchase order." };
         }
 
         public async Task<List<PurchaseOrderModel>> Get()

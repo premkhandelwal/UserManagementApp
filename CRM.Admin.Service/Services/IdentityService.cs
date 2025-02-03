@@ -51,6 +51,7 @@ namespace Crm.Admin.Service.Services
                 }
                 else
                 {
+                    await _userManager.DeleteAsync(newUser);
                     return new IApiResponse<string> { IsSuccess = false, StatusCode = 500, Response = roleAssignResponse.Response };
                 }
             }

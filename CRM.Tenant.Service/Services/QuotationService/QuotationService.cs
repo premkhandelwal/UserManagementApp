@@ -1,6 +1,7 @@
 ﻿using Crm.Tenant.Data.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.Quotation;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
 
 namespace CRM.Tenant.Service.Services.QuotationService
 {
@@ -18,12 +19,24 @@ namespace CRM.Tenant.Service.Services.QuotationService
             _quotationTerms = quotationTerms;
         }
 
-        public async Task<int?> Create(CreateQuotationRequest request)
+        private string GenerateQuotationId(int quotationId)
+        {
+            int currentYear = DateTime.UtcNow.Year;
+            int financialYearStart = DateTime.UtcNow.Month < 4 ? currentYear - 1 : currentYear;
+            int financialYearEnd = financialYearStart + 1;
+
+            return $"ATF/{financialYearStart % 100}-{financialYearEnd % 100}/{quotationId}";
+        }
+
+        public async Task<object> Create(CreateQuotationRequest request)
         {
             QuotationFieldsModel? quotationFields = await _quotationFields.CreateAsync(request.quotationFields);
-            List<QuotationItemModel> quotationItems = new List<QuotationItemModel> { };
+            List<QuotationItemModel> quotationItems = new List<QuotationItemModel>();
+
             if (quotationFields != null && quotationFields.Id != null)
             {
+                quotationFields.QuotationId = GenerateQuotationId((int)quotationFields.Id);
+
                 foreach (var item in request.quotationItems)
                 {
                     item.QuotationId = quotationFields.Id;
@@ -33,41 +46,73 @@ namespace CRM.Tenant.Service.Services.QuotationService
                         quotationItems.Add(savedItem);
                     }
                 }
-                request.quotationTerms.QuotationId = quotationFields.Id;
-                QuotationTermsModel? quotationTerms = await _quotationTerms.CreateAsync(request.quotationTerms);   
-                return quotationFields.Id;
+
+                UpdateQuotationFieldsRequest updReq = new UpdateQuotationFieldsRequest
+                {
+                    Id = quotationFields.Id,
+                    QuotationId = quotationFields.QuotationId,
+                    AddedOn = DateTime.UtcNow,
+                    Discount = request.quotationFields.Discount,
+                    DiscountType = request.quotationFields.DiscountType,
+                    GrandTotal = request.quotationFields.GrandTotal,
+                    GstAmount = request.quotationFields.GstAmount,
+                    GstPercent = request.quotationFields.GstPercent,
+                    ModifiedOn = DateTime.UtcNow,
+                    NetTotal = request.quotationFields.NetTotal,
+                    OtherCharges = request.quotationFields.OtherCharges,
+                    QuotationAssignedToId = request.quotationFields.QuotationAssignedToId,
+                    QuotationAttentionId = request.quotationFields.QuotationAttentionId,
+                    QuotationCompanyId = request.quotationFields.QuotationCompanyId,
+                    QuotationDate = request.quotationFields.QuotationDate,
+                    QuotationImportance = request.quotationFields.QuotationImportance,
+                    QuotationMadeById = request.quotationFields.QuotationMadeById,
+                    QuotationPriority = request.quotationFields.QuotationPriority,
+                    QuotationStage = request.quotationFields.QuotationStage,
+                    Reference = request.quotationFields.Reference
+                };
+                await _quotationFields.UpdateAsync(updReq);
+
+                QuotationTermsModel? quotationTerms = await _quotationTerms.CreateAsync(request.quotationTerms);
+
+                return new
+                {
+                    quotationFields.QuotationId
+                };
             }
-            return -1;
+            return new { Message = "Failed to create quotation." };
         }
 
-        public async Task<int> Update(UpdateQuotationRequest request)
+        public async Task<object> Update(UpdateQuotationRequest request)
         {
             QuotationFieldsModel? quotationFields = await _quotationFields.UpdateAsync(request.quotationFields);
-            List<QuotationItemModel> quotationItems = new List<QuotationItemModel> { };
+            List<QuotationItemModel> quotationItems = new List<QuotationItemModel>();
+
             if (quotationFields != null && quotationFields.Id != null)
             {
+                quotationFields.QuotationId = GenerateQuotationId((int)quotationFields.Id);
+
                 foreach (var item in request.quotationItems)
                 {
                     item.QuotationId = quotationFields.Id;
-                    QuotationItemModel? savedItem = null;
-                    if (item.Id == null)
-                    {
-                        savedItem = await _quotationItems.CreateAsync(item);
-                    }
-                    else
-                    {
-                        savedItem = await _quotationItems.UpdateAsync(item);
-                    }
+                    QuotationItemModel? savedItem = item.Id == null
+                        ? await _quotationItems.CreateAsync(item)
+                        : await _quotationItems.UpdateAsync(item);
+
                     if (savedItem != null)
                     {
                         quotationItems.Add(savedItem);
                     }
                 }
+
                 request.quotationTerms.QuotationId = quotationFields.Id;
                 QuotationTermsModel? quotationTerms = await _quotationTerms.UpdateAsync(request.quotationTerms);
-                return (int)quotationFields.Id;
+
+                return new
+                {
+                    quotationFields.QuotationId
+                };
             }
-            return -1;
+            return new { Message = "Failed to update quotation." };
         }
 
         public async Task<List<QuotationModel>> Get()

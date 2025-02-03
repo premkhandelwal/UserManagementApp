@@ -5,7 +5,7 @@
         public int? PurchaseOrderId { get; set; }
         public int? DeliveryNameId { get; set; }
         public int? CurrencyId { get; set; }
-        public int? DeliveryTimeId { get; set; }
+        public DateTime? DeliveryTime { get; set; }
         public int? CountryofOriginId { get; set; }
         public int? PaymentId { get; set; }
         public int? MtcTypeId { get; set; }

@@ -35,7 +35,6 @@ namespace Crm.Api.Controllers
         }
 
         [HttpPost("CreateUser")]
-
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest registerUser)
         {
                 UserModel? user = await _userService.CreateAsync(registerUser);
@@ -143,7 +142,6 @@ namespace Crm.Api.Controllers
                 {
                     return StatusCode(StatusCodes.Status401Unauthorized);
                 }
-
                 // Set the cookies with the tokens
                 var authCookieOptions = new CookieOptions
                 {
@@ -162,8 +160,8 @@ namespace Crm.Api.Controllers
                 await _userService.UpdateLastLoginTime(request.emailId);
                 Response.Cookies.Append("AuthToken", loginResponse?.JwtAuthToken ?? "", authCookieOptions);
                 Response.Cookies.Append("RefreshToken", loginResponse?.RefreshToken ?? "", refreshCookieOptions);
-
                 return StatusCode(StatusCodes.Status200OK, user);
+
             }
 
             return StatusCode(StatusCodes.Status401Unauthorized, response);

@@ -32,7 +32,7 @@ namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuo
                 .MaximumLength(100).WithMessage("Quotation importance must not exceed 100 characters.");
 
             RuleFor(x => x.QuotationPriority)
-                .InclusiveBetween(1, 5).WithMessage("Quotation priority must be between 1 and 5.");
+                .InclusiveBetween(0, 5).WithMessage("Quotation priority must be between 1 and 5.");
 
             RuleFor(x => x.GstPercent)
                 .GreaterThanOrEqualTo(0).WithMessage("GST percent must be a positive value.");

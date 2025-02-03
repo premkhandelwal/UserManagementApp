@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CRM.Admin.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Addingdatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

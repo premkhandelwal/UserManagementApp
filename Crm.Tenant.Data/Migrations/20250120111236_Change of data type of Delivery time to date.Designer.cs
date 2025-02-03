@@ -3,6 +3,7 @@ using System;
 using Crm.Tenant.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crm.Tenant.Data.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250120111236_Change of data type of Delivery time to date")]
+    partial class ChangeofdatatypeofDeliverytimetodate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -419,18 +421,6 @@ namespace Crm.Tenant.Data.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("BankAccountNo")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("BankBranchName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("BankIfscCode")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("BankName")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("ContactNo")
                         .HasColumnType("longtext");
 
@@ -587,9 +577,6 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<DateTime>("PurchaseOrderDate")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("PurchaseOrderId")
-                        .HasColumnType("longtext");
 
                     b.Property<int?>("PurchaseOrderMadeById")
                         .HasColumnType("int");
@@ -778,9 +765,6 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<DateTime>("QuotationDate")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("QuotationId")
-                        .HasColumnType("longtext");
 
                     b.Property<string>("QuotationImportance")
                         .HasColumnType("longtext");

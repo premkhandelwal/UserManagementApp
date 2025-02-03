@@ -9,7 +9,7 @@ namespace Crm.Tenant.Data.Models.PurchaseOrder
         public int? PurchaseOrderId { get; set; }
         public int? DeliveryNameId { get; set; }
         public int? CurrencyId { get; set; }
-        public int? DeliveryTimeId { get; set; }
+        public DateTime? DeliveryTime { get; set; }
         public int? CountryofOriginId { get; set; }
         public int? PaymentId { get; set; }
         public int? MtcTypeId { get; set; }
@@ -21,9 +21,6 @@ namespace Crm.Tenant.Data.Models.PurchaseOrder
 
         [ForeignKey(nameof(CurrencyId))]
         public virtual CurrencyModel? CurrencyModel { get; set; }
-
-        [ForeignKey(nameof(DeliveryTimeId))]
-        public virtual DeliveryTimeModel? DeliveryTimeModel { get; set; }
 
         [ForeignKey(nameof(CountryofOriginId))]
         public virtual CountryModel? CountryofOriginModel { get; set; }

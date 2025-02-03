@@ -3,6 +3,7 @@ using System;
 using Crm.Tenant.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crm.Tenant.Data.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250120112835_Added bank details in Vendor table")]
+    partial class AddedbankdetailsinVendortable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -588,9 +590,6 @@ namespace Crm.Tenant.Data.Migrations
                     b.Property<DateTime>("PurchaseOrderDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("PurchaseOrderId")
-                        .HasColumnType("longtext");
-
                     b.Property<int?>("PurchaseOrderMadeById")
                         .HasColumnType("int");
 
@@ -778,9 +777,6 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<DateTime>("QuotationDate")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("QuotationId")
-                        .HasColumnType("longtext");
 
                     b.Property<string>("QuotationImportance")
                         .HasColumnType("longtext");

@@ -29,5 +29,5 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.MapGet("/", () => "Hello World!");
 // Configure middleware pipeline
 app.ConfigurePipeline(); // Call ConfigurePipeline
-
+app.UseHttpsRedirection();
 app.Run();

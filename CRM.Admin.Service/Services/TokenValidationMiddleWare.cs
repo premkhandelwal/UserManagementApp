@@ -92,18 +92,5 @@ namespace CRM.Admin.Service.Services
 
             await _next(context);
         }
-
-
-        private void SetHttpOnlyCookie(HttpContext context, string key, string value, DateTime expiry)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = expiry
-            };
-            context.Response.Cookies.Append(key, value, cookieOptions);
-        }
     }
 }

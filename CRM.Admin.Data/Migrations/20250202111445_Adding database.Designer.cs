@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM.Admin.Data.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20250113043415_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20250202111445_Adding database")]
+    partial class Addingdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

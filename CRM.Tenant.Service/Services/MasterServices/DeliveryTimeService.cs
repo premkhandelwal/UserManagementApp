@@ -19,10 +19,6 @@ public class DeliveryTimeService : BaseService<CreateDeliveryTimeRequest, Delive
 
     public async override Task<bool> HasReferences(DeliveryTimeModel entity)
     {
-        if (await _quotationTermsService.ExistsAsync(q => q.DeliveryTimeId == entity.Id))
-        {
-            return true;
-        }
-        return await _purchaseOrderTermsService.ExistsAsync(p => p.DeliveryTimeId == entity.Id);
+        return await _quotationTermsService.ExistsAsync(q => q.DeliveryTimeId == entity.Id);
     }
 }

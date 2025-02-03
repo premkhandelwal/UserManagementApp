@@ -36,8 +36,15 @@ namespace Crm.Api
 
             app.UseCors(opt =>
             {
-                opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200", "http://103.212.120.96");
+                opt.WithOrigins(
+                    "http://localhost:4200",
+                    "https://crm.arihantatf.com"
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
             });
+
 
             app.UseMiddleware<TokenValidationMiddleware>(); // Ensure this middleware is used
             app.UseAuthentication();

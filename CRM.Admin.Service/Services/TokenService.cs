@@ -40,7 +40,7 @@ namespace Crm.Admin.Service.Services
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(30),
+                Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
             };
             SecurityToken securityToken = jwtTokenHandler.CreateToken(tokenDescriptor);
@@ -61,8 +61,8 @@ namespace Crm.Admin.Service.Services
                 JwtId = authTokenId,
                 IsUsed = false,
                 IsRevoked = false,
-                AddedDate = DateTime.Now,
-                ExpiryDate = DateTime.Now.AddMonths(6),
+                AddedDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddMonths(6),
                 UserId = userId,
                 Token = GenerateRandomString(35) + Guid.NewGuid(),
             };
