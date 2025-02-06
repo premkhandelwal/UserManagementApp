@@ -25,6 +25,7 @@ namespace Crm.Api.Controllers
         private readonly AuthService _authService;
         private readonly EmailService _emailService;
         private readonly OtpService _otpService;
+        
         public AuthController(IdentityService identityService, UserService userService, AuthService authService, EmailService emailService, OtpService otpService)
         {
             _identityService = identityService;
@@ -37,30 +38,35 @@ namespace Crm.Api.Controllers
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest registerUser)
         {
+             
                 UserModel? user = await _userService.CreateAsync(registerUser);
-
+                UpdateUserRequest? req = null;
                 if (user != null)
                 {
+                    req = new UpdateUserRequest()
+                    {
+                        Id = (int)user.Id,
+                        AddedOn = user.AddedOn,
+                        EmailId = user.EmailId,
+                        Username = user.Username,
+                        LastLogin = user.LastLogin,
+                        MobileNo = user.MobileNo,
+                        ModifiedOn = user.ModifiedOn,
+                        Password = user.Password,
+                        Role = user.Role,
+                    };
                     IApiResponse<string> response = await _identityService.CreateUser(registerUser.EmailId, registerUser.Username, registerUser.Password, registerUser.Role, (int) user.Id!);
                     if (response.IsSuccess)
                     {
-                        UpdateUserRequest req = new UpdateUserRequest()
-                        {
-                            Id = (int)user.Id,
-                            AddedOn = user.AddedOn,
-                            EmailId = user.EmailId,
-                            Username = user.Username,
-                            LastLogin = user.LastLogin,
-                            MobileNo = user.MobileNo,
-                            ModifiedOn = user.ModifiedOn,
-                            Password = user.Password,
-                            Role = user.Role,
-                            UserId = response.Response!
-                        };
+                        req.UserId = response.Response!;
                         await _userService.UpdateAsync(req);
                         return StatusCode(StatusCodes.Status201Created, req);
                 
                     }
+                }
+                if (req != null)
+                {
+                    await _userService.HardDeleteAsync(req);
                 }
                 return BadRequest(new { message = "Failed to create user." }); ;
         }

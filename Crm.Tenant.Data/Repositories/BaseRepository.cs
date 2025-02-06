@@ -45,6 +45,23 @@ namespace Crm.Tenant.Data.Repositories
             return entity;
         }
 
+        public virtual async Task<T> HardDeleteAsync(T entity)
+        {
+            var existingEntity = await _dbContext.Set<T>().FindAsync(entity.Id);
+            if (existingEntity != null)
+            {
+                _dbContext.Set<T>().Remove(existingEntity);
+            }
+            else
+            {
+                _dbContext.Set<T>().Attach(entity);
+                _dbContext.Set<T>().Remove(entity);
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return entity;
+        }
+
         public virtual async Task<List<T>> ReadAsync()
         {
             List<T> entityList = await _dbContext.Set<T>().Where(t => t.IsDeleted == false).ToListAsync();

@@ -47,6 +47,11 @@ public  class BaseService<TRequest, TEntity>
         return await _repository.DeleteAsync(entity);
     }
 
+    public virtual async Task<TEntity?> HardDeleteAsync(TRequest request)
+    {
+        TEntity entity = _mapper.Map<TEntity>(request);
+        return await _repository.HardDeleteAsync(entity);
+    }
     public virtual async Task<List<TEntity>> ReadAsync()
     {
         return await _repository.ReadAsync();
