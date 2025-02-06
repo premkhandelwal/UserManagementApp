@@ -383,5 +383,39 @@ namespace Crm.Admin.Service.Services
                 }
             }
         }
+
+        public async Task<IApiResponse<string>> DeleteUser(string emailId)
+        {
+            try
+            {
+                CrmIdentityUser user = await _userManager.FindByEmailAsync(emailId);
+                if (user == null)
+                {
+                    return new IApiResponse<string>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Response = "User not found!"
+                    };
+                }
+                user.IsDeactivated = true;
+                IdentityResult emailUpdateResult = await _userManager.UpdateAsync(user);
+                return new IApiResponse<string>
+                {
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Response = "User deleted successfully!"
+                };
+            }
+            catch (Exception ex) 
+            {
+                return new IApiResponse<string>
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Response = $"An error occurred: {ex.Message}"
+                };
+            }
+        }
     }
 }

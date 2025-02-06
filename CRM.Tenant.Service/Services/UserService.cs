@@ -26,5 +26,23 @@ namespace CRM.Tenant.Service.Services
                 await _repository.UpdateAsync(user);
             }
         }
+
+        public async Task<bool> DeleteUser(string emailId)
+        {
+            List<UserModel> users = await _repository.ReadAsync();
+
+            UserModel? user = users.FirstOrDefault(u => u.EmailId == emailId);
+
+            if (user != null)
+            {
+                user.IsDeleted = true;
+                var res =  await _repository.UpdateAsync(user);
+                if (res != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

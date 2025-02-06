@@ -42,6 +42,12 @@ namespace Crm.Admin.Service.Services
                 return new IApiResponse<dynamic> { IsSuccess = false, StatusCode = 401, Response = "Invalid email address or password!!" };
             }
 
+            bool isActive = !applicationUser.IsDeactivated;
+            if (!isActive) 
+            {
+                return new IApiResponse<dynamic> { IsSuccess = false, StatusCode = 401, Response = "User not active!!" };
+            }
+
             SecurityToken jwtSecurityToken = await _tokenService.GenerateJwtAuthSecurityToken(applicationUser);
             string jwtAuthToken = _tokenService.GenerateJwtAuthToken(jwtSecurityToken);
             string refreshToken = await _tokenService.GenerateRefreshToken(jwtSecurityToken.Id, applicationUser.Id);

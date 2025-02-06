@@ -120,6 +120,21 @@ namespace Crm.Api.Controllers
             }
         }
 
+        [HttpPost("DeleteUser")]
+        public async Task<IActionResult> DeleteUser([FromBody] DeleteUserRequest deleteUserRequest)
+        { 
+            var userServiceDeleteRes = await _userService.DeleteUser(deleteUserRequest.EmailId);
+            if (userServiceDeleteRes == false)
+            {
+                return BadRequest(new { message = "Failed to update user in UserService." });
+            }
+            var identityDeleteRes = await _identityService.DeleteUser(deleteUserRequest.EmailId);
+            if (identityDeleteRes.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status200OK, identityDeleteRes);
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, identityDeleteRes);
+        }
 
 
         [HttpPost("Login")]
@@ -183,7 +198,8 @@ namespace Crm.Api.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
             List<UserModel> response = await _userService.ReadAsync();
-            return StatusCode(StatusCodes.Status200OK, response);
+            List<UserModel> filteredUsers = response.Where(user => user.IsDeleted == false).ToList();
+            return StatusCode(StatusCodes.Status200OK, filteredUsers);
         }
 
         [HttpPost("CreateRole")]
