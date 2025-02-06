@@ -24,7 +24,7 @@ namespace Crm.Admin.Service.Services
 
         public async Task<IApiResponse<string>> CreateUser(string emailId, string userName, string password, string role, int userId)
         {
-            CrmIdentityUser? existingUser = await _userManager.FindByEmailAsync(emailId);
+            CrmIdentityUser? existingUser = await _userManager.FindByNameAsync(userName);
             if (existingUser != null)
             {
                 return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User Already Exists!!" };
@@ -39,14 +39,14 @@ namespace Crm.Admin.Service.Services
             IdentityResult result = await _userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
             {
-                IApiResponse<string>? roleAssignResponse = await AssignRoleToUser(emailId, role);
+                IApiResponse<string>? roleAssignResponse = await AssignRoleToUser(userName, role);
                 if (roleAssignResponse.IsSuccess)
                 {
                     //SecurityToken jwtSecurityToken = await GenerateJwtAuthSecurityToken(newUser);
                     //string jwtAuthToken = GenerateJwtAuthToken(jwtSecurityToken);
                     //string? refreshToken = await GenerateRefreshToken(jwtSecurityToken.Id, newUser.Id);
                     //await transaction.CommitAsync();
-                    CrmIdentityUser? newCreatedUser = await _userManager.FindByEmailAsync(emailId);
+                    CrmIdentityUser? newCreatedUser = await _userManager.FindByNameAsync(userName);
                     return new IApiResponse<string> { IsSuccess = true, StatusCode = 201, Response = newCreatedUser.Id };
                 }
                 else
@@ -88,9 +88,9 @@ namespace Crm.Admin.Service.Services
 
         }
 
-        public async Task<IApiResponse<string>> AssignRoleToUser(string userEmail, string roleToBeAssigned)
+        public async Task<IApiResponse<string>> AssignRoleToUser(string userName, string roleToBeAssigned)
         {
-            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
+            CrmIdentityUser applicationUser = await _userManager.FindByNameAsync(userName);
             if (applicationUser == null)
             {
                 return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User Not Found!!" };
@@ -152,9 +152,9 @@ namespace Crm.Admin.Service.Services
             return new IApiResponse<string>() { IsSuccess = false, StatusCode = 501, Response = "Failed to update role!!" };
         }
 
-        public async Task<IApiResponse<List<Claim>>> GetClaimsForUser(string userEmail)
+        public async Task<IApiResponse<List<Claim>>> GetClaimsForUser(string userName)
         {
-            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
+            CrmIdentityUser applicationUser = await _userManager.FindByNameAsync(userName);
             if (applicationUser == null)
             {
                 return new IApiResponse<List<Claim>> { IsSuccess = false, StatusCode = 401, Response = null };
@@ -183,9 +183,9 @@ namespace Crm.Admin.Service.Services
             return new IApiResponse<string> { IsSuccess = false, StatusCode = 501, Response = "Failed to add claim" };
         }
 
-        public async Task<IApiResponse<string>> AddClaimsForUser(string userEmail, List<KeyValuePair<string, string>> claims)
+        public async Task<IApiResponse<string>> AddClaimsForUser(string userName, List<KeyValuePair<string, string>> claims)
         {
-            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(userEmail);
+            CrmIdentityUser applicationUser = await _userManager.FindByNameAsync(userName);
             if (applicationUser == null)
             {
                 return new IApiResponse<string> { IsSuccess = false, StatusCode = 401, Response = "User not found!" };
@@ -384,11 +384,11 @@ namespace Crm.Admin.Service.Services
             }
         }
 
-        public async Task<IApiResponse<string>> DeleteUser(string emailId)
+        public async Task<IApiResponse<string>> DeleteUser(string userName)
         {
             try
             {
-                CrmIdentityUser user = await _userManager.FindByEmailAsync(emailId);
+                CrmIdentityUser user = await _userManager.FindByNameAsync(userName);
                 if (user == null)
                 {
                     return new IApiResponse<string>

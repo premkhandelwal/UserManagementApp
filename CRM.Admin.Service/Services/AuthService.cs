@@ -1,15 +1,10 @@
-﻿using Crm.Admin.Data;
-using Crm.Admin.Data.Models;
+﻿using Crm.Admin.Data.Models;
 using Crm.Admin.Service.Models;
 using CRM.Admin.Service.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Crm.Admin.Service.Services
 {
@@ -26,11 +21,11 @@ namespace Crm.Admin.Service.Services
             _tokenService = tokenService; // Initialize the TokenService
         }
 
-        public async Task<IApiResponse<dynamic>> Login(string emailId, string password)
+        public async Task<IApiResponse<dynamic>> Login(string userName, string password)
         { 
             try{
 
-            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(emailId);
+            CrmIdentityUser applicationUser = await _userManager.FindByNameAsync(userName);
             if (applicationUser == null)
             {
                 return new IApiResponse<dynamic> { IsSuccess = false, StatusCode = 400, Response = "User not found!!" };
@@ -73,9 +68,9 @@ namespace Crm.Admin.Service.Services
             }
         }
 
-        public async Task<dynamic> GetPermissions(string emailId)
+        public async Task<dynamic> GetPermissions(string username)
         {
-            CrmIdentityUser applicationUser = await _userManager.FindByEmailAsync(emailId);
+            CrmIdentityUser applicationUser = await _userManager.FindByNameAsync(username);
             if (applicationUser == null)
             {
                 return new IApiResponse<dynamic> { IsSuccess = false, StatusCode = 400, Response = "User not found!!" };

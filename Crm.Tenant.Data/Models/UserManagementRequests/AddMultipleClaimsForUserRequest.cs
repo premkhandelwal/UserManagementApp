@@ -6,8 +6,7 @@ namespace Crm.Api.Models.UserManagementRequests
     public class AddMultipleClaimsForUserRequest
     {
         [Required]
-        [EmailAddress]
-        public string emailId { get; set; } = null!;
+        public string username { get; set; } = null!;
 
         public List<KeyValuePair<string, string>> claims { get; set; } = new List<KeyValuePair<string, string>>();
 

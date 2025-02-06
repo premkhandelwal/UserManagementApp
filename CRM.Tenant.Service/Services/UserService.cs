@@ -14,11 +14,21 @@ namespace CRM.Tenant.Service.Services
             _repository = repository;
         }
 
-        public async Task UpdateLastLoginTime(string emailId)
+        public async Task<UserModel?> Create(CreateUserRequest user)
+        {
+            bool isExist = await _repository.ExistsAsync(u => u.Username == user.Username);
+            if (isExist == false) 
+            {
+                return await base.CreateAsync(user);
+            }
+            return null;
+        }
+
+        public async Task UpdateLastLoginTime(string userName)
         {
             List<UserModel> users = await _repository.ReadAsync();
 
-            UserModel? user = users.FirstOrDefault(u => u.EmailId == emailId);
+            UserModel? user = users.FirstOrDefault(u => u.Username == userName);
 
             if (user != null)
             {
@@ -27,11 +37,11 @@ namespace CRM.Tenant.Service.Services
             }
         }
 
-        public async Task<bool> DeleteUser(string emailId)
+        public async Task<bool> DeleteUser(string username)
         {
             List<UserModel> users = await _repository.ReadAsync();
 
-            UserModel? user = users.FirstOrDefault(u => u.EmailId == emailId);
+            UserModel? user = users.FirstOrDefault(u => u.Username == username);
 
             if (user != null)
             {

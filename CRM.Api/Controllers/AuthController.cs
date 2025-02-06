@@ -129,12 +129,12 @@ namespace Crm.Api.Controllers
         [HttpPost("DeleteUser")]
         public async Task<IActionResult> DeleteUser([FromBody] DeleteUserRequest deleteUserRequest)
         { 
-            var userServiceDeleteRes = await _userService.DeleteUser(deleteUserRequest.EmailId);
+            var userServiceDeleteRes = await _userService.DeleteUser(deleteUserRequest.Username);
             if (userServiceDeleteRes == false)
             {
                 return BadRequest(new { message = "Failed to update user in UserService." });
             }
-            var identityDeleteRes = await _identityService.DeleteUser(deleteUserRequest.EmailId);
+            var identityDeleteRes = await _identityService.DeleteUser(deleteUserRequest.Username);
             if (identityDeleteRes.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, identityDeleteRes);
@@ -152,7 +152,7 @@ namespace Crm.Api.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, "Bad request!!");
             }
 
-            IApiResponse<dynamic> response = await _authService.Login(request.emailId, request.password);
+            IApiResponse<dynamic> response = await _authService.Login(request.userName, request.password);
             if (response.IsSuccess)
             {
                 var loginResponse = response.Response;
@@ -178,7 +178,7 @@ namespace Crm.Api.Controllers
                     SameSite = SameSiteMode.None,
                 };
 
-                await _userService.UpdateLastLoginTime(request.emailId);
+                await _userService.UpdateLastLoginTime(request.userName);
                 Response.Cookies.Append("AuthToken", loginResponse?.JwtAuthToken ?? "", authCookieOptions);
                 Response.Cookies.Append("RefreshToken", loginResponse?.RefreshToken ?? "", refreshCookieOptions);
                 return StatusCode(StatusCodes.Status200OK, user);
@@ -189,9 +189,10 @@ namespace Crm.Api.Controllers
         }
 
         [HttpGet("GetPermissions")]
-        public async Task<IActionResult> GetPermissionsForUser(string emailId)
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPermissionsForUser(string username)
         {
-            IApiResponse<dynamic> response = await _authService.GetPermissions(emailId);
+            IApiResponse<dynamic> response = await _authService.GetPermissions(username);
             if (response.IsSuccess)
             {
                 return StatusCode(response.StatusCode, response.Response);
@@ -308,7 +309,7 @@ namespace Crm.Api.Controllers
         [Authorize(Policy = "RolePolicy")]
         public async Task<IActionResult> AddClaimsForUser([FromBody] AddMultipleClaimsForUserRequest request)
         {
-            IApiResponse<string> response = await _identityService.AddClaimsForUser(request.emailId, request.claims);
+            IApiResponse<string> response = await _identityService.AddClaimsForUser(request.username, request.claims);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);
@@ -331,9 +332,9 @@ namespace Crm.Api.Controllers
         }
 
         [HttpGet("GetClaimsForUser")]
-        public async Task<IActionResult> GetClaimsForUser(string emailId)
+        public async Task<IActionResult> GetClaimsForUser(string username)
         {
-            IApiResponse<List<Claim>> response = await _identityService.GetClaimsForUser(emailId);
+            IApiResponse<List<Claim>> response = await _identityService.GetClaimsForUser(username);
             if (response.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status200OK, response);

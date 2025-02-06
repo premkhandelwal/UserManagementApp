@@ -2,6 +2,6 @@
 {
     public class DeleteUserRequest
     {
-        public string EmailId {  get; set; }
+        public string Username {  get; set; }
     }
 }
