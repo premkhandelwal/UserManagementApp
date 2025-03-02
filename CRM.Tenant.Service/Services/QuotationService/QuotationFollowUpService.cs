@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Quotation;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
@@ -9,8 +10,8 @@ namespace CRM.Tenant.Service.Services.QuotationService
     public class QuotationFollowUpService : BaseService<CreateQuotationFollowUpRequest, QuotationFollowUpModel>
     {
         private QuotationService _quotationService;
-        public QuotationFollowUpService(IMapper mapper, BaseRepository<QuotationFollowUpModel> qfRepository,  IValidator<CreateQuotationFollowUpRequest> validator, QuotationService quotationService)
-            : base(mapper, qfRepository, validator)
+        public QuotationFollowUpService(IMapper mapper, BaseRepository<QuotationFollowUpModel> qfRepository,  IValidator<CreateQuotationFollowUpRequest> validator, QuotationService quotationService, IUnitOfWork unitOfWork)
+        : base(mapper, qfRepository, validator, unitOfWork)
         {
             _quotationService = quotationService;
         }

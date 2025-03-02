@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.PurchaseOrder;
 using Crm.Tenant.Data.Models.Quotation;
@@ -11,8 +12,8 @@ public class CountryService : BaseService<CreateCountryRequest, CountryModel>
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public CountryService(IMapper mapper, BaseRepository<CountryModel> repository, IValidator<CreateCountryRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService)
-        : base(mapper, repository, validator)
+    public CountryService(IMapper mapper, BaseRepository<CountryModel> repository, IValidator<CreateCountryRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

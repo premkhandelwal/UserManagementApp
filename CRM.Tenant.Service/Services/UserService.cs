@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Crm.Admin.Service.Models;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
 using FluentValidation;
@@ -9,7 +10,7 @@ namespace CRM.Tenant.Service.Services
     public class UserService : BaseService<CreateUserRequest, UserModel>
     {
         private BaseRepository<UserModel> _repository;
-        public UserService(IMapper mapper, BaseRepository<UserModel> repository, IValidator<CreateUserRequest> validator) : base(mapper, repository, validator)
+        public UserService(IMapper mapper, BaseRepository<UserModel> repository, IValidator<CreateUserRequest> validator, IUnitOfWork unitOfWork) : base(mapper, repository, validator, unitOfWork)
         {
             _repository = repository;
         }
@@ -33,7 +34,7 @@ namespace CRM.Tenant.Service.Services
             if (user != null)
             {
                 user.LastLogin = DateTime.Now;
-                await _repository.UpdateAsync(user);
+                _repository.UpdateAsync(user);
             }
         }
 
@@ -46,7 +47,7 @@ namespace CRM.Tenant.Service.Services
             if (user != null)
             {
                 user.IsDeleted = true;
-                var res =  await _repository.UpdateAsync(user);
+                var res =  _repository.UpdateAsync(user);
                 if (res != null)
                 {
                     return true;

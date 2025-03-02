@@ -4,6 +4,7 @@ using Crm.Api;
 using Crm.Admin.Service;
 using CRM.Admin.Service.Services;
 using Crm.Admin.Service.Services;
+using Crm.Tenant.Data;
 
 namespace Crm.Api
 {
@@ -47,6 +48,7 @@ namespace Crm.Api
 
 
             app.UseMiddleware<TokenValidationMiddleware>(); // Ensure this middleware is used
+            app.UseMiddleware<TransactionUnitMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
 

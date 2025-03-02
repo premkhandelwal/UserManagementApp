@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
-namespace Crm.Tenant.Service
+namespace Crm.Tenant.Data
 {
     public static class TenantDataServicesRegistration
     {
@@ -12,10 +12,12 @@ namespace Crm.Tenant.Service
         {
             services.AddDbContext<ClientApplicationDbContext>(options =>
             {
-                options.UseMySql(configuration.GetConnectionString("ClientConnectionString"), new MySqlServerVersion(new Version(8, 0, 31)));
-            }, ServiceLifetime.Transient);
+                options.UseMySql(configuration.GetConnectionString("ClientConnectionString"),
+                    new MySqlServerVersion(new Version(8, 0, 31)));
+            }, ServiceLifetime.Scoped);
 
-            services.AddTransient(typeof(BaseRepository<>));
+            services.AddScoped(typeof(BaseRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveryTime.CreateDeliveryTime;
@@ -10,8 +11,8 @@ public class DeliveryTimeService : BaseService<CreateDeliveryTimeRequest, Delive
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public DeliveryTimeService(IMapper mapper, BaseRepository<DeliveryTimeModel> repository, IValidator<CreateDeliveryTimeRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService)
-        : base(mapper, repository, validator)
+    public DeliveryTimeService(IMapper mapper, BaseRepository<DeliveryTimeModel> repository, IValidator<CreateDeliveryTimeRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

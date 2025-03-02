@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
@@ -9,8 +10,8 @@ using FluentValidation;
 public class MemberService : BaseService<CreateMemberRequest, MemberModel>
 {
     QuotationFieldsService _quotationFieldsService;
-    public MemberService(IMapper mapper, BaseRepository<MemberModel> repository, IValidator<CreateMemberRequest> validator, QuotationFieldsService quotationFieldsService)
-        : base(mapper, repository, validator)
+    public MemberService(IMapper mapper, BaseRepository<MemberModel> repository, IValidator<CreateMemberRequest> validator, QuotationFieldsService quotationFieldsService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _quotationFieldsService = quotationFieldsService;
     }

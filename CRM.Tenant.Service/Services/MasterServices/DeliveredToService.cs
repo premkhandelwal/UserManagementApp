@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.DeliveredTo.CreateDeliveredTo;
@@ -9,8 +10,8 @@ public class DeliveredToService : BaseService<CreateDeliveredToRequest, Delivere
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public DeliveredToService(IMapper mapper, BaseRepository<DeliveredToModel> repository, IValidator<CreateDeliveredToRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService)
-        : base(mapper, repository, validator)
+    public DeliveredToService(IMapper mapper, BaseRepository<DeliveredToModel> repository, IValidator<CreateDeliveredToRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

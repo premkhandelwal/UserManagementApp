@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.CreatePaymentType;
@@ -10,8 +11,8 @@ public class PaymentTypeService : BaseService<CreatePaymentTypeRequest, PaymentT
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public PaymentTypeService(IMapper mapper, BaseRepository<PaymentTypeModel> repository, IValidator<CreatePaymentTypeRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService)
-        : base(mapper, repository, validator)
+    public PaymentTypeService(IMapper mapper, BaseRepository<PaymentTypeModel> repository, IValidator<CreatePaymentTypeRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

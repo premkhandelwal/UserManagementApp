@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.CreateQuotationCloseReason;
@@ -9,8 +10,8 @@ using FluentValidation;
 public class QuotationCloseReasonService : BaseService<CreateQuotationCloseReasonRequest, QuotationCloseReasonModel>
 {
     QuotationFieldsService _quotationFieldsService;
-    public QuotationCloseReasonService(IMapper mapper, BaseRepository<QuotationCloseReasonModel> repository, IValidator<CreateQuotationCloseReasonRequest> validator, QuotationFieldsService quotationFieldsService)
-        : base(mapper, repository, validator)
+    public QuotationCloseReasonService(IMapper mapper, BaseRepository<QuotationCloseReasonModel> repository, IValidator<CreateQuotationCloseReasonRequest> validator, QuotationFieldsService quotationFieldsService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _quotationFieldsService = quotationFieldsService;
     }

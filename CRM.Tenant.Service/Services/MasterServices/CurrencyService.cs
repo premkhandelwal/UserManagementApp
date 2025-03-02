@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.CreateCurrency;
@@ -9,8 +10,8 @@ public class CurrencyService : BaseService<CreateCurrencyRequest, CurrencyModel>
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public CurrencyService(IMapper mapper, BaseRepository<CurrencyModel> repository, IValidator<CreateCurrencyRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService)
-        : base(mapper, repository, validator)
+    public CurrencyService(IMapper mapper, BaseRepository<CurrencyModel> repository, IValidator<CreateCurrencyRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

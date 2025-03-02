@@ -3,35 +3,46 @@ using FluentValidation;
 using Crm.Tenant.Data.Repositories;
 using Crm.Tenant.Data.Models;
 using System.Linq.Expressions;
+using Crm.Tenant.Data;
 
-public  class BaseService<TRequest, TEntity> 
+public class BaseService<TRequest, TEntity>
     where TRequest : class
     where TEntity : BaseModelClass
 {
-    
     private readonly IMapper _mapper;
     private readonly BaseRepository<TEntity> _repository;
     private readonly IValidator<TRequest> _validator;
+    private readonly IUnitOfWork _unitOfWork; // 🔹 Added Unit of Work
 
-    public BaseService(IMapper mapper, BaseRepository<TEntity> repository, IValidator<TRequest> validator)
-    {   
+    public BaseService(
+        IMapper mapper,
+        BaseRepository<TEntity> repository,
+        IValidator<TRequest> validator,
+        IUnitOfWork unitOfWork) // 🔹 Injecting Unit of Work
+    {
         _mapper = mapper;
         _repository = repository;
         _validator = validator;
+        _unitOfWork = unitOfWork;
     }
 
     public virtual async Task<TEntity?> CreateAsync(TRequest request)
     {
         ValidateRequest(request);
         TEntity entity = _mapper.Map<TEntity>(request);
-        return await _repository.AddAsync(entity);
+        await _repository.AddAsync(entity);
+        await _unitOfWork.SaveChangesAsync();
+        return entity;
     }
 
     public virtual async Task<TEntity?> UpdateAsync(TRequest request)
     {
         ValidateRequest(request);
         TEntity entity = _mapper.Map<TEntity>(request);
-        return await _repository.UpdateAsync(entity);
+        _repository.UpdateAsync(entity);
+        await _unitOfWork.SaveChangesAsync(); // 🔹 Commit changes
+        await _repository.ReloadAsync(entity);
+        return entity;
     }
 
     public virtual async Task<TEntity?> DeleteAsync(TRequest request)
@@ -44,14 +55,21 @@ public  class BaseService<TRequest, TEntity>
             throw new InvalidOperationException("The entity cannot be deleted because it is referenced by other entities.");
         }
         entity.IsDeleted = true;
-        return await _repository.DeleteAsync(entity);
+        _repository.DeleteAsync(entity);
+        await _unitOfWork.SaveChangesAsync(); // 🔹 Commit changes
+        await _repository.ReloadAsync(entity);
+        return entity;
     }
 
     public virtual async Task<TEntity?> HardDeleteAsync(TRequest request)
     {
         TEntity entity = _mapper.Map<TEntity>(request);
-        return await _repository.HardDeleteAsync(entity);
+        await _repository.HardDeleteAsync(entity);
+        await _unitOfWork.SaveChangesAsync(); // 🔹 Commit changes
+        await _repository.ReloadAsync(entity);
+        return entity;
     }
+
     public virtual async Task<List<TEntity>> ReadAsync()
     {
         return await _repository.ReadAsync();
@@ -59,8 +77,7 @@ public  class BaseService<TRequest, TEntity>
 
     public virtual TEntity? GetById(int id)
     {
-        TEntity? entities =  _repository.GetById(id);
-        return entities;
+        return _repository.GetById(id);
     }
 
     private void ValidateRequest(TRequest request)

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.CreateVendorMember;
@@ -10,8 +11,8 @@ namespace CRM.Tenant.Service.Services.MasterServices.PurchaseOrder
     public class VendorMemberService : BaseService<CreateVendorMemberRequest, VendorMemberModel>
     {
         PurchaseOrderFieldsService _purchaseOrderFieldsService;
-        public VendorMemberService(IMapper mapper, BaseRepository<VendorMemberModel> repository, IValidator<CreateVendorMemberRequest> validator, PurchaseOrderFieldsService purchaseOrderFieldsService)
-            : base(mapper, repository, validator)
+        public VendorMemberService(IMapper mapper, BaseRepository<VendorMemberModel> repository, IValidator<CreateVendorMemberRequest> validator, PurchaseOrderFieldsService purchaseOrderFieldsService, IUnitOfWork unitOfWork)
+            : base(mapper, repository, validator, unitOfWork)
         {
             _purchaseOrderFieldsService = purchaseOrderFieldsService;
         }

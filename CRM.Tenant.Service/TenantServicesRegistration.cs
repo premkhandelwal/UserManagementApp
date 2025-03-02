@@ -39,6 +39,7 @@ using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrde
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderItems;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderTerms;
 using Crm.Tenant.Data.Models.PurchaseOrder;
+using Crm.Tenant.Data;
 
 namespace Crm.Tenant.Service
 {
@@ -91,7 +92,8 @@ namespace Crm.Tenant.Service
             provider => new BaseService<TRequest, TModel>(
                provider.GetRequiredService<IMapper>(),
                 provider.GetRequiredService<BaseRepository<TModel>>(),
-                provider.GetRequiredService<IValidator<TRequest>>()
+                provider.GetRequiredService<IValidator<TRequest>>(),
+                provider.GetRequiredService<IUnitOfWork>()
             ));
         }
     }

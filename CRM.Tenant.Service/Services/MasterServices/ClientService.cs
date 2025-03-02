@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models.Quotation;
 using Crm.Tenant.Data.Repositories;
@@ -8,8 +9,8 @@ using FluentValidation;
 public class ClientService : BaseService<CreateClientRequest, ClientModel>
 {
     QuotationFieldsService _quotationFieldsService;
-    public ClientService(IMapper mapper, BaseRepository<ClientModel> repository, IValidator<CreateClientRequest> validator, QuotationFieldsService quotationFieldsService)
-        : base(mapper, repository, validator)
+    public ClientService(IMapper mapper, BaseRepository<ClientModel> repository, IValidator<CreateClientRequest> validator, QuotationFieldsService quotationFieldsService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _quotationFieldsService = quotationFieldsService;
     }

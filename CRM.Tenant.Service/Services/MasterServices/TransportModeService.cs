@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.CreateTransportMode;
@@ -9,8 +10,8 @@ using FluentValidation;
 public class TransportModeService : BaseService<CreateTransportModeRequest, TransportModeModel>
 {
     DeliveredToService _deliveredToService;
-    public TransportModeService(IMapper mapper, BaseRepository<TransportModeModel> repository, IValidator<CreateTransportModeRequest> validator, DeliveredToService deliveredToService)
-        : base(mapper, repository, validator)
+    public TransportModeService(IMapper mapper, BaseRepository<TransportModeModel> repository, IValidator<CreateTransportModeRequest> validator, DeliveredToService deliveredToService, IUnitOfWork unitOfWork)
+        : base(mapper, repository, validator, unitOfWork)
     {
         _deliveredToService = deliveredToService;
     }
