@@ -3,6 +3,7 @@ using System;
 using Crm.Tenant.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crm.Tenant.Data.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250301100516_Change to unit data type in PurchaseOrderItem")]
+    partial class ChangetounitdatatypeinPurchaseOrderItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,10 +76,10 @@ namespace Crm.Tenant.Data.Migrations
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("CompanyName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("CompanyName")
+                    b.Property<string>("Country")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")

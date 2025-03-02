@@ -12,7 +12,7 @@ namespace Crm.Tenant.Data.Models.Quotation
 
         public double Quantity { get; set; }
 
-        public string? Unit { get; set; }
+        public int? Unit { get; set; }
 
         public double Cost { get; set; }
 

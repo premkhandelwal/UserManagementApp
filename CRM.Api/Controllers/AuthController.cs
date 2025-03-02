@@ -201,7 +201,6 @@ namespace Crm.Api.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Policy = "ViewUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
             List<UserModel> response = await _userService.ReadAsync();

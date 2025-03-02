@@ -1,4 +1,6 @@
 ﻿using Crm.Tenant.Data.Models.Quotation;
+using Crm.Tenant.Data.Models.Quotation;
+using CRM.Tenant.Service.Models.Requests.Quotation.Delete;
 using CRM.Tenant.Service.Models.Requests.Quotation;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
@@ -72,8 +74,8 @@ namespace CRM.Tenant.Service.Services.QuotationService
                 };
                 await _quotationFields.UpdateAsync(updReq);
 
+                request.quotationTerms.QuotationId = quotationFields.Id;
                 QuotationTermsModel? quotationTerms = await _quotationTerms.CreateAsync(request.quotationTerms);
-
                 return new
                 {
                     quotationFields.QuotationId
@@ -84,6 +86,10 @@ namespace CRM.Tenant.Service.Services.QuotationService
 
         public async Task<object> Update(UpdateQuotationRequest request)
         {
+            if(request.quotationFields.QuotationId == "" && request.quotationFields.Id != null)
+            {
+                request.quotationFields.QuotationId = GenerateQuotationId((int)request.quotationFields.Id);
+            }
             QuotationFieldsModel? quotationFields = await _quotationFields.UpdateAsync(request.quotationFields);
             List<QuotationItemModel> quotationItems = new List<QuotationItemModel>();
 
@@ -113,6 +119,37 @@ namespace CRM.Tenant.Service.Services.QuotationService
                 };
             }
             return new { Message = "Failed to update quotation." };
+        }
+
+        public async Task<object> Delete(DeleteQuotationRequest request)
+        {
+            if (request.quotationFields == null)
+            {
+                return new { Message = "Quotation fields cannot be null." };
+            }
+            QuotationFieldsModel? quotationFields = await _quotationFields.UpdateAsync(request.quotationFields);
+
+            if (quotationFields == null || quotationFields.Id == null)
+            {
+                return new { Message = "Failed to delete quotation fields." };
+            }
+
+            // Soft delete QuotationItems
+            if (request.quotationItems != null && request.quotationItems.Any())
+            {
+                foreach (var item in request.quotationItems)
+                {
+                    await _quotationItems.UpdateAsync(item);
+                }
+            }
+
+            // Soft delete QuotationTerms
+            if (request.quotationTerms != null)
+            {
+                await _quotationTerms.UpdateAsync(request.quotationTerms);
+            }
+
+            return new { Message = "Quotation deleted successfully." };
         }
 
         public async Task<List<QuotationModel>> Get()

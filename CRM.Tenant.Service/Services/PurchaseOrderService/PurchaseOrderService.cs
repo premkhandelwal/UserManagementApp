@@ -1,5 +1,6 @@
 ﻿using Crm.Tenant.Data.Models.PurchaseOrder;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderFields;
 
@@ -76,6 +77,10 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
 
         public async Task<object> Update(UpdatePurchaseOrderRequest request)
         {
+            if (request.purchaseOrderFields.PurchaseOrderId == "" && request.purchaseOrderFields.Id != null)
+            {
+                request.purchaseOrderFields.PurchaseOrderId = GenerateQuotationId((int)request.purchaseOrderFields.Id);
+            }
             PurchaseOrderFieldsModel? purchaseOrderFields = await _purchaseOrderFields.UpdateAsync(request.purchaseOrderFields);
             List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel> { };
             if (purchaseOrderFields != null && purchaseOrderFields.Id != null)
@@ -106,6 +111,37 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
                 };
             }
             return new { Message = "Failed to update purchase order." };
+        }
+
+        public async Task<object> Delete(DeletePurchaseOrderRequest request)
+        {
+            if (request.purchaseOrderFields == null)
+            {
+                return new { Message = "Purchase order fields cannot be null." };
+            }
+            PurchaseOrderFieldsModel? purchaseOrderFields = await _purchaseOrderFields.UpdateAsync(request.purchaseOrderFields);
+
+            if (purchaseOrderFields == null || purchaseOrderFields.Id == null)
+            {
+                return new { Message = "Failed to delete purchase order fields." };
+            }
+
+            // Soft delete PurchaseOrderItems
+            if (request.purchaseOrderItems != null && request.purchaseOrderItems.Any())
+            {
+                foreach (var item in request.purchaseOrderItems)
+                {
+                    await _purchaseOrderItems.UpdateAsync(item);
+                }
+            }
+
+            // Soft delete PurchaseOrderTerms
+            if (request.purchaseOrderTerms != null)
+            {
+                await _purchaseOrderTerms.UpdateAsync(request.purchaseOrderTerms);
+            }
+
+            return new { Message = "Purchase order deleted successfully." };
         }
 
         public async Task<List<PurchaseOrderModel>> Get()
@@ -192,6 +228,6 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
             return result;
         }
 
-
+        
     }
 }

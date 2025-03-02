@@ -2,11 +2,11 @@
 {
     public class CreateQuotationFieldsRequest
     {
-        public string? QuotationId = "";
+        public string? QuotationId { get; set; }
 
-        public string? QuotationMadeById { get; set; }
+        public int? QuotationMadeById { get; set; }
 
-        public string? QuotationAssignedToId { get; set; }
+        public int? QuotationAssignedToId { get; set; }
 
         public DateTime QuotationDate { get; set; }
 

@@ -67,6 +67,12 @@ using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationTerms;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.UpdateQuotationItems;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderFields;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderItems;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderTerms;
+using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationFields;
+using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationItems;
+using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationTerms;
 
 
 namespace CRM.Tenant.Service.Profiles
@@ -176,7 +182,13 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<PurchaseOrderItemModel, UpdatePurchaseOrderItemsRequest>().ReverseMap();
             CreateMap<PurchaseOrderTermsModel, UpdatePurchaseOrderTermsRequest>().ReverseMap();
 
+            CreateMap<PurchaseOrderFieldsModel, DeletePurchaseOrderFieldsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderItemModel, DeletePurchaseOrderItemsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderTermsModel, DeletePurchaseOrderTermsRequest>().ReverseMap();
 
+            CreateMap<QuotationFieldsModel, DeleteQuotationFieldsRequest>().ReverseMap();
+            CreateMap<QuotationItemModel, DeleteQuotationItemsRequest>().ReverseMap();
+            CreateMap<QuotationTermsModel, DeleteQuotationTermsRequest>().ReverseMap();
         }
     }
 }

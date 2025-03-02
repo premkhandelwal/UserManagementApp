@@ -5,6 +5,7 @@ using CRM.Tenant.Service.Models.Requests.Quotation.Update;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using CRM.Tenant.Service.Models.Requests.Quotation.Delete;
 
 namespace Crm.Api.Controllers.Quotation
 {
@@ -33,8 +34,14 @@ namespace Crm.Api.Controllers.Quotation
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
+        [HttpPut("DeleteQuotation")]
+        public async Task<IActionResult> DeleteQuotation([FromBody] DeleteQuotationRequest quotationRequest)
+        {
+            var result = await _quotationService.Delete(quotationRequest);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
         [HttpGet("GetQuotations")]
-        [Authorize()]
         public async Task<IActionResult> GetQuotations()
         {
 

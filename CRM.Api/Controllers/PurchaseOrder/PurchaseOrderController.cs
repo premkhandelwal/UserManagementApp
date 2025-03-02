@@ -4,6 +4,7 @@ using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete;
 
 namespace Crm.Api.Controllers.PurchaseOrder
 {
@@ -29,6 +30,13 @@ namespace Crm.Api.Controllers.PurchaseOrder
         public async Task<IActionResult> UpdatePurchaseOrder([FromBody] UpdatePurchaseOrderRequest purchaseOrderRequest)
         {
             var result = await _purchaseOrderService.Update(purchaseOrderRequest);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpPut("DeletePurchaseOrder")]
+        public async Task<IActionResult> DeletePurchaseOrder([FromBody] DeletePurchaseOrderRequest purchaseOrderRequest)
+        {
+            var result = await _purchaseOrderService.Delete(purchaseOrderRequest);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 

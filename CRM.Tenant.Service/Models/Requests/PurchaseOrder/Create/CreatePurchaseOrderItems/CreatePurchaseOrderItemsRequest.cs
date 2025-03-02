@@ -12,7 +12,7 @@
 
         public double Quantity { get; set; }
 
-        public string? Unit { get; set; }
+        public int? Unit { get; set; }
 
         public int? Hsn { get; set; }
 

@@ -21,11 +21,11 @@ namespace CRM.Tenant.Service.Services.MasterServices
 
         public async override Task<bool> HasReferences(UnitModel entity)
         {
-            if (await _quotationItemsService.ExistsAsync(q => q.Unit == entity.UnitName))
+            if (await _quotationItemsService.ExistsAsync(q => q.Unit == entity.Id))
             {
                 return true;
             }
-            return await _purchaseOrderItemsService.ExistsAsync(p => p.Unit == entity.UnitName);
+            return await _purchaseOrderItemsService.ExistsAsync(p => p.Unit == entity.Id);
         }
     }
 }
