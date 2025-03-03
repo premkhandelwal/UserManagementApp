@@ -19,13 +19,13 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
             _purchaseOrderItems = purchaseOrderItems;
             _purchaseOrderTerms = purchaseOrderTerms;
         }
-        private string GenerateQuotationId(int quotationId)
+        private string GeneratePurchaseOrderId(int quotationId)
         {
             int currentYear = DateTime.UtcNow.Year;
             int financialYearStart = DateTime.UtcNow.Month < 4 ? currentYear - 1 : currentYear;
             int financialYearEnd = financialYearStart + 1;
 
-            return $"ATF/{financialYearStart % 100}-{financialYearEnd % 100}/{quotationId}";
+            return $"ATF/PO/{financialYearStart % 100}-{financialYearEnd % 100}/{quotationId}";
         }
 
         public async Task<object> Create(CreatePurchaseOrderRequest request)
@@ -34,7 +34,7 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
             List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel> { };
             if (purchaseOrderFields != null && purchaseOrderFields.Id != null)
             {
-                purchaseOrderFields.PurchaseOrderId = GenerateQuotationId((int)purchaseOrderFields.Id);
+                purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId((int)purchaseOrderFields.Id);
                 foreach (var item in request.purchaseOrderItems)
                 {
                     item.PurchaseOrderId = purchaseOrderFields.Id;
@@ -79,13 +79,13 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
         {
             if (request.purchaseOrderFields.PurchaseOrderId == "" && request.purchaseOrderFields.Id != null)
             {
-                request.purchaseOrderFields.PurchaseOrderId = GenerateQuotationId((int)request.purchaseOrderFields.Id);
+                request.purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId((int)request.purchaseOrderFields.Id);
             }
             PurchaseOrderFieldsModel? purchaseOrderFields = await _purchaseOrderFields.UpdateAsync(request.purchaseOrderFields);
             List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel> { };
             if (purchaseOrderFields != null && purchaseOrderFields.Id != null)
             {
-                purchaseOrderFields.PurchaseOrderId = GenerateQuotationId((int)purchaseOrderFields.Id);
+                purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId((int)purchaseOrderFields.Id);
                 foreach (var item in request.purchaseOrderItems)
                 {
                     item.PurchaseOrderId = purchaseOrderFields.Id;
