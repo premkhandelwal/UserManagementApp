@@ -2,7 +2,7 @@
 using Crm.Tenant.Data;
 using Crm.Tenant.Data.Models.Quotation;
 using Crm.Tenant.Data.Repositories;
-using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
 using FluentValidation;
 
 namespace CRM.Tenant.Service.Services.QuotationService

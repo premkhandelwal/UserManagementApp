@@ -1,6 +1,6 @@
 ﻿using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationTerms;
-using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.UpdateQuotationItems;
 
 namespace CRM.Tenant.Service.Models.Requests.Quotation.Update
 {

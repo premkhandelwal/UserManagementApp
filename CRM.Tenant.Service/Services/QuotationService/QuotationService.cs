@@ -1,5 +1,4 @@
 ﻿using Crm.Tenant.Data.Models.Quotation;
-using Crm.Tenant.Data.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.Quotation.Delete;
 using CRM.Tenant.Service.Models.Requests.Quotation;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update;
@@ -66,6 +65,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
                     QuotationAttentionId = request.quotationFields.QuotationAttentionId,
                     QuotationCompanyId = request.quotationFields.QuotationCompanyId,
                     QuotationDate = request.quotationFields.QuotationDate,
+                    QuotationFollowUpDate = request.quotationFields.QuotationFollowUpDate,
                     QuotationImportance = request.quotationFields.QuotationImportance,
                     QuotationMadeById = request.quotationFields.QuotationMadeById,
                     QuotationPriority = request.quotationFields.QuotationPriority,

@@ -1,5 +1,5 @@
-﻿using CRM.Tenant.Service.Models.Requests.Quotation;
-using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
+﻿using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Update;
 using CRM.Tenant.Service.Services.QuotationService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,9 +20,16 @@ namespace CRM.Api.Controllers.Quotation
         }
 
         [HttpPost("AddQuotationFollowUp")]
-        public async Task<IActionResult> AddQuotationFollowUp([FromBody] CreateQuotationFollowUpRequest quotationRequest)
+        public async Task<IActionResult> AddQuotationFollowUp([FromBody] CreateQuotationFollowUpRequest createQuotationFollowUpRequest)
         {
-            var result = await quotationFollowUpService.CreateAsync(quotationRequest);
+            var result = await quotationFollowUpService.CreateAsync(createQuotationFollowUpRequest);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpPut("UpdateQuotationFollowUp")]
+        public async Task<IActionResult> UpdateQuotationFollowUp([FromBody] UpdateQuotationFollowUpRequest updateQuotationFollowUpRequest)
+        {
+            var result = await quotationFollowUpService.UpdateAsync(updateQuotationFollowUpRequest);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 

@@ -1,9 +1,8 @@
-﻿namespace CRM.Tenant.Service.Models.Requests.QuotationFollowUp
+﻿namespace CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create
 {
     public class CreateQuotationFollowUpRequest
     {
         public int QuotationId { get; set; }
-        public int SrNo { get; set; }
         public DateTime QuotationDate { get; set; }
         public DateTime FollowUpDate { get; set; }
         public DateTime NextFollowUpDate { get; set; }

@@ -1,6 +1,6 @@
 ﻿using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
 
-namespace CRM.Tenant.Service.Models.Requests.QuotationFollowUp.UpdateQuotationItems
+namespace CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems
 {
     public class UpdateQuotationItemsRequest : CreateQuotationItemsRequest
     {

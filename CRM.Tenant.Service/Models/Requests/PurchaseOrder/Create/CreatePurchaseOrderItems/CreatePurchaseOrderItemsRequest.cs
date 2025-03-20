@@ -16,7 +16,7 @@
 
         public int? Hsn { get; set; }
 
-        public string DeliveryStatus { get; set; } = "pending";
+        public int? InwardQuantity { get; set; }
 
         public double UnitPrice { get; set; }
 

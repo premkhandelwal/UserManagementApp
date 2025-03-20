@@ -64,15 +64,16 @@ using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotati
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationTerms;
-using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
-using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.UpdateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderFields;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderItems;
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderTerms;
 using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationFields;
 using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationTerms;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Update;
 
 
 namespace CRM.Tenant.Service.Profiles
@@ -162,6 +163,7 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<QuotationTermsModel, UpdateQuotationTermsRequest>().ReverseMap();
 
             CreateMap<QuotationFollowUpModel, CreateQuotationFollowUpRequest>().ReverseMap();
+            CreateMap<QuotationFollowUpModel, UpdateQuotationFollowUpRequest>().ReverseMap();
 
             CreateMap<UserModel, CreateUserRequest>().ReverseMap();
             CreateMap<UserModel, UpdateUserRequest>().ReverseMap();

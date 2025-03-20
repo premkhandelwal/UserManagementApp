@@ -13,6 +13,8 @@ namespace Crm.Tenant.Data.Models.Quotation
 
         public DateTime QuotationDate { get; set; }
 
+        public DateTime? QuotationFollowUpDate { get; set; }
+
         public int? QuotationCompanyId { get; set; }
 
         public int? QuotationAttentionId { get; set; }

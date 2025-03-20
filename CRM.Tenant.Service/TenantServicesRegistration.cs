@@ -23,7 +23,6 @@ using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotati
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Member.CreateMember;
 using CRM.Tenant.Service.Services.QuotationService;
 using Crm.Tenant.Data.Models.Quotation;
-using CRM.Tenant.Service.Models.Requests.QuotationFollowUp;
 using Crm.Admin.Service.Models;
 using CRM.Tenant.Service.Services;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
@@ -40,6 +39,7 @@ using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrde
 using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderTerms;
 using Crm.Tenant.Data.Models.PurchaseOrder;
 using Crm.Tenant.Data;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
 
 namespace Crm.Tenant.Service
 {

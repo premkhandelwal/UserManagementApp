@@ -15,17 +15,46 @@ namespace Crm.Api.Controllers.Quotation
     public class QuotationController : ControllerBase
     {
         QuotationService _quotationService;
-        public QuotationController(QuotationService quotationService)
+        QuotationFollowUpService _quotationFollowUpService;
+        public QuotationController(QuotationService quotationService, QuotationFollowUpService quotationFollowUpService)
         {
             _quotationService = quotationService;
+            _quotationFollowUpService = quotationFollowUpService;
         }
 
         [HttpPost("CreateQuotation")]
         public async Task<IActionResult> CreateQuotation([FromBody] CreateQuotationRequest quotationRequest)
         {
             var result = await _quotationService.Create(quotationRequest);
-            return StatusCode(StatusCodes.Status200OK, result);    
+
+            var quotationIdProperty = result.GetType().GetProperty("QuotationId");
+            string? quotationId = quotationIdProperty?.GetValue(result)?.ToString();
+
+            int quotId = 0;
+            if (!string.IsNullOrEmpty(quotationId))
+            {
+                var parts = quotationId.Split('/');
+                if (parts.Length > 0 && int.TryParse(parts[^1], out quotId)) // ^1 gets the last element
+                {
+                    if (quotationRequest.quotationFields.QuotationFollowUpDate != null)
+                    {
+                        await _quotationFollowUpService.CreateAsync(new CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create.CreateQuotationFollowUpRequest()
+                        {
+                            QuotationId = quotId,
+                            FollowUpDate = (DateTime)quotationRequest.quotationFields.QuotationFollowUpDate,
+                            NextFollowUpDate = (DateTime) quotationRequest.quotationFields.QuotationFollowUpDate,
+                            AddedOn = DateTime.Now,
+                            ModifiedOn = DateTime.Now,
+                            QuotationDate = quotationRequest.quotationFields.QuotationDate
+                        });
+                    }
+                }
+            }
+
+            return StatusCode(StatusCodes.Status200OK, result);
         }
+
+
 
         [HttpPut("UpdateQuotation")]
         public async Task<IActionResult> UpdateQuotation([FromBody] UpdateQuotationRequest quotationRequest)

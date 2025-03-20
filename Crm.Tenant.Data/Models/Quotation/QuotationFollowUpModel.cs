@@ -5,7 +5,6 @@ namespace Crm.Tenant.Data.Models.Quotation
     public class QuotationFollowUpModel : BaseModelClass
     {
         public int QuotationId { get; set; }
-        public int SrNo { get; set; }
         public DateTime FollowUpDate { get; set; }
         public DateTime NextFollowUpDate { get; set; }
         public string? FollowUpDetails { get; set; }

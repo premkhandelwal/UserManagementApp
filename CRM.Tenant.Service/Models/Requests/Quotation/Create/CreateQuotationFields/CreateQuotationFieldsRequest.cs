@@ -10,6 +10,8 @@
 
         public DateTime QuotationDate { get; set; }
 
+        public DateTime? QuotationFollowUpDate { get; set; }
+
         public string? QuotationStage { get; set; }
 
         public int? QuotationCompanyId { get; set; }
