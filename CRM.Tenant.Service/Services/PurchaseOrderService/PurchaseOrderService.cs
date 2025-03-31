@@ -19,22 +19,46 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
             _purchaseOrderItems = purchaseOrderItems;
             _purchaseOrderTerms = purchaseOrderTerms;
         }
-        private string GeneratePurchaseOrderId(int quotationId)
+        private (int currentYear, int financialYearStart, int financialYearEnd) GetFinancialYearInfo()
         {
-            int currentYear = DateTime.UtcNow.Year;
-            int financialYearStart = DateTime.UtcNow.Month < 4 ? currentYear - 1 : currentYear;
+            int currentYear = DateTime.Now.Year;
+            int financialYearStart = DateTime.Now.Month < 4 ? currentYear - 1 : currentYear;
             int financialYearEnd = financialYearStart + 1;
 
-            return $"ATF/PO/{financialYearStart % 100}-{financialYearEnd % 100}/{quotationId}";
+            return (currentYear, financialYearStart, financialYearEnd);
+        }
+
+        private async Task<int> GetCurrentFinancialYearPurchaseOrderCount()
+        {
+            var (_, financialYearStart, financialYearEnd) = GetFinancialYearInfo();
+
+            // Get all purchase orders created in the current financial year
+            var allPurchaseOrders = await _purchaseOrderFields.ReadAsync();
+
+            return allPurchaseOrders.Count(q =>
+                q.AddedOn >= new DateTime(financialYearStart, 4, 1) &&
+                q.AddedOn < new DateTime(financialYearEnd, 4, 1));
+        }
+
+        private string GeneratePurchaseOrderId(int sequenceNumber)
+        {
+            var (_, financialYearStart, financialYearEnd) = GetFinancialYearInfo();
+            return $"ATF/PO/{financialYearStart % 100}-{financialYearEnd % 100}/{sequenceNumber}";
         }
 
         public async Task<object> Create(CreatePurchaseOrderRequest request)
         {
+            // Get count before creating to get the sequence number
+            int currentCount = await GetCurrentFinancialYearPurchaseOrderCount();
+
             PurchaseOrderFieldsModel? purchaseOrderFields = await _purchaseOrderFields.CreateAsync(request.purchaseOrderFields);
-            List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel> { };
+            List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel>();
+
             if (purchaseOrderFields != null && purchaseOrderFields.Id != null)
             {
-                purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId((int)purchaseOrderFields.Id);
+                // Generate ID with count + 1 (since we're adding a new one)
+                purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId(currentCount + 1);
+
                 foreach (var item in request.purchaseOrderItems)
                 {
                     item.PurchaseOrderId = purchaseOrderFields.Id;
@@ -49,13 +73,13 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
                 {
                     Id = purchaseOrderFields.Id,
                     PurchaseOrderId = purchaseOrderFields.PurchaseOrderId,
-                    AddedOn = DateTime.UtcNow,
+                    AddedOn = DateTime.Now,
                     Discount = request.purchaseOrderFields.Discount,
                     DiscountType = request.purchaseOrderFields.DiscountType,
                     GrandTotal = request.purchaseOrderFields.GrandTotal,
                     GstAmount = request.purchaseOrderFields.GstAmount,
                     GstPercent = request.purchaseOrderFields.GstPercent,
-                    ModifiedOn = DateTime.UtcNow,
+                    ModifiedOn = DateTime.Now,
                     NetTotal = request.purchaseOrderFields.NetTotal,
                     OtherCharges = request.purchaseOrderFields.OtherCharges,
                     PurchaseOrderAssignedToId = request.purchaseOrderFields.PurchaseOrderAssignedToId,
@@ -65,6 +89,7 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
                     PurchaseOrderVendorId = request.purchaseOrderFields.PurchaseOrderVendorId
                 };
                 await _purchaseOrderFields.UpdateAsync(updReq);
+
                 request.purchaseOrderTerms.PurchaseOrderId = purchaseOrderFields.Id;
                 PurchaseOrderTermsModel? purchaseOrderTerms = await _purchaseOrderTerms.CreateAsync(request.purchaseOrderTerms);
                 return new
@@ -79,32 +104,41 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
         {
             if (request.purchaseOrderFields.PurchaseOrderId == "" && request.purchaseOrderFields.Id != null)
             {
-                request.purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId((int)request.purchaseOrderFields.Id);
+                // For existing POs, we'll keep their original sequence number
+                var existingPo = _purchaseOrderFields.GetById((int)request.purchaseOrderFields.Id);
+                if (existingPo != null && existingPo.PurchaseOrderId != null)
+                {
+                    request.purchaseOrderFields.PurchaseOrderId = existingPo.PurchaseOrderId;
+                }
+                else
+                {
+                    // If for some reason PO doesn't have an ID, generate a new one
+                    int currentCount = await GetCurrentFinancialYearPurchaseOrderCount();
+                    request.purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId(currentCount + 1);
+                }
             }
+
             PurchaseOrderFieldsModel? purchaseOrderFields = await _purchaseOrderFields.UpdateAsync(request.purchaseOrderFields);
-            List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel> { };
+            List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel>();
+
             if (purchaseOrderFields != null && purchaseOrderFields.Id != null)
             {
-                purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId((int)purchaseOrderFields.Id);
                 foreach (var item in request.purchaseOrderItems)
                 {
                     item.PurchaseOrderId = purchaseOrderFields.Id;
-                    PurchaseOrderItemModel? savedItem = null;
-                    if (item.Id == null)
-                    {
-                        savedItem = await _purchaseOrderItems.CreateAsync(item);
-                    }
-                    else
-                    {
-                        savedItem = await _purchaseOrderItems.UpdateAsync(item);
-                    }
+                    PurchaseOrderItemModel? savedItem = item.Id == null
+                        ? await _purchaseOrderItems.CreateAsync(item)
+                        : await _purchaseOrderItems.UpdateAsync(item);
+
                     if (savedItem != null)
                     {
                         purchaseOrderItems.Add(savedItem);
                     }
                 }
+
                 request.purchaseOrderTerms.PurchaseOrderId = purchaseOrderFields.Id;
                 PurchaseOrderTermsModel? purchaseOrderTerms = await _purchaseOrderTerms.UpdateAsync(request.purchaseOrderTerms);
+
                 return new
                 {
                     purchaseOrderFields.PurchaseOrderId
