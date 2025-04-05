@@ -37,8 +37,8 @@ namespace CRM.Tenant.Service.Services.QuotationService
             var allQuotations = await _quotationFields.ReadAsync();
 
             return allQuotations.Count(q =>
-                q.AddedOn >= new DateTime(financialYearStart, 4, 1) &&
-                q.AddedOn < new DateTime(financialYearEnd, 4, 1));
+                q.QuotationDate >= new DateTime(financialYearStart, 4, 1) &&
+                q.QuotationDate < new DateTime(financialYearEnd, 4, 1));
         }
 
         private string GenerateQuotationId(int quotationId)
@@ -107,19 +107,11 @@ namespace CRM.Tenant.Service.Services.QuotationService
 
         public async Task<object> Update(UpdateQuotationRequest request)
         {
-            if(request.quotationFields.QuotationId == "" && request.quotationFields.Id != null)
-            {
-                // Get count before creating to get the sequence number
-                int currentCount = await GetCurrentFinancialYearQuotationCount();
-                request.quotationFields.QuotationId = GenerateQuotationId(currentCount + 1);
-            }
             QuotationFieldsModel? quotationFields = await _quotationFields.UpdateAsync(request.quotationFields);
             List<QuotationItemModel> quotationItems = new List<QuotationItemModel>();
 
             if (quotationFields != null && quotationFields.Id != null)
             {
-                quotationFields.QuotationId = GenerateQuotationId((int)quotationFields.Id);
-
                 foreach (var item in request.quotationItems)
                 {
                     item.QuotationId = quotationFields.Id;

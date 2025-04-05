@@ -36,8 +36,8 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
             var allPurchaseOrders = await _purchaseOrderFields.ReadAsync();
 
             return allPurchaseOrders.Count(q =>
-                q.AddedOn >= new DateTime(financialYearStart, 4, 1) &&
-                q.AddedOn < new DateTime(financialYearEnd, 4, 1));
+                q.PurchaseOrderDate >= new DateTime(financialYearStart, 4, 1) &&
+                q.PurchaseOrderDate < new DateTime(financialYearEnd, 4, 1));
         }
 
         private string GeneratePurchaseOrderId(int sequenceNumber)
@@ -102,22 +102,6 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
 
         public async Task<object> Update(UpdatePurchaseOrderRequest request)
         {
-            if (request.purchaseOrderFields.PurchaseOrderId == "" && request.purchaseOrderFields.Id != null)
-            {
-                // For existing POs, we'll keep their original sequence number
-                var existingPo = _purchaseOrderFields.GetById((int)request.purchaseOrderFields.Id);
-                if (existingPo != null && existingPo.PurchaseOrderId != null)
-                {
-                    request.purchaseOrderFields.PurchaseOrderId = existingPo.PurchaseOrderId;
-                }
-                else
-                {
-                    // If for some reason PO doesn't have an ID, generate a new one
-                    int currentCount = await GetCurrentFinancialYearPurchaseOrderCount();
-                    request.purchaseOrderFields.PurchaseOrderId = GeneratePurchaseOrderId(currentCount + 1);
-                }
-            }
-
             PurchaseOrderFieldsModel? purchaseOrderFields = await _purchaseOrderFields.UpdateAsync(request.purchaseOrderFields);
             List<PurchaseOrderItemModel> purchaseOrderItems = new List<PurchaseOrderItemModel>();
 
