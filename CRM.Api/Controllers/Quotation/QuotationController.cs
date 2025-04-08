@@ -27,28 +27,21 @@ namespace Crm.Api.Controllers.Quotation
         {
             var result = await _quotationService.Create(quotationRequest);
 
-            var quotationIdProperty = result.GetType().GetProperty("QuotationId");
+            var quotationIdProperty = result.GetType().GetProperty("Id");
             string? quotationId = quotationIdProperty?.GetValue(result)?.ToString();
 
-            int quotId = 0;
-            if (!string.IsNullOrEmpty(quotationId))
+            bool isValid = int.TryParse(quotationId, out int quotId);
+            if (isValid && quotationRequest.quotationFields.QuotationFollowUpDate != null)
             {
-                var parts = quotationId.Split('/');
-                if (parts.Length > 0 && int.TryParse(parts[^1], out quotId)) // ^1 gets the last element
+                await _quotationFollowUpService.CreateAsync(new CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create.CreateQuotationFollowUpRequest()
                 {
-                    if (quotationRequest.quotationFields.QuotationFollowUpDate != null)
-                    {
-                        await _quotationFollowUpService.CreateAsync(new CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create.CreateQuotationFollowUpRequest()
-                        {
-                            QuotationId = quotId,
-                            FollowUpDate = (DateTime)quotationRequest.quotationFields.QuotationFollowUpDate,
-                            NextFollowUpDate = (DateTime) quotationRequest.quotationFields.QuotationFollowUpDate,
-                            AddedOn = DateTime.Now,
-                            ModifiedOn = DateTime.Now,
-                            QuotationDate = quotationRequest.quotationFields.QuotationDate
-                        });
-                    }
-                }
+                    QuotationId = quotId,
+                    FollowUpDate = (DateTime)quotationRequest.quotationFields.QuotationFollowUpDate,
+                    NextFollowUpDate = (DateTime) quotationRequest.quotationFields.QuotationFollowUpDate,
+                    AddedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    QuotationDate = quotationRequest.quotationFields.QuotationDate
+                });
             }
 
             return StatusCode(StatusCodes.Status200OK, result);

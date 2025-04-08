@@ -94,6 +94,7 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
                 PurchaseOrderTermsModel? purchaseOrderTerms = await _purchaseOrderTerms.CreateAsync(request.purchaseOrderTerms);
                 return new
                 {
+                    purchaseOrderFields.Id,
                     purchaseOrderFields.PurchaseOrderId
                 };
             }

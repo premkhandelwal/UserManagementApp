@@ -99,6 +99,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
                 QuotationTermsModel? quotationTerms = await _quotationTerms.CreateAsync(request.quotationTerms);
                 return new
                 {
+                    quotationFields.Id,
                     quotationFields.QuotationId
                 };
             }
