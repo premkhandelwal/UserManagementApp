@@ -21,12 +21,18 @@ namespace Crm.Tenant.Data
         public async Task CommitTransactionAsync()
         {
             await _context.SaveChangesAsync();
-            await _transaction.CommitAsync();
+            if(_transaction != null)
+            {
+                await _transaction.CommitAsync();
+            }
         }
 
         public async Task RollbackTransactionAsync()
         {
-            await _transaction.RollbackAsync();
+            if (_transaction != null)
+            {
+                await _transaction.RollbackAsync(); 
+            }
         }
 
         public async Task SaveChangesAsync()
