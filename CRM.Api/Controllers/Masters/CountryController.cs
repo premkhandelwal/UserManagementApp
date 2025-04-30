@@ -2,11 +2,13 @@
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.CreateCountry;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.DeleteCountry;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.UpdateCountry;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CountryController : ControllerBase
     {
         private CountryService _countryService;

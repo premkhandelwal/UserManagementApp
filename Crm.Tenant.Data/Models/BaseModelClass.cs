@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Crm.Tenant.Data.Models
@@ -12,6 +11,5 @@ namespace Crm.Tenant.Data.Models
         public DateTime? AddedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public bool IsDeleted { get; set; } = false;
-
     }
 }

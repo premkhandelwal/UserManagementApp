@@ -2,15 +2,18 @@
 using Crm.Admin.Data;
 using Crm.Api;
 using Crm.Admin.Service;
+using CRM.Admin.Service.Services;
+using Crm.Admin.Service.Services;
+using Crm.Tenant.Data;
 
 namespace Crm.Api
 {
     public static class StartupExtensions
     {
-        public static WebApplication ConfigureServices(
+        public static IServiceCollection ConfigureServices(
             this WebApplicationBuilder builder)
         {
-
+            // Add services to the container
             builder.Services.AddAdminServices(builder.Configuration);
             builder.Services.AddTenantDataServices(builder.Configuration);
             builder.Services.AddTenantServices(builder.Configuration);
@@ -21,12 +24,11 @@ namespace Crm.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            return builder.Build();
+            return builder.Services; // Return the IServiceCollection
         }
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -35,16 +37,24 @@ namespace Crm.Api
 
             app.UseCors(opt =>
             {
-                opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200");
+                opt.WithOrigins(
+                    "http://localhost:4200",
+                    "https://crm.arihantatf.com"
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
             });
-            app.UseHttpsRedirection();
 
+
+            app.UseMiddleware<TokenValidationMiddleware>(); // Ensure this middleware is used
+            app.UseMiddleware<TransactionUnitMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
 
-
+            // Security headers
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'nonce-random'; style-src 'self' 'nonce-random';");
@@ -59,3 +69,4 @@ namespace Crm.Api
         }
     }
 }
+

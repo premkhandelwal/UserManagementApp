@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Crm.Tenant.Data.Models.Masters;
 using Crm.Tenant.Data.Models;
 
-namespace Crm.Api.Models.Quotation
+namespace Crm.Tenant.Data.Models.Quotation
 {
     public class QuotationTermsModel: BaseModelClass
     {
-        public int QuotationId { get; set; }
-        public int? DelieveryNameId { get; set; }
+        public int? QuotationId { get; set; }
+        public int? DeliveryNameId { get; set; }
         public int? CurrencyId { get; set; }
         public int? DeliveryTimeId { get; set; }
         public int? CountryofOriginId { get; set; }
@@ -18,7 +18,7 @@ namespace Crm.Api.Models.Quotation
         public int? ValidityId { get; set; }
         public int? PackingTypeId { get; set; }
 
-        [ForeignKey(nameof(DelieveryNameId))]
+        [ForeignKey(nameof(DeliveryNameId))]
         public virtual DeliveredToModel? DeliveredToModel { get; set; }
 
         [ForeignKey(nameof(CurrencyId))]
@@ -43,6 +43,6 @@ namespace Crm.Api.Models.Quotation
         public virtual TransportModeModel? PackingTypeModel { get; set; }
 
         [ForeignKey(nameof(QuotationId))]
-        public QuotationFieldsModel? QuotationFieldsModel { get; set; }
+        public virtual QuotationFieldsModel? QuotationFieldsModel { get; set; }
     }
 }

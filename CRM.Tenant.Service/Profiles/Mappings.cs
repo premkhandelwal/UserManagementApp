@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
-using Crm.Api.Models.Quotation;
+using Crm.Admin.Service.Models;
+using Crm.Tenant.Data.Models.PurchaseOrder;
 using Crm.Tenant.Data.Models.Masters;
+using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
+using Crm.Tenant.Data.Models.Quotation;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.CreateClient;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.DeleteClient;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Clients.UpdateClient;
@@ -31,18 +34,46 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.UpdatePaymen
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.CreateProduct;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.DeleteProduct;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Product.UpdateProduct;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.CreateHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.DeleteHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Hsn.UpdateHsn;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Vendor.CreateVendor;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Vendor.DeleteVendor;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.Vendor.UpdateVendor;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.CreateVendorMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.DeleteVendorMember;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PurchseOrder.VendorMember.UpdateVendorMember;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.CreateQuotationCloseReason;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.DeleteQuotationCloseReason;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.UpdateQuotationCloseReason;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.CreateTransportMode;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.DeleteTransportMode;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.TransportMode.UpdateTransportMode;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.Unit.CreateUnit;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.CreateValidity;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.DeleteValidity;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.UpdateValidity;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderFields;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderItems;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchaseOrderTerms;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderFields;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderItems;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderTerms;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationTerms;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationFields;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationTerms;
+using CRM.Tenant.Service.Models.Requests.UserRequests;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderFields;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderItems;
+using CRM.Tenant.Service.Models.Requests.PurchaseOrder.Delete.DeletePurchaseOrderTerms;
+using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationFields;
+using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationItems;
+using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationTerms;
+using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Update;
 
 
 namespace CRM.Tenant.Service.Profiles
@@ -75,6 +106,10 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<DeliveryTimeModel, CreateDeliveryTimeRequest>().ReverseMap();
             CreateMap<DeliveryTimeModel, UpdateDeliveryTimeRequest>().ReverseMap();
             CreateMap<DeliveryTimeModel, DeleteDeliveryTimeRequest>().ReverseMap();
+
+            CreateMap<HsnModel, CreateHsnRequest>().ReverseMap();
+            CreateMap<HsnModel, UpdateHsnRequest>().ReverseMap();
+            CreateMap<HsnModel, DeleteHsnRequest>().ReverseMap();
 
             // Material mappings
             CreateMap<MaterialModel, CreateMaterialRequest>().ReverseMap();
@@ -112,6 +147,8 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<TransportModeModel, UpdateTransportModeRequest>().ReverseMap();
             CreateMap<TransportModeModel, DeleteTransportModeRequest>().ReverseMap();
 
+            CreateMap<UnitModel, CreateUnitRequest>().ReverseMap();   
+
             // Validity mappings
             CreateMap<ValidityModel, CreateValidityRequest>().ReverseMap();
             CreateMap<ValidityModel, UpdateValidityRequest>().ReverseMap();
@@ -121,8 +158,41 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<QuotationItemModel, CreateQuotationItemsRequest>().ReverseMap();
             CreateMap<QuotationTermsModel, CreateQuotationTermsRequest>().ReverseMap();
 
+            CreateMap<QuotationFieldsModel, UpdateQuotationFieldsRequest>().ReverseMap();
+            CreateMap<QuotationItemModel, UpdateQuotationItemsRequest>().ReverseMap();
+            CreateMap<QuotationTermsModel, UpdateQuotationTermsRequest>().ReverseMap();
 
+            CreateMap<QuotationFollowUpModel, CreateQuotationFollowUpRequest>().ReverseMap();
+            CreateMap<QuotationFollowUpModel, UpdateQuotationFollowUpRequest>().ReverseMap();
+
+            CreateMap<UserModel, CreateUserRequest>().ReverseMap();
+            CreateMap<UserModel, UpdateUserRequest>().ReverseMap();
+
+            CreateMap<VendorModel, CreateVendorRequest>().ReverseMap();
+            CreateMap<VendorModel, UpdateVendorRequest>().ReverseMap();
+            CreateMap<VendorModel, DeleteVendorRequest>().ReverseMap();
+
+            CreateMap<VendorMemberModel, CreateVendorMemberRequest>().ReverseMap();
+            CreateMap<VendorMemberModel, UpdateVendorMemberRequest>().ReverseMap();
+            CreateMap<VendorMemberModel, DeleteVendorMemberRequest>().ReverseMap();
+
+            CreateMap<PurchaseOrderFieldsModel, CreatePurchaseOrderFieldsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderItemModel, CreatePurchaseOrderItemsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderTermsModel, CreatePurchaseOrderTermsRequest>().ReverseMap();
+
+            CreateMap<PurchaseOrderFieldsModel, UpdatePurchaseOrderFieldsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderItemModel, UpdatePurchaseOrderItemsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderTermsModel, UpdatePurchaseOrderTermsRequest>().ReverseMap();
+
+            CreateMap<PurchaseOrderFieldsModel, DeletePurchaseOrderFieldsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderItemModel, DeletePurchaseOrderItemsRequest>().ReverseMap();
+            CreateMap<PurchaseOrderTermsModel, DeletePurchaseOrderTermsRequest>().ReverseMap();
+
+            CreateMap<QuotationFieldsModel, DeleteQuotationFieldsRequest>().ReverseMap();
+            CreateMap<QuotationItemModel, DeleteQuotationItemsRequest>().ReverseMap();
+            CreateMap<QuotationTermsModel, DeleteQuotationTermsRequest>().ReverseMap();
         }
     }
 }
+
 

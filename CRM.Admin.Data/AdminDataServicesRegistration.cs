@@ -1,4 +1,5 @@
 ﻿using Crm.Admin.Data.Models;
+using CRM.Admin.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,20 +13,33 @@ namespace Crm.Admin.Data
     {
         public static void AddAdminDataServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<CrmIdentityUser, IdentityRole>()
+            services.AddIdentity<CrmIdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 0;
+            })
                 .AddEntityFrameworkStores<AdminDbContext>()
                 .AddDefaultTokenProviders();
             services.AddScoped<RefreshToken>();
 
             services.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
-
+            services.Configure<SmtpConfig>(configuration.GetSection("SmtpSettings"));
+            var connStr = configuration.GetConnectionString("AdminConnectionString");
             services.AddDbContext<AdminDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("AdminConnectionString"));
-            });
+                options.UseMySql(connStr, ServerVersion.AutoDetect(connStr),
+                options => options.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: System.TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null)
+                );
+            }, ServiceLifetime.Transient);
 
-            byte[] key = Encoding.ASCII.GetBytes(configuration["JwtConfig:Secret"]);
-
+            byte[] key = Encoding.ASCII.GetBytes(configuration.GetSection("JwtConfig").GetValue<string>("Secret"));
 
             TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
             {
@@ -34,7 +48,7 @@ namespace Crm.Admin.Data
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidateLifetime = false,
-                RequireExpirationTime = false
+                RequireExpirationTime = false                  
             };
             services.AddSingleton(tokenValidationParameters);
 

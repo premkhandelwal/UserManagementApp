@@ -1,14 +1,16 @@
-﻿using CRM.Tenant.Service.Services;
-
-namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields
+﻿namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotationFields
 {
     public class CreateQuotationFieldsRequest
     {
-        public string? QuotationMadeById { get; set; }
+        public string? QuotationId { get; set; }
 
-        public string? QuotationAssignedToId { get; set; }
+        public int? QuotationMadeById { get; set; }
+
+        public int? QuotationAssignedToId { get; set; }
 
         public DateTime QuotationDate { get; set; }
+
+        public DateTime? QuotationFollowUpDate { get; set; }
 
         public string? QuotationStage { get; set; }
 
@@ -22,19 +24,19 @@ namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuo
 
         public int QuotationPriority { get; set; }
 
-        public double GstPercent { get; set; }
+        public double? GstPercent { get; set; }
 
-        public double NetTotal { get; set; }
+        public double? NetTotal { get; set; }
 
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
 
         public string? DiscountType { get; set; }
 
-        public double GstAmount { get; set; }
+        public double? GstAmount { get; set; }
 
-        public double OtherCharges { get; set; }
+        public double? OtherCharges { get; set; }
 
-        public double GrandTotal { get; set; }
+        public double? GrandTotal { get; set; }
         public DateTime? AddedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
     }

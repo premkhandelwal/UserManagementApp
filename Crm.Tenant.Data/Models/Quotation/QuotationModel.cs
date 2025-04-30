@@ -1,6 +1,4 @@
-﻿using Crm.Api.Models.Quotation;
-
-namespace Crm.Tenant.Data.Models.Quotation
+﻿namespace Crm.Tenant.Data.Models.Quotation
 {
     public class QuotationModel
     {

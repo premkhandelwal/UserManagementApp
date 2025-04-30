@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using Crm.Tenant.Data.Models;
 
-namespace Crm.Api.Models.Quotation
+namespace Crm.Tenant.Data.Models.Quotation
 {
     public class QuotationItemModel: BaseModelClass
     {
@@ -14,7 +12,7 @@ namespace Crm.Api.Models.Quotation
 
         public double Quantity { get; set; }
 
-        public string? Unit { get; set; }
+        public int? Unit { get; set; }
 
         public double Cost { get; set; }
 
@@ -27,6 +25,6 @@ namespace Crm.Api.Models.Quotation
         public double TotalPrice { get; set; }
 
         [ForeignKey(nameof(QuotationId))]
-        public QuotationFieldsModel? QuotationFieldsModel { get; set; }
+        public virtual QuotationFieldsModel? QuotationFieldsModel { get; set; }
     }
 }

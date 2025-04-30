@@ -2,11 +2,13 @@
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.CreateCurrency;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.DeleteCurrency;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.UpdateCurrency;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CurrencyController : ControllerBase
     {
         private CurrencyService _currencyService;

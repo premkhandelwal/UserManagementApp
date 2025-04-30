@@ -1,12 +1,14 @@
 ﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.CreateQuotationCloseReason;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.DeleteQuotationCloseReason;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.QuotationCloseReason.UpdateQuotationCloseReason;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuotationCloseReasonController : ControllerBase
     {
         private QuotationCloseReasonService _quotationclosereasonService;

@@ -1,12 +1,14 @@
 ﻿using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.CreateValidity;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.DeleteValidity;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Validity.UpdateValidity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Api.Controllers.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ValidityController : ControllerBase
     {
         private ValidityService _validityService;

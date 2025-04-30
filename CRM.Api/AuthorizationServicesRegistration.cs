@@ -18,9 +18,9 @@ namespace Crm.Api
             services.AddScoped<IAuthorizationHandler, RoleOrPolicyHandler>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RolePolicy", policy => policy.RequireClaim("permissions", new[] { "ViewUsers" }));
+                options.AddPolicy("RolePolicy", policy => policy.RequireClaim("permissions", new[] { "UserManagementAccess" }));
 
-                options.AddPolicy("ViewUsers", policy => policy.RequireClaim("permissions", new[] { "ViewUsers" }));
+                options.AddPolicy("ViewUsers", policy => policy.RequireClaim("permissions", new[] { "UserManagementAccess" }));
                 options.AddPolicy("UpdateUsers", policy => policy.RequireClaim("permissions", new[] { "UpdateUsers" }));
                 options.AddPolicy("ViewQuotation", policy => policy.RequireClaim("permissions", new[] { "ViewQuotation" }));
                 options.AddPolicy("UpdateQuotation", policy => policy.RequireClaim("permissions", new[] { "UpdateQuotation" }));
