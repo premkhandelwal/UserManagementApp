@@ -3,6 +3,7 @@ using Crm.Admin.Service.Models;
 using Crm.Tenant.Data;
 using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.UserRequests;
+using CRM.Tenant.Service.Models.Responses;
 using FluentValidation;
 
 namespace CRM.Tenant.Service.Services

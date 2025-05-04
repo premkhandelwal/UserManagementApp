@@ -12,6 +12,8 @@ using CRM.Tenant.Service.Models.Requests.UserRequests;
 using System.Transactions;
 using Crm.Tenant.Data.Models.UserManagementRequests;
 using CRM.Admin.Service.Services;
+using Crm.Tenant.Data.Enums;
+using CRM.Tenant.Service.Models.Responses;
 
 namespace Crm.Api.Controllers
 {
@@ -203,10 +205,51 @@ namespace Crm.Api.Controllers
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
+            // Step 1: Get all users and filter out deleted ones
             List<UserModel> response = await _userService.ReadAsync();
-            List<UserModel> filteredUsers = response.Where(user => user.IsDeleted == false).ToList();
-            return StatusCode(StatusCodes.Status200OK, filteredUsers);
+            List<UserModel> filteredUsers = response.Where(user => !user.IsDeleted).ToList();
+
+            // Step 2: Define the claims you want to check
+            List<string> claimsToCheck = new List<string> { "QuotationsAccess", "PurchaseOrdersAccess" };
+
+            // Step 3: Call identity service with filtered user IDs
+            var filteredUserIds = filteredUsers.Select(u => u.Username).ToList();
+
+            var getAllUsersClaims = await _identityService.GetAllUsersWithClaims(filteredUserIds, claimsToCheck);
+            var userClaimsList = getAllUsersClaims.Response;
+
+            // Step 4: Build the GetUserResponse list
+            List<GetUserResponse> result = new();
+
+            foreach (var user in filteredUsers)
+            {
+                var userClaims = userClaimsList.FirstOrDefault(u => u.UserName == user.Username);
+                List<string> permissions = new List<string> { };
+                if (userClaims != null)
+                {
+
+                    foreach (var claim in userClaims.Claims)
+                    {
+                        permissions.Add(claim.ClaimValue);
+                    }
+                }
+                result.Add(new GetUserResponse
+                {
+                    Id = user.Id,
+                    UserId = user.UserId,
+                    Username = user.Username,
+                    EmailId = user.EmailId,
+                    Password = user.Password,
+                    Role = user.Role,
+                    MobileNo = user.MobileNo,
+                    LastLogin = user.LastLogin,
+                    UserPermissions = permissions
+                });
+            }
+
+            return StatusCode(StatusCodes.Status200OK, result);
         }
+
 
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole([FromBody] CreateRoleRequest role)

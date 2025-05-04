@@ -45,6 +45,7 @@ namespace Crm.Api.Controllers.PurchaseOrder
         {
 
             var isAdmin = User.HasClaim(c => c.Type == ClaimTypes.Role && c.Value == "admnRole");
+            var isAdminPermission = User.HasClaim(c => c.Value == "PurchaseOrdersIsAdminPermission");
             int userId = -1;
             int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value, out userId);
             if (userId == -1)
@@ -52,7 +53,7 @@ namespace Crm.Api.Controllers.PurchaseOrder
                 return Unauthorized(new { Message = "User is not authorized." });
             }
 
-            if (User.IsInRole("adminRole"))
+            if (User.IsInRole("adminRole") || isAdminPermission)
             {
                 // User is an Admin, return all purchaseOrders
                 var purchaseOrders = await _purchaseOrderService.Get();
