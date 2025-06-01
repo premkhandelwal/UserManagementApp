@@ -74,6 +74,7 @@ using CRM.Tenant.Service.Models.Requests.Quotation.Delete.DeleteQuotationTerms;
 using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Update;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Delete;
 
 
 namespace CRM.Tenant.Service.Profiles
@@ -164,6 +165,7 @@ namespace CRM.Tenant.Service.Profiles
 
             CreateMap<QuotationFollowUpModel, CreateQuotationFollowUpRequest>().ReverseMap();
             CreateMap<QuotationFollowUpModel, UpdateQuotationFollowUpRequest>().ReverseMap();
+            CreateMap<QuotationFollowUpModel, DeleteQuotationFollowUpRequest>().ReverseMap();
 
             CreateMap<UserModel, CreateUserRequest>().ReverseMap();
             CreateMap<UserModel, UpdateUserRequest>().ReverseMap();

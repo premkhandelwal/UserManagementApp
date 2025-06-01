@@ -415,5 +415,12 @@ OTP: {otp}
             }
             return StatusCode(StatusCodes.Status501NotImplemented, new { message = "Invalid or expired OTP." });
         }
+
+
+        [HttpGet("Ping")]
+        public IActionResult Ping()
+        {
+            return Ok();
+        }
     }
 }
