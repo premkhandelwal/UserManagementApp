@@ -417,5 +417,40 @@ namespace Crm.Admin.Service.Services
                 };
             }
         }
+        public async Task<IApiResponse<List<UserClaimsResponse>>> GetAllUsersWithClaims(List<string> userNameList, List<string> claims)
+        {
+            List<UserClaimsResponse> userClaimsList = new List<UserClaimsResponse>();
+            foreach (var userName in userNameList)
+            {
+                var userClaimsResponse = await GetClaimsForUser(userName);
+                var userClaims = userClaimsResponse.Response;
+                // Filter user claims based on input claims
+                var matchedClaims = userClaims
+                    .Where(c => claims.Contains(c.Value))
+                    .ToList();
+
+                if (matchedClaims.Any())
+                {
+                    userClaimsList.Add(new UserClaimsResponse
+                    {
+                        UserName = userName,
+                        Claims = matchedClaims.Select(c => new ClaimResponse
+                        {
+                            ClaimType = c.Type,
+                            ClaimValue = c.Value
+                        }).ToList()
+                    });
+                }
+            }
+
+            return new IApiResponse<List<UserClaimsResponse>>
+            {
+                IsSuccess = true,
+                StatusCode = 200,
+                Response = userClaimsList
+            };
+        }
+
+
     }
 }

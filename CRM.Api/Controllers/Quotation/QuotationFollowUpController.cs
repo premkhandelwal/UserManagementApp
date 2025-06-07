@@ -1,4 +1,5 @@
 ﻿using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
+using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Delete;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Update;
 using CRM.Tenant.Service.Services.QuotationService;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +31,13 @@ namespace CRM.Api.Controllers.Quotation
         public async Task<IActionResult> UpdateQuotationFollowUp([FromBody] UpdateQuotationFollowUpRequest updateQuotationFollowUpRequest)
         {
             var result = await quotationFollowUpService.UpdateAsync(updateQuotationFollowUpRequest);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpDelete("DeleteQuotationFollowUp")]
+        public async Task<IActionResult> DeleteQuotationFollowUp([FromBody] DeleteQuotationFollowUpRequest deleteQuotationFollowUpRequest)
+        {
+            var result = await quotationFollowUpService.DeleteAsync(deleteQuotationFollowUpRequest);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 

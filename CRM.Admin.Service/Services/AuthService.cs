@@ -87,6 +87,5 @@ namespace Crm.Admin.Service.Services
 
             return new IApiResponse<dynamic> { IsSuccess = true, StatusCode = 200, Response = permissionResponse };
         }
-
     }
 }

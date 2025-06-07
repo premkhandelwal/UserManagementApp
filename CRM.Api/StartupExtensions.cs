@@ -14,6 +14,7 @@ namespace Crm.Api
             this WebApplicationBuilder builder)
         {
             // Add services to the container
+            builder.Services.AddSwaggerGen();
             builder.Services.AddAdminServices(builder.Configuration);
             builder.Services.AddTenantDataServices(builder.Configuration);
             builder.Services.AddTenantServices(builder.Configuration);
@@ -22,18 +23,15 @@ namespace Crm.Api
             builder.Services.AddCors();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
             return builder.Services; // Return the IServiceCollection
         }
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
-            if (app.Environment.IsDevelopment())
-            {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            
 
             app.UseCors(opt =>
             {
