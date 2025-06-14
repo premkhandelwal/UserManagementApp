@@ -4,6 +4,7 @@ using Crm.Tenant.Data.Models.Quotation;
 using Crm.Admin.Service.Models;
 using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
 using Crm.Tenant.Data.Models.PurchaseOrder;
+using Crm.Tenant.Data.Models.Masters.WorkOrder;
 
 namespace Crm.Tenant.Data.DbContexts
 {
@@ -34,6 +35,7 @@ namespace Crm.Tenant.Data.DbContexts
         public DbSet<HsnModel> Hsn { get; set; }
         public DbSet<VendorModel>? Vendor { get; set; }
         public DbSet<VendorMemberModel> VendorMember { get; set; }
+        public DbSet<PartNumberModel> PartNumbers { get; set; }
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
         {
 
@@ -68,8 +70,8 @@ namespace Crm.Tenant.Data.DbContexts
                 typeof(HsnModel),
                 typeof(VendorModel),
                 typeof(VendorMemberModel),
-                typeof(UserModel)
-
+                typeof(UserModel),
+                typeof(PartNumberModel)
             };
 
             foreach (var entity in entitiesWithPrimaryKey)

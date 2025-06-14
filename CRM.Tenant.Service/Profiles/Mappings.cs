@@ -75,6 +75,10 @@ using CRM.Tenant.Service.Models.Requests.Quotation.Update.UpdateQuotationItems;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Update;
 using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Delete;
+using Crm.Tenant.Data.Models.Masters.WorkOrder;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PartNumber.CreatePartNumber;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PartNumber.UpdatePartNumber;
+using CRM.Tenant.Service.Models.Requests.MasterRequests.PartNumber.DeletePartNumber;
 
 
 namespace CRM.Tenant.Service.Profiles
@@ -155,6 +159,10 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<ValidityModel, UpdateValidityRequest>().ReverseMap();
             CreateMap<ValidityModel, DeleteValidityRequest>().ReverseMap();
 
+            CreateMap<PartNumberModel, CreatePartNumberRequest>().ReverseMap();
+            CreateMap<PartNumberModel, UpdatePartNumberRequest>().ReverseMap();
+            CreateMap<PartNumberModel, DeletePartNumberRequest>().ReverseMap();
+
             CreateMap<QuotationFieldsModel, CreateQuotationFieldsRequest>().ReverseMap();
             CreateMap<QuotationItemModel, CreateQuotationItemsRequest>().ReverseMap();
             CreateMap<QuotationTermsModel, CreateQuotationTermsRequest>().ReverseMap();
@@ -193,6 +201,8 @@ namespace CRM.Tenant.Service.Profiles
             CreateMap<QuotationFieldsModel, DeleteQuotationFieldsRequest>().ReverseMap();
             CreateMap<QuotationItemModel, DeleteQuotationItemsRequest>().ReverseMap();
             CreateMap<QuotationTermsModel, DeleteQuotationTermsRequest>().ReverseMap();
+
+
         }
     }
 }
