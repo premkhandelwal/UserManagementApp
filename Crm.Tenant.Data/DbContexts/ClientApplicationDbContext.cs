@@ -5,6 +5,8 @@ using Crm.Admin.Service.Models;
 using Crm.Tenant.Data.Models.Masters.PurchaseOrder;
 using Crm.Tenant.Data.Models.PurchaseOrder;
 using Crm.Tenant.Data.Models.Masters.WorkOrder;
+using System.Reflection.Emit;
+using Crm.Tenant.Data.Models.WorkOrder;
 
 namespace Crm.Tenant.Data.DbContexts
 {
@@ -97,6 +99,7 @@ namespace Crm.Tenant.Data.DbContexts
 
             QuotationKeys(modelBuilder);
             PurchaseOrderKeys(modelBuilder);
+            WorkOrderKeys(modelBuilder);
         }
 
         private void QuotationKeys(ModelBuilder modelBuilder)
@@ -223,6 +226,24 @@ namespace Crm.Tenant.Data.DbContexts
                 .HasOne(m => m.ValidityModel)
                 .WithMany()
                 .HasForeignKey(m => m.ValidityId);
+        }
+
+        private void WorkOrderKeys(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<WorkOrderFieldsModel>()
+              .HasOne(modelBuilder => modelBuilder.WorkOrderCompany)
+              .WithMany()
+              .HasForeignKey(m => m.WorkOrderCompanyId);
+
+            modelBuilder.Entity<WorkOrderItemModel>()
+                .HasOne(modelBuilder => modelBuilder.WorkOrderFieldsModel)
+                .WithMany()
+                .HasForeignKey(m => m.WorkOrderId);
+
+            modelBuilder.Entity<WorkOrderItemModel>()
+                .HasOne(modelBuilder => modelBuilder.PartNumberModel)
+                .WithMany()
+                .HasForeignKey(m => m.PartNumber);
         }
 
     }
