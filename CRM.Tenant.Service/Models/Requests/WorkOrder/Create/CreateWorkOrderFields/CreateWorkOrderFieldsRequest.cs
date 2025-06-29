@@ -4,7 +4,7 @@
     {
         public string? WorkOrderId { get; set; }
 
-        public string? WorkOrderCompanyId { get; set; }
+        public int? WorkOrderCompanyId { get; set; }
 
         public string? PurchareOrderNumber { get; set; }
 
