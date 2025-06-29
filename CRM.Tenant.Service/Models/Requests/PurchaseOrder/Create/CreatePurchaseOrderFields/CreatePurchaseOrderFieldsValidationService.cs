@@ -34,8 +34,6 @@ namespace CRM.Tenant.Service.Models.Requests.PurchaseOrder.Create.CreatePurchase
             RuleFor(x => x.Discount)
                 .GreaterThanOrEqualTo(0).WithMessage("Discount must be a positive value.");
 
-            RuleFor(x => x.DiscountType)
-                .MaximumLength(50).WithMessage("Discount Type must not exceed 50 characters.");
 
             RuleFor(x => x.GstAmount)
                 .GreaterThanOrEqualTo(0).WithMessage("GST Amount must be a positive value.");
