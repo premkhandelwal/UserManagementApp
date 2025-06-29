@@ -8,14 +8,14 @@ namespace Crm.Tenant.Data.Models.WorkOrder
     {
         public int WorkOrderId { get; set; }
         public string? SrNo { get; set; }
-        public int PartNumber {  get; set; }
+        public int PartNumberId {  get; set; }
         public string? Description { get; set; }
         public int Quantity { get; set; }
         public int DispatchedQuantity { get; set; }
         public int? Unit { get; set; }
         [ForeignKey(nameof(WorkOrderId))]
         public virtual WorkOrderFieldsModel? WorkOrderFieldsModel { get; set; }
-        [ForeignKey(nameof(PartNumber))]
+        [ForeignKey(nameof(PartNumberId))]
         public virtual PartNumberModel? PartNumberModel { get; set; }
 
     }

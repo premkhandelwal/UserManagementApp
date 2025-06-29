@@ -243,7 +243,7 @@ namespace Crm.Tenant.Data.DbContexts
             modelBuilder.Entity<WorkOrderItemModel>()
                 .HasOne(modelBuilder => modelBuilder.PartNumberModel)
                 .WithMany()
-                .HasForeignKey(m => m.PartNumber);
+                .HasForeignKey(m => m.PartNumberId);
         }
 
     }

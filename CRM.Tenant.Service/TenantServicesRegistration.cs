@@ -43,6 +43,10 @@ using CRM.Tenant.Service.Models.Requests.QuotationFollowUp.Create;
 using Crm.Tenant.Data.Models.Masters.WorkOrder;
 using CRM.Tenant.Service.Services.MasterServices.WorkOrder;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.PartNumber.CreatePartNumber;
+using CRM.Tenant.Service.Services.WorkOrderService;
+using Crm.Tenant.Data.Models.WorkOrder;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkFields;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkOrderItems;
 
 namespace Crm.Tenant.Service
 {
@@ -78,9 +82,11 @@ namespace Crm.Tenant.Service
             RegisterScopedService<PurchaseOrderItemModel, PurchaseOrderItemsService, CreatePurchaseOrderItemsRequest, CreatePurchaseOrderItemsValidationService<CreatePurchaseOrderItemsRequest>>(services);
             RegisterScopedService<PurchaseOrderTermsModel, PurchaseOrderTermsService, CreatePurchaseOrderTermsRequest, CreatePurchaseOrderTermsValidationService<CreatePurchaseOrderTermsRequest>>(services);
             RegisterScopedService<PartNumberModel, PartNumberService, CreatePartNumberRequest, CreatePartNumberValidationService<CreatePartNumberRequest>>(services);
+            RegisterScopedService<WorkOrderFieldsModel, WorkOrderFieldsService, CreateWorkOrderFieldsRequest, CreateWorkOrderFieldsValidationService<CreateWorkOrderFieldsRequest>>(services);
+            RegisterScopedService<WorkOrderItemModel, WorkOrderItemsService, CreateWorkOrderItemsRequest, CreateWorkOrderItemsValidationService<CreateWorkOrderItemsRequest>>(services);
             services.AddScoped<QuotationService>();
             services.AddScoped<PurchaseOrderService>();
-
+            services.AddScoped<WorkOrderService>();
         }
 
         private static void RegisterScopedService<TModel, TService, TRequest, TValidator>(IServiceCollection services)

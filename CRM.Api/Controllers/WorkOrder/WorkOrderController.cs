@@ -2,12 +2,15 @@
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Delete;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Update;
 using CRM.Tenant.Service.Services.WorkOrderService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.Api.Controllers.WorkOrder
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class WorkOrderController : ControllerBase
     {
         WorkOrderService _workOrderService;
