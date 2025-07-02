@@ -73,7 +73,10 @@ namespace Crm.Tenant.Data.DbContexts
                 typeof(VendorModel),
                 typeof(VendorMemberModel),
                 typeof(UserModel),
-                typeof(PartNumberModel)
+                typeof(PartNumberModel),
+                typeof(WorkOrderFieldsModel),
+                typeof(WorkOrderItemModel),
+                typeof(WorkOrderStatusModel)
             };
 
             foreach (var entity in entitiesWithPrimaryKey)
@@ -244,6 +247,14 @@ namespace Crm.Tenant.Data.DbContexts
                 .HasOne(modelBuilder => modelBuilder.PartNumberModel)
                 .WithMany()
                 .HasForeignKey(m => m.PartNumberId);
+
+            modelBuilder.Entity<WorkOrderStatusModel>(entity =>
+            { 
+                entity.HasOne(modelBuilder => modelBuilder.WorkOrderModel)
+                .WithOne();
+                entity.Property(e => e.RecordVersion).IsRowVersion().ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
+            }
+            );
         }
 
     }

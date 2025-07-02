@@ -47,6 +47,8 @@ using CRM.Tenant.Service.Services.WorkOrderService;
 using Crm.Tenant.Data.Models.WorkOrder;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkFields;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkOrderItems;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Update.UpdateWorkOrderStatus;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkOrderStatus;
 
 namespace Crm.Tenant.Service
 {
@@ -84,6 +86,7 @@ namespace Crm.Tenant.Service
             RegisterScopedService<PartNumberModel, PartNumberService, CreatePartNumberRequest, CreatePartNumberValidationService<CreatePartNumberRequest>>(services);
             RegisterScopedService<WorkOrderFieldsModel, WorkOrderFieldsService, CreateWorkOrderFieldsRequest, CreateWorkOrderFieldsValidationService<CreateWorkOrderFieldsRequest>>(services);
             RegisterScopedService<WorkOrderItemModel, WorkOrderItemsService, CreateWorkOrderItemsRequest, CreateWorkOrderItemsValidationService<CreateWorkOrderItemsRequest>>(services);
+            RegisterScopedService<WorkOrderStatusModel, WorkOrderStatusService, CreateWorkOrderStatusRequest, CreateWorkOrderStatusValidationService<CreateWorkOrderStatusRequest>>(services);
             services.AddScoped<QuotationService>();
             services.AddScoped<PurchaseOrderService>();
             services.AddScoped<WorkOrderService>();

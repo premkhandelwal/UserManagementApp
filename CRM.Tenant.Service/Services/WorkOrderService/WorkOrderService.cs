@@ -7,45 +7,55 @@ using CRM.Tenant.Service.Models.Requests.WorkOrder.Create;
 using Crm.Tenant.Data.Models.WorkOrder;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Delete;
 using Crm.Tenant.Data.Models.WorkOrder;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkOrderStatus;
+using CRM.Tenant.Service.Models.Responses.WorkOrder;
 
 namespace CRM.Tenant.Service.Services.WorkOrderService
 {
     public class WorkOrderService
     {
-        WorkOrderFieldsService _workOrderFields;
-        WorkOrderItemsService _workOrderItems;
+        WorkOrderFieldsService _workOrderFieldsService;
+        WorkOrderItemsService _workOrderItemsService;
+        WorkOrderStatusService _workOrderStatusService;
 
-        public WorkOrderService(WorkOrderFieldsService workOrderFields,
-        WorkOrderItemsService workOrderItems)
+        public WorkOrderService(WorkOrderFieldsService workOrderFieldsService,
+        WorkOrderItemsService workOrderItemsService, WorkOrderStatusService workOrderStatusService)
         {
-            _workOrderFields = workOrderFields;
-            _workOrderItems = workOrderItems;
+            _workOrderFieldsService = workOrderFieldsService;
+            _workOrderItemsService = workOrderItemsService;
+            _workOrderStatusService = workOrderStatusService;
         }
 
-        public async Task<object> Create(CreateWorkOrderRequest request)
+        public async Task<CreateWorkOrderResponse> Create(CreateWorkOrderRequest request)
         {
-            WorkOrderFieldsModel? workOrderFields = await _workOrderFields.CreateAsync(request.workOrderFields);
-            List<WorkOrderItemModel> workOrderItems = new List<WorkOrderItemModel>();
+            WorkOrderFieldsModel? workOrderFields = await _workOrderFieldsService.CreateAsync(request.workOrderFields);
 
             if (workOrderFields != null && workOrderFields.Id != null)
             {
+                CreateWorkOrderStatusRequest workOrderStatus = new CreateWorkOrderStatusRequest()
+                {
+                    WorkOrderId = (int)workOrderFields.Id,
+                    AddedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                };
+                await _workOrderStatusService.CreateAsync(workOrderStatus);
 
                 foreach (var item in request.workOrderItems)
                 {
                     item.WorkOrderId = workOrderFields.Id;
-                    await _workOrderItems.CreateAsync(item);
+                    await _workOrderItemsService.CreateAsync(item);
                 }
-                return new
+                return new CreateWorkOrderResponse
                 {
-                    workOrderFields.Id,
+                    Message = workOrderFields.Id.ToString(),
                 };
             }
-            return new { Message = "Failed to create work order." };
+            return new CreateWorkOrderResponse { Message = "Failed to create work order." };
         }
 
         public async Task<object> Update(UpdateWorkOrderRequest request)
         {
-            WorkOrderFieldsModel? workOrderFields = await _workOrderFields.UpdateAsync(request.workOrderFields);
+            WorkOrderFieldsModel? workOrderFields = await _workOrderFieldsService.UpdateAsync(request.workOrderFields);
             List<WorkOrderItemModel> workOrderItems = new List<WorkOrderItemModel>();
 
             if (workOrderFields != null && workOrderFields.Id != null)
@@ -55,11 +65,11 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
                     item.WorkOrderId = workOrderFields.Id;
                     if(item.Id == null)
                     {
-                        await _workOrderItems.CreateAsync(item);
+                        await _workOrderItemsService.CreateAsync(item);
                     }
                     else
                     {
-                        await _workOrderItems.UpdateAsync(item);
+                        await _workOrderItemsService.UpdateAsync(item);
                     }
                 }
 
@@ -77,7 +87,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
             {
                 return new { Message = "Work order fields cannot be null." };
             }
-            WorkOrderFieldsModel? workOrderFields = await _workOrderFields.UpdateAsync(request.workOrderFields);
+            WorkOrderFieldsModel? workOrderFields = await _workOrderFieldsService.UpdateAsync(request.workOrderFields);
 
             if (workOrderFields == null || workOrderFields.Id == null)
             {
@@ -89,7 +99,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
             {
                 foreach (var item in request.workOrderItems)
                 {
-                    await _workOrderItems.UpdateAsync(item);
+                    await _workOrderItemsService.UpdateAsync(item);
                 }
             }
             return new { Message = "Work order deleted successfully." };
@@ -98,8 +108,8 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
         public async Task<List<WorkOrderModel>> Get()
         {
             List<WorkOrderModel> result = new List<WorkOrderModel>();
-            List<WorkOrderFieldsModel> workOrderFields = await _workOrderFields.ReadAsync();
-            List<WorkOrderItemModel> workOrderItems = await _workOrderItems.ReadAsync();
+            List<WorkOrderFieldsModel> workOrderFields = await _workOrderFieldsService.ReadAsync();
+            List<WorkOrderItemModel> workOrderItems = await _workOrderItemsService.ReadAsync();
             foreach (var workOrder in workOrderFields)
             {
                 int? id = workOrder.Id;
@@ -121,8 +131,8 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
         {
             WorkOrderModel result = new WorkOrderModel();
 
-            WorkOrderFieldsModel? workOrder = _workOrderFields.GetById(id);
-            List<WorkOrderItemModel> workOrderItems = await _workOrderItems.ReadAsync();
+            WorkOrderFieldsModel? workOrder = _workOrderFieldsService.GetById(id);
+            List<WorkOrderItemModel> workOrderItems = await _workOrderItemsService.ReadAsync();
             if (workOrder != null)
             {
                 int? qId = workOrder.Id;

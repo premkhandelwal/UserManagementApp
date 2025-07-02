@@ -86,6 +86,8 @@ using CRM.Tenant.Service.Models.Requests.WorkOrder.Update.UpdateWorkOrderFields;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Update.UpdateWorkOrderItems;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Delete.DeleteWorkOrderFields;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Delete.DeleteWorkOrderItems;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Update.UpdateWorkOrderStatus;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkOrderStatus;
 
 
 namespace CRM.Tenant.Service.Profiles
@@ -217,6 +219,9 @@ namespace CRM.Tenant.Service.Profiles
 
             CreateMap<WorkOrderFieldsModel, DeleteWorkOrderFieldsRequest>().ReverseMap();
             CreateMap<WorkOrderItemModel, DeleteWorkOrderItemsRequest>().ReverseMap();
+
+            CreateMap<WorkOrderStatusModel, CreateWorkOrderStatusRequest>().ReverseMap();
+            CreateMap<WorkOrderStatusModel, UpdateWorkOrderStatusRequest>().ReverseMap();
 
 
         }

@@ -1,9 +1,13 @@
 ﻿using CRM.Tenant.Service.Models.Requests.WorkOrder.Create;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkOrderStatus;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Delete;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Update;
+using CRM.Tenant.Service.Models.Requests.WorkOrder.Update.UpdateWorkOrderStatus;
+using CRM.Tenant.Service.Models.Responses.WorkOrder;
 using CRM.Tenant.Service.Services.WorkOrderService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Api.Controllers.WorkOrder
 {
@@ -14,16 +18,29 @@ namespace CRM.Api.Controllers.WorkOrder
     public class WorkOrderController : ControllerBase
     {
         WorkOrderService _workOrderService;
+        WorkOrderStatusService _workOrderStatusService;
 
-        public WorkOrderController(WorkOrderService workOrderService) 
+        public WorkOrderController(WorkOrderService workOrderService, WorkOrderStatusService workOrderStatusService) 
         {
             _workOrderService = workOrderService;
+            _workOrderStatusService = workOrderStatusService;
         }
 
         [HttpPost("CreateWorkOrder")]
         public async Task<IActionResult> CreateWorkOrder([FromBody] CreateWorkOrderRequest workOrderRequest)
         {
-            var result = await _workOrderService.Create(workOrderRequest);
+            CreateWorkOrderResponse result = await _workOrderService.Create(workOrderRequest);
+            bool isSuccess = int.TryParse(result.Message, out int id);
+            if(isSuccess)
+            {
+                CreateWorkOrderStatusRequest workOrderStatus = new CreateWorkOrderStatusRequest()
+                {
+                    WorkOrderId = id,
+                    AddedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                };
+                await _workOrderStatusService.CreateAsync(workOrderStatus);
+            }
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -52,6 +69,28 @@ namespace CRM.Api.Controllers.WorkOrder
         public async Task<IActionResult> GetWorkOrderById(int id)
         {
             var result = await _workOrderService.GetWorkOrderById(id);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpPut("UpdateWorkOrderStatus")]
+        public async Task<IActionResult> UpdateWorkOrder([FromBody] UpdateWorkOrderStatusRequest workOrderRequest)
+        {
+            try
+            {
+                var result = await _workOrderStatusService.Update(workOrderRequest);
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Conflict(new { response = "The record was updated by another user." });
+            }
+        }
+
+        [HttpGet("GetWorkOrdersStatus")]
+        public async Task<IActionResult> GetWorkOrdersStatus()
+        {
+            var workOrders = await _workOrderService.Get();
+            var result = await _workOrderStatusService.GetWorkOrdersStatus(workOrders);
             return StatusCode(StatusCodes.Status200OK, result);
         }
     }
