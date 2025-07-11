@@ -3,6 +3,7 @@ using System;
 using Crm.Tenant.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crm.Tenant.Data.Migrations
 {
     [DbContext(typeof(ClientApplicationDbContext))]
-    partial class ClientApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250711091624_Added_Remark_Column")]
+    partial class Added_Remark_Column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1012,7 +1014,7 @@ namespace Crm.Tenant.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("PurchaseOrderNumber")
+                    b.Property<string>("PurchareOrderNumber")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Remarks")

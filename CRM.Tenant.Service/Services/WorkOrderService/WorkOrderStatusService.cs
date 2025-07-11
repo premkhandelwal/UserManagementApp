@@ -33,7 +33,9 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
         }
         public async Task<List<WorkOrderStatusResponse>> GetWorkOrdersStatus(List<WorkOrderModel> workOrders)
         {
-            List<WorkOrderStatusModel> workOrderStatuses = await ReadAsync();
+            List<WorkOrderStatusModel> workOrderStatuses = (await ReadAsync())
+                                                             .OrderByDescending(w => w.ModifiedOn)
+                                                             .ToList();
             List<WorkOrderStatusResponse> workOrderStatusResponse = new List<WorkOrderStatusResponse>();
             foreach (var workOrderStatus in workOrderStatuses)
             {
@@ -41,7 +43,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
                 workOrderStatusResponse.Add(new WorkOrderStatusResponse 
                 {
                     Id = workOrderStatus.Id,
-                    PurchaseOrderNumber = workOrder?.workOrderFields.PurchareOrderNumber,
+                    PurchaseOrderNumber = workOrder?.workOrderFields.PurchaseOrderNumber,
                     WorkOrderNumber = workOrder?.workOrderFields.WorkOrderId,
                     WorkOrderCompanyId = workOrder?.workOrderFields.WorkOrderCompanyId,
                     WorkOrderId = workOrderStatus.WorkOrderId,
