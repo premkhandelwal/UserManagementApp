@@ -9,6 +9,7 @@ using CRM.Tenant.Service.Models.Requests.WorkOrder.Delete;
 using Crm.Tenant.Data.Models.WorkOrder;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkOrderStatus;
 using CRM.Tenant.Service.Models.Responses.WorkOrder;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Tenant.Service.Services.WorkOrderService
 {
@@ -28,10 +29,13 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
 
         public async Task<CreateWorkOrderResponse> Create(CreateWorkOrderRequest request)
         {
-            WorkOrderFieldsModel? workOrderFields = await _workOrderFieldsService.CreateAsync(request.workOrderFields);
-
-            if (workOrderFields != null && workOrderFields.Id != null)
+            try
             {
+                WorkOrderFieldsModel? workOrderFields = await _workOrderFieldsService.CreateAsync(request.workOrderFields);
+
+                if (workOrderFields == null || workOrderFields.Id == null)
+                    throw new InvalidOperationException("Failed to create work order header.");
+
                 CreateWorkOrderStatusRequest workOrderStatus = new CreateWorkOrderStatusRequest()
                 {
                     WorkOrderId = (int)workOrderFields.Id,
@@ -45,12 +49,20 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
                     item.WorkOrderId = workOrderFields.Id;
                     await _workOrderItemsService.CreateAsync(item);
                 }
+
                 return new CreateWorkOrderResponse
                 {
                     Message = workOrderFields.Id.ToString(),
                 };
             }
-            return new CreateWorkOrderResponse { Message = "Failed to create work order." };
+            catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("IX_WorkOrderFields_WorkOrderId") == true)
+            {
+                throw new InvalidOperationException("Work Order ID must be unique. A duplicate entry was detected.", ex);
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new InvalidOperationException("A database error occurred while creating the work order.", ex);
+            }
         }
 
         public async Task<object> Update(UpdateWorkOrderRequest request)

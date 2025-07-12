@@ -40,23 +40,26 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
             foreach (var workOrderStatus in workOrderStatuses)
             {
                 var workOrder = workOrders.Where(wo => wo.workOrderFields.Id == workOrderStatus.WorkOrderId).FirstOrDefault();
-                workOrderStatusResponse.Add(new WorkOrderStatusResponse 
+                if (workOrder != null && !workOrder.workOrderFields.IsDeleted)
                 {
-                    Id = workOrderStatus.Id,
-                    PurchaseOrderNumber = workOrder?.workOrderFields.PurchaseOrderNumber,
-                    WorkOrderNumber = workOrder?.workOrderFields.WorkOrderId,
-                    WorkOrderCompanyId = workOrder?.workOrderFields.WorkOrderCompanyId,
-                    WorkOrderId = workOrderStatus.WorkOrderId,
-                    Remarks = workOrderStatus.Remarks,
-                    OperationsUpdatedBy = workOrderStatus.OperationsUpdatedBy,
-                    InvoiceUpdatedBy = workOrderStatus.InvoiceUpdatedBy,
-                    StickerUpdatedBy = workOrderStatus.StickerUpdatedBy,
-                    TcUpdatedBy = workOrderStatus.TcUpdatedBy,
-                    RecordVersion = workOrderStatus.RecordVersion,
-                    IsDeleted = workOrderStatus.IsDeleted,
-                    AddedOn = workOrderStatus.AddedOn,
-                    ModifiedOn = workOrderStatus.ModifiedOn
-                });
+                    workOrderStatusResponse.Add(new WorkOrderStatusResponse
+                    {
+                        Id = workOrderStatus.Id,
+                        PurchaseOrderNumber = workOrder?.workOrderFields.PurchaseOrderNumber,
+                        WorkOrderNumber = workOrder?.workOrderFields.WorkOrderId,
+                        WorkOrderCompanyId = workOrder?.workOrderFields.WorkOrderCompanyId,
+                        WorkOrderId = workOrderStatus.WorkOrderId,
+                        Remarks = workOrderStatus.Remarks,
+                        OperationsUpdatedBy = workOrderStatus.OperationsUpdatedBy,
+                        InvoiceUpdatedBy = workOrderStatus.InvoiceUpdatedBy,
+                        StickerUpdatedBy = workOrderStatus.StickerUpdatedBy,
+                        TcUpdatedBy = workOrderStatus.TcUpdatedBy,
+                        RecordVersion = workOrderStatus.RecordVersion,
+                        IsDeleted = workOrderStatus.IsDeleted,
+                        AddedOn = workOrderStatus.AddedOn,
+                        ModifiedOn = workOrderStatus.ModifiedOn
+                    });
+                }
             }
             return workOrderStatusResponse;
         }

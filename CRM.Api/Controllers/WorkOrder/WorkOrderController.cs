@@ -29,19 +29,37 @@ namespace CRM.Api.Controllers.WorkOrder
         [HttpPost("CreateWorkOrder")]
         public async Task<IActionResult> CreateWorkOrder([FromBody] CreateWorkOrderRequest workOrderRequest)
         {
-            CreateWorkOrderResponse result = await _workOrderService.Create(workOrderRequest);
-            bool isSuccess = int.TryParse(result.Message, out int id);
-            if(isSuccess)
+            try
             {
-                CreateWorkOrderStatusRequest workOrderStatus = new CreateWorkOrderStatusRequest()
+                CreateWorkOrderResponse result = await _workOrderService.Create(workOrderRequest);
+
+                // TryParse result.Message as Id
+                bool isSuccess = int.TryParse(result.Message, out int id);
+                if (isSuccess)
                 {
-                    WorkOrderId = id,
-                    AddedOn = DateTime.Now,
-                    ModifiedOn = DateTime.Now,
-                };
-                await _workOrderStatusService.CreateAsync(workOrderStatus);
+                    CreateWorkOrderStatusRequest workOrderStatus = new CreateWorkOrderStatusRequest()
+                    {
+                        WorkOrderId = id,
+                        AddedOn = DateTime.Now,
+                        ModifiedOn = DateTime.Now,
+                    };
+                    await _workOrderStatusService.CreateAsync(workOrderStatus);
+                }
+
+                return Ok(result); // 200 OK
             }
-            return StatusCode(StatusCodes.Status200OK, result);
+            catch (InvalidOperationException ex) when (ex.Message.Contains("duplicate", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest(new { response = "Duplicate work id found" }); // 409 Conflict
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { response = ex.Message }); // 400 Bad Request
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An unexpected error occurred.", detail = ex.Message });
+            }
         }
 
         [HttpPut("UpdateWorkOrder")]

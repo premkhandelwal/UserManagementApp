@@ -238,6 +238,11 @@ namespace Crm.Tenant.Data.DbContexts
               .WithMany()
               .HasForeignKey(m => m.WorkOrderCompanyId);
 
+            modelBuilder.Entity<WorkOrderFieldsModel>()
+                 .HasIndex(e => e.WorkOrderId)
+                 .IsUnique()
+                 .HasDatabaseName("IX_WorkOrderFields_WorkOrderId_Unique");
+
             modelBuilder.Entity<WorkOrderItemModel>()
                 .HasOne(modelBuilder => modelBuilder.WorkOrderFieldsModel)
                 .WithMany()
