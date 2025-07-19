@@ -24,10 +24,10 @@ public class TransactionUnitMiddleware
 
                 await unitOfWork.CommitTransactionAsync();
             }
-            catch
+            catch(Exception)
             {
                 await unitOfWork.RollbackTransactionAsync();
-                throw;
+                return;
             }
         }
         else

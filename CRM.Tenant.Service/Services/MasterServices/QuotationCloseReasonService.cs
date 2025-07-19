@@ -10,8 +10,7 @@ using FluentValidation;
 public class QuotationCloseReasonService : BaseService<CreateQuotationCloseReasonRequest, QuotationCloseReasonModel>
 {
     QuotationFieldsService _quotationFieldsService;
-    public QuotationCloseReasonService(IMapper mapper, BaseRepository<QuotationCloseReasonModel> repository, IValidator<CreateQuotationCloseReasonRequest> validator, QuotationFieldsService quotationFieldsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public QuotationCloseReasonService(IMapper mapper, BaseRepository<QuotationCloseReasonModel> repository, IValidator<CreateQuotationCloseReasonRequest> validator, QuotationFieldsService quotationFieldsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _quotationFieldsService = quotationFieldsService;
     }

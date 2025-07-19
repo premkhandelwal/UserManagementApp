@@ -6,13 +6,13 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.MtcType.CreateMtcType;
 using CRM.Tenant.Service.Services.PurchaseOrderService;
 using CRM.Tenant.Service.Services.QuotationService;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 public class MtcTypeService : BaseService<CreateMtcTypeRequest, MtcTypeModel>
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public MtcTypeService(IMapper mapper, BaseRepository<MtcTypeModel> repository, IValidator<CreateMtcTypeRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public MtcTypeService(IMapper mapper, BaseRepository<MtcTypeModel> repository, IValidator<CreateMtcTypeRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

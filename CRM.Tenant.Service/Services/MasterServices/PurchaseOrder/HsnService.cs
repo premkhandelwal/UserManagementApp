@@ -13,8 +13,7 @@ namespace CRM.Tenant.Service.Services.MasterServices.PurchaseOrder
     public class HsnService : BaseService<CreateHsnRequest, HsnModel>
     {
         PurchaseOrderItemsService _purchaseOrderItemsService;
-        public HsnService(IMapper mapper, BaseRepository<HsnModel> repository, IValidator<CreateHsnRequest> validator, PurchaseOrderItemsService purchaseOrderItemsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+        public HsnService(IMapper mapper, BaseRepository<HsnModel> repository, IValidator<CreateHsnRequest> validator, PurchaseOrderItemsService purchaseOrderItemsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
         {
             _purchaseOrderItemsService = purchaseOrderItemsService;
         }

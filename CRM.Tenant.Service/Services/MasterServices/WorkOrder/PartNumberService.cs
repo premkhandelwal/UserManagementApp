@@ -12,8 +12,7 @@ namespace CRM.Tenant.Service.Services.MasterServices.WorkOrder
 {
     public class PartNumberService : BaseService<CreatePartNumberRequest, PartNumberModel>
     {
-        public PartNumberService(IMapper mapper, BaseRepository<PartNumberModel> repository, IValidator<CreatePartNumberRequest> validator, IUnitOfWork unitOfWork)
-            : base(mapper, repository, validator, unitOfWork)
+        public PartNumberService(IMapper mapper, BaseRepository<PartNumberModel> repository, IValidator<CreatePartNumberRequest> validator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
         {
         }
     }

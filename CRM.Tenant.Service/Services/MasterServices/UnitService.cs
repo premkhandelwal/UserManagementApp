@@ -13,8 +13,7 @@ namespace CRM.Tenant.Service.Services.MasterServices
     {
         QuotationItemsService _quotationItemsService;
         PurchaseOrderItemsService _purchaseOrderItemsService;
-        public UnitService(IMapper mapper, BaseRepository<UnitModel> repository, IValidator<CreateUnitRequest> validator, QuotationItemsService quotationItemsService, PurchaseOrderItemsService purchaseOrderItemsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+        public UnitService(IMapper mapper, BaseRepository<UnitModel> repository, IValidator<CreateUnitRequest> validator, QuotationItemsService quotationItemsService, PurchaseOrderItemsService purchaseOrderItemsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
         {
             _quotationItemsService = quotationItemsService;
             _purchaseOrderItemsService = purchaseOrderItemsService;

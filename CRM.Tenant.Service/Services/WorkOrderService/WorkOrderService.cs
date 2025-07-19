@@ -31,11 +31,33 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
         {
             try
             {
+                // Get all existing work orders
+                var allWorkOrders = await _workOrderFieldsService.ReadAsync(true);
+
+                // Find the highest numeric ID from WorkOrderId (e.g., "WO023" → 23)
+                int lastNumber = allWorkOrders
+                    .Select(w => w.WorkOrderId)
+                    .Where(id => id != null && id.StartsWith("WO"))
+                    .Select(id =>
+                    {
+                        string numberPart = id!.Substring(2); // Remove "WO"
+                        return int.TryParse(numberPart, out int number) ? number : 0;
+                    })
+                    .DefaultIfEmpty(0)
+                    .Max();
+
+                // Pad with at least 3 digits, e.g., 001, 045, 999, 1000
+                string newWorkOrderId = $"WO{(lastNumber + 1).ToString("D3")}";
+
+                request.workOrderFields.WorkOrderId = newWorkOrderId;
+
+                // Create work order header
                 WorkOrderFieldsModel? workOrderFields = await _workOrderFieldsService.CreateAsync(request.workOrderFields);
 
                 if (workOrderFields == null || workOrderFields.Id == null)
                     throw new InvalidOperationException("Failed to create work order header.");
 
+                // Create initial work order status
                 CreateWorkOrderStatusRequest workOrderStatus = new CreateWorkOrderStatusRequest()
                 {
                     WorkOrderId = (int)workOrderFields.Id,
@@ -44,6 +66,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
                 };
                 await _workOrderStatusService.CreateAsync(workOrderStatus);
 
+                // Create work order items
                 foreach (var item in request.workOrderItems)
                 {
                     item.WorkOrderId = workOrderFields.Id;
@@ -52,7 +75,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
 
                 return new CreateWorkOrderResponse
                 {
-                    Message = workOrderFields.Id.ToString(),
+                    Message = newWorkOrderId,
                 };
             }
             catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("IX_WorkOrderFields_WorkOrderId") == true)
@@ -120,7 +143,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
         public async Task<List<WorkOrderModel>> Get()
         {
             List<WorkOrderModel> result = new List<WorkOrderModel>();
-            List<WorkOrderFieldsModel> workOrderFields = await _workOrderFieldsService.ReadAsync();
+            List<WorkOrderFieldsModel> workOrderFields = await _workOrderFieldsService.ReadAsync(fetchDeletedRecords: true);
             List<WorkOrderItemModel> workOrderItems = await _workOrderItemsService.ReadAsync();
             foreach (var workOrder in workOrderFields)
             {

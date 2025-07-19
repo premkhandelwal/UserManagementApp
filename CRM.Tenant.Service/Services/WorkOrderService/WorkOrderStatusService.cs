@@ -13,8 +13,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
 {
     public class WorkOrderStatusService : BaseService<CreateWorkOrderStatusRequest, WorkOrderStatusModel>
     {
-        public WorkOrderStatusService(IMapper mapper, BaseRepository<WorkOrderStatusModel> repository, IValidator<CreateWorkOrderStatusRequest> validator, IUnitOfWork unitOfWork)
-            : base(mapper, repository, validator, unitOfWork)
+        public WorkOrderStatusService(IMapper mapper, BaseRepository<WorkOrderStatusModel> repository, IValidator<CreateWorkOrderStatusRequest> validator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
         {
         }
 

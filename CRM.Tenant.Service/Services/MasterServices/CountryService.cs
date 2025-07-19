@@ -7,13 +7,14 @@ using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Countries.CreateCountry;
 using CRM.Tenant.Service.Services.PurchaseOrderService;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 public class CountryService : BaseService<CreateCountryRequest, CountryModel>
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public CountryService(IMapper mapper, BaseRepository<CountryModel> repository, IValidator<CreateCountryRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public CountryService(IMapper mapper, BaseRepository<CountryModel> repository, IValidator<CreateCountryRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+        : base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

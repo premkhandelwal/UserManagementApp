@@ -10,8 +10,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
     public class QuotationFollowUpService : BaseService<CreateQuotationFollowUpRequest, QuotationFollowUpModel>
     {
         private QuotationService _quotationService;
-        public QuotationFollowUpService(IMapper mapper, BaseRepository<QuotationFollowUpModel> qfRepository,  IValidator<CreateQuotationFollowUpRequest> validator, QuotationService quotationService, IUnitOfWork unitOfWork)
-        : base(mapper, qfRepository, validator, unitOfWork)
+        public QuotationFollowUpService(IMapper mapper, BaseRepository<QuotationFollowUpModel> qfRepository,  IValidator<CreateQuotationFollowUpRequest> validator, QuotationService quotationService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, qfRepository, validator, unitOfWork, httpContextAccessor)
         {
             _quotationService = quotationService;
         }

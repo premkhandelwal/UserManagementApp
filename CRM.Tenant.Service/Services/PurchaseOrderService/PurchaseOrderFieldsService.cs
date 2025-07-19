@@ -9,8 +9,7 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
 {
     public class PurchaseOrderFieldsService : BaseService<CreatePurchaseOrderFieldsRequest, PurchaseOrderFieldsModel>
     {
-        public PurchaseOrderFieldsService(IMapper mapper, BaseRepository<PurchaseOrderFieldsModel> repository, IValidator<CreatePurchaseOrderFieldsRequest> validator, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+        public PurchaseOrderFieldsService(IMapper mapper, BaseRepository<PurchaseOrderFieldsModel> repository, IValidator<CreatePurchaseOrderFieldsRequest> validator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
         {
         }
     }

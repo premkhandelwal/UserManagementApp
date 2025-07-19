@@ -7,8 +7,7 @@ using FluentValidation;
 
 public class QuotationFieldsService : BaseService<CreateQuotationFieldsRequest, QuotationFieldsModel>
 {
-    public QuotationFieldsService(IMapper mapper, BaseRepository<QuotationFieldsModel> repository, IValidator<CreateQuotationFieldsRequest> validator, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public QuotationFieldsService(IMapper mapper, BaseRepository<QuotationFieldsModel> repository, IValidator<CreateQuotationFieldsRequest> validator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
     }
 }

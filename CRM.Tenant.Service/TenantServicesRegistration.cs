@@ -105,7 +105,8 @@ namespace Crm.Tenant.Service
                provider.GetRequiredService<IMapper>(),
                 provider.GetRequiredService<BaseRepository<TModel>>(),
                 provider.GetRequiredService<IValidator<TRequest>>(),
-                provider.GetRequiredService<IUnitOfWork>()
+                provider.GetRequiredService<IUnitOfWork>(),
+                provider.GetRequiredService<IHttpContextAccessor>()
             ));
         }
     }

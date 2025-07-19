@@ -6,13 +6,14 @@ using CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuotati
 using FluentValidation;
 using CRM.Tenant.Service.Models.Requests.WorkOrder.Create.CreateWorkFields;
 using Crm.Tenant.Data.Models.WorkOrder;
+using Microsoft.AspNetCore.Http;
 
 namespace CRM.Tenant.Service.Services.WorkOrderService
 {
     public class WorkOrderFieldsService : BaseService<CreateWorkOrderFieldsRequest, WorkOrderFieldsModel>
     {
-        public WorkOrderFieldsService(IMapper mapper, BaseRepository<WorkOrderFieldsModel> repository, IValidator<CreateWorkOrderFieldsRequest> validator, IUnitOfWork unitOfWork)
-            : base(mapper, repository, validator, unitOfWork)
+        public WorkOrderFieldsService(IMapper mapper, BaseRepository<WorkOrderFieldsModel> repository, IValidator<CreateWorkOrderFieldsRequest> validator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+            : base(mapper, repository, validator, unitOfWork, httpContextAccessor)
         {
         }
     }
