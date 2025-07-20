@@ -37,6 +37,8 @@
         public double? OtherCharges { get; set; }
 
         public double? GrandTotal { get; set; }
+        public bool? IsRoundOff { get; set; }
+        public bool? IsGstRemoved { get; set; }
         public DateTime? AddedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
     }
