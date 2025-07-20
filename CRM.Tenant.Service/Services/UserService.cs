@@ -11,7 +11,7 @@ namespace CRM.Tenant.Service.Services
     public class UserService : BaseService<CreateUserRequest, UserModel>
     {
         private BaseRepository<UserModel> _repository;
-        public UserService(IMapper mapper, BaseRepository<UserModel> repository, IValidator<CreateUserRequest> validator, IUnitOfWork unitOfWork) : base(mapper, repository, validator, unitOfWork)
+        public UserService(IMapper mapper, BaseRepository<UserModel> repository, IValidator<CreateUserRequest> validator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) : base(mapper, repository, validator, unitOfWork, httpContextAccessor)
         {
             _repository = repository;
         }

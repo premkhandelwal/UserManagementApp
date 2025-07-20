@@ -7,8 +7,7 @@ using FluentValidation;
 
 public class MaterialService : BaseService<CreateMaterialRequest, MaterialModel>
 {
-    public MaterialService(IMapper mapper, BaseRepository<MaterialModel> repository, IValidator<CreateMaterialRequest> validator, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public MaterialService(IMapper mapper, BaseRepository<MaterialModel> repository, IValidator<CreateMaterialRequest> validator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
     }
 }

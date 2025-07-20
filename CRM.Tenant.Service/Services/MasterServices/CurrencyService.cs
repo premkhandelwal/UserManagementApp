@@ -5,13 +5,14 @@ using Crm.Tenant.Data.Repositories;
 using CRM.Tenant.Service.Models.Requests.MasterRequests.Currencies.CreateCurrency;
 using CRM.Tenant.Service.Services.PurchaseOrderService;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 public class CurrencyService : BaseService<CreateCurrencyRequest, CurrencyModel>
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public CurrencyService(IMapper mapper, BaseRepository<CurrencyModel> repository, IValidator<CreateCurrencyRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public CurrencyService(IMapper mapper, BaseRepository<CurrencyModel> repository, IValidator<CreateCurrencyRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+        : base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

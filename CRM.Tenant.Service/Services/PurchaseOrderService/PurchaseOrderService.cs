@@ -86,7 +86,9 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
                     PurchaseOrderAttentionId = request.purchaseOrderFields.PurchaseOrderAttentionId,
                     PurchaseOrderDate = request.purchaseOrderFields.PurchaseOrderDate,
                     PurchaseOrderMadeById = request.purchaseOrderFields.PurchaseOrderMadeById,
-                    PurchaseOrderVendorId = request.purchaseOrderFields.PurchaseOrderVendorId
+                    PurchaseOrderVendorId = request.purchaseOrderFields.PurchaseOrderVendorId,
+                    IsGstRemoved = request.purchaseOrderFields.IsGstRemoved,
+                    IsRoundOff = request.purchaseOrderFields.IsRoundOff
                 };
                 await _purchaseOrderFields.UpdateAsync(updReq);
 

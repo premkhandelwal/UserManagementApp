@@ -10,8 +10,7 @@ public class DeliveredToService : BaseService<CreateDeliveredToRequest, Delivere
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public DeliveredToService(IMapper mapper, BaseRepository<DeliveredToModel> repository, IValidator<CreateDeliveredToRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public DeliveredToService(IMapper mapper, BaseRepository<DeliveredToModel> repository, IValidator<CreateDeliveredToRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

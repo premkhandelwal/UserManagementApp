@@ -12,7 +12,7 @@ namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuo
 
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("Description is required.")
-                .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
+                ;
 
             RuleFor(x => x.AddedOn)
                 .NotEmpty().WithMessage("Added on date is required.");

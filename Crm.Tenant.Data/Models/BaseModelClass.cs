@@ -10,6 +10,8 @@ namespace Crm.Tenant.Data.Models
         public int? Id { get; set; }
         public DateTime? AddedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
+        public string? AddedBy { get; set; }
+        public string? ModifiedBy { get; set; }
         public bool IsDeleted { get; set; } = false;
     }
 }

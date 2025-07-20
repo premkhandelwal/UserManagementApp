@@ -28,8 +28,7 @@ namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuo
 
 
             RuleFor(x => x.QuotationImportance)
-                .NotNull().WithMessage("Quotation importance is required.")
-                .MaximumLength(100).WithMessage("Quotation importance must not exceed 100 characters.");
+                .NotNull().WithMessage("Quotation importance is required.");
 
             RuleFor(x => x.QuotationPriority)
                 .InclusiveBetween(0, 5).WithMessage("Quotation priority must be between 1 and 5.");
@@ -42,9 +41,6 @@ namespace CRM.Tenant.Service.Models.Requests.Quotation.QuotationFields.CreateQuo
 
             RuleFor(x => x.Discount)
                 .GreaterThanOrEqualTo(0).WithMessage("Discount must be a positive value.");
-
-            RuleFor(x => x.DiscountType)
-                .MaximumLength(50).WithMessage("Discount type must not exceed 50 characters.");
 
             RuleFor(x => x.GstAmount)
                 .GreaterThanOrEqualTo(0).WithMessage("GST amount must be a positive value.");

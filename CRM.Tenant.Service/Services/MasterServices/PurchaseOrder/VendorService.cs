@@ -12,8 +12,7 @@ namespace CRM.Tenant.Service.Services.MasterServices.PurchaseOrder
     public class VendorService : BaseService<CreateVendorRequest, VendorModel>
     {
         PurchaseOrderFieldsService _purchaseOrderFieldsService;
-        public VendorService(IMapper mapper, BaseRepository<VendorModel> repository, IValidator<CreateVendorRequest> validator, PurchaseOrderFieldsService purchaseOrderFieldsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+        public VendorService(IMapper mapper, BaseRepository<VendorModel> repository, IValidator<CreateVendorRequest> validator, PurchaseOrderFieldsService purchaseOrderFieldsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
         {
             _purchaseOrderFieldsService = purchaseOrderFieldsService;
         }

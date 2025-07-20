@@ -6,13 +6,13 @@ using CRM.Tenant.Service.Models.Requests.MasterRequests.PaymentType.CreatePaymen
 using CRM.Tenant.Service.Services.PurchaseOrderService;
 using CRM.Tenant.Service.Services.QuotationService;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 public class PaymentTypeService : BaseService<CreatePaymentTypeRequest, PaymentTypeModel>
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public PaymentTypeService(IMapper mapper, BaseRepository<PaymentTypeModel> repository, IValidator<CreatePaymentTypeRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public PaymentTypeService(IMapper mapper, BaseRepository<PaymentTypeModel> repository, IValidator<CreatePaymentTypeRequest> validator, QuotationTermsService quotationService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _quotationTermsService = quotationService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

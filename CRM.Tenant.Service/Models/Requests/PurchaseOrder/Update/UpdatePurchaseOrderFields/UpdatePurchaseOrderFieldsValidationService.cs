@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace CRM.Tenant.Service.Models.Requests.PurchaseOrder.Update.UpdatePurchaseOrderFields
 {
-    internal class UpdatePurchaseOrderFieldsValidationService : CreatePurchaseOrderFieldsValidationService<UpdatePurchaseOrderFieldsRequest>
+    public class UpdatePurchaseOrderFieldsValidationService : CreatePurchaseOrderFieldsValidationService<UpdatePurchaseOrderFieldsRequest>
     {
         public UpdatePurchaseOrderFieldsValidationService()
         {

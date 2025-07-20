@@ -25,6 +25,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -40,6 +43,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<string>("MobileNo")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ModifiedBy")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -71,6 +77,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -82,6 +91,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -103,6 +115,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -111,6 +126,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -126,6 +144,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -137,6 +158,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -152,6 +176,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -160,6 +187,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -180,6 +210,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -188,6 +221,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -203,6 +239,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -210,6 +249,9 @@ namespace Crm.Tenant.Data.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("MaterialName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ModifiedBy")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -225,6 +267,9 @@ namespace Crm.Tenant.Data.Migrations
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
@@ -245,6 +290,9 @@ namespace Crm.Tenant.Data.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Mobile")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ModifiedBy")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -269,11 +317,17 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -292,11 +346,17 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -315,11 +375,17 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -338,6 +404,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -346,6 +415,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -360,6 +432,9 @@ namespace Crm.Tenant.Data.Migrations
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
@@ -383,6 +458,9 @@ namespace Crm.Tenant.Data.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Mobile")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ModifiedBy")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -413,6 +491,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -440,6 +521,9 @@ namespace Crm.Tenant.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
@@ -457,11 +541,17 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -480,11 +570,17 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -503,11 +599,17 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -526,11 +628,17 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -543,11 +651,46 @@ namespace Crm.Tenant.Data.Migrations
                     b.ToTable("Validities");
                 });
 
+            modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.WorkOrder.PartNumberModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("PartName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PartNumbers");
+                });
+
             modelBuilder.Entity("Crm.Tenant.Data.Models.PurchaseOrder.PurchaseOrderFieldsModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
@@ -569,6 +712,15 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<bool?>("IsGstRemoved")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool?>("IsRoundOff")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -616,6 +768,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -633,6 +788,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -670,6 +828,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -687,6 +848,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -733,6 +897,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -753,6 +920,15 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<bool?>("IsGstRemoved")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool?>("IsRoundOff")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -823,6 +999,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -837,6 +1016,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -860,6 +1042,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -874,6 +1059,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<double>("Margin")
                         .HasColumnType("double");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -912,6 +1100,9 @@ namespace Crm.Tenant.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("AddedOn")
                         .HasColumnType("datetime(6)");
 
@@ -929,6 +1120,9 @@ namespace Crm.Tenant.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -969,6 +1163,156 @@ namespace Crm.Tenant.Data.Migrations
                     b.HasIndex("ValidityId");
 
                     b.ToTable("QuotationTerms");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.WorkOrder.WorkOrderFieldsModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("PurchaseOrderNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("WorkOrderCompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("WorkOrderDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("WorkOrderId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkOrderCompanyId");
+
+                    b.HasIndex("WorkOrderId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_WorkOrderFields_WorkOrderId_Unique");
+
+                    b.ToTable("WorkOrderFieldsModel");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.WorkOrder.WorkOrderItemModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("DispatchedQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("PartNumberId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SrNo")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("Unit")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkOrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartNumberId");
+
+                    b.HasIndex("WorkOrderId");
+
+                    b.ToTable("WorkOrderItemModel");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.WorkOrder.WorkOrderStatusModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("AddedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("InvoiceUpdatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("OperationsUpdatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("RecordVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp(6)");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("StickerUpdatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TcUpdatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("WorkOrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkOrderId")
+                        .IsUnique();
+
+                    b.ToTable("WorkOrderStatusModel");
                 });
 
             modelBuilder.Entity("Crm.Tenant.Data.Models.Masters.DeliveredToModel", b =>
@@ -1203,6 +1547,43 @@ namespace Crm.Tenant.Data.Migrations
                     b.Navigation("QuotationFieldsModel");
 
                     b.Navigation("ValidityModel");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.WorkOrder.WorkOrderFieldsModel", b =>
+                {
+                    b.HasOne("Crm.Tenant.Data.Models.Masters.ClientModel", "WorkOrderCompany")
+                        .WithMany()
+                        .HasForeignKey("WorkOrderCompanyId");
+
+                    b.Navigation("WorkOrderCompany");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.WorkOrder.WorkOrderItemModel", b =>
+                {
+                    b.HasOne("Crm.Tenant.Data.Models.Masters.WorkOrder.PartNumberModel", "PartNumberModel")
+                        .WithMany()
+                        .HasForeignKey("PartNumberId");
+
+                    b.HasOne("Crm.Tenant.Data.Models.WorkOrder.WorkOrderFieldsModel", "WorkOrderFieldsModel")
+                        .WithMany()
+                        .HasForeignKey("WorkOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PartNumberModel");
+
+                    b.Navigation("WorkOrderFieldsModel");
+                });
+
+            modelBuilder.Entity("Crm.Tenant.Data.Models.WorkOrder.WorkOrderStatusModel", b =>
+                {
+                    b.HasOne("Crm.Tenant.Data.Models.WorkOrder.WorkOrderFieldsModel", "WorkOrderModel")
+                        .WithOne()
+                        .HasForeignKey("Crm.Tenant.Data.Models.WorkOrder.WorkOrderStatusModel", "WorkOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WorkOrderModel");
                 });
 #pragma warning restore 612, 618
         }

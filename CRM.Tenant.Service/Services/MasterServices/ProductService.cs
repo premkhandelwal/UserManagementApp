@@ -7,8 +7,7 @@ using FluentValidation;
 
 public class ProductService : BaseService<CreateProductRequest, ProductModel>
 {
-    public ProductService(IMapper mapper, BaseRepository<ProductModel> repository, IValidator<CreateProductRequest> validator, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public ProductService(IMapper mapper, BaseRepository<ProductModel> repository, IValidator<CreateProductRequest> validator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
     }
 }

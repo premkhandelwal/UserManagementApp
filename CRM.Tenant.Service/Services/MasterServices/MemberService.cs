@@ -10,8 +10,7 @@ using FluentValidation;
 public class MemberService : BaseService<CreateMemberRequest, MemberModel>
 {
     QuotationFieldsService _quotationFieldsService;
-    public MemberService(IMapper mapper, BaseRepository<MemberModel> repository, IValidator<CreateMemberRequest> validator, QuotationFieldsService quotationFieldsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public MemberService(IMapper mapper, BaseRepository<MemberModel> repository, IValidator<CreateMemberRequest> validator, QuotationFieldsService quotationFieldsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _quotationFieldsService = quotationFieldsService;
     }

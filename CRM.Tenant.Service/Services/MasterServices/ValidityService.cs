@@ -11,8 +11,7 @@ public class ValidityService : BaseService<CreateValidityRequest, ValidityModel>
 {
     QuotationTermsService _quotationTermsService;
     PurchaseOrderTermsService _purchaseOrderTermsService;
-    public ValidityService(IMapper mapper, BaseRepository<ValidityModel> repository, IValidator<CreateValidityRequest> validator, QuotationTermsService quotationTermsService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public ValidityService(IMapper mapper, BaseRepository<ValidityModel> repository, IValidator<CreateValidityRequest> validator, QuotationTermsService quotationTermsService, PurchaseOrderTermsService purchaseOrderTermsService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _quotationTermsService = quotationTermsService;
         _purchaseOrderTermsService = purchaseOrderTermsService;

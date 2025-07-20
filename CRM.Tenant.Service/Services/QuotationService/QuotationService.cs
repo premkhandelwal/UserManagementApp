@@ -91,7 +91,9 @@ namespace CRM.Tenant.Service.Services.QuotationService
                     QuotationMadeById = request.quotationFields.QuotationMadeById,
                     QuotationPriority = request.quotationFields.QuotationPriority,
                     QuotationStage = request.quotationFields.QuotationStage,
-                    Reference = request.quotationFields.Reference
+                    Reference = request.quotationFields.Reference,
+                    IsGstRemoved = request.quotationFields.IsGstRemoved,
+                    IsRoundOff = request.quotationFields.IsRoundOff
                 };
                 await _quotationFields.UpdateAsync(updReq);
 

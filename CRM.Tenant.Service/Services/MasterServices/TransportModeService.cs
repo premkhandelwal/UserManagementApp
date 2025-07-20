@@ -10,8 +10,7 @@ using FluentValidation;
 public class TransportModeService : BaseService<CreateTransportModeRequest, TransportModeModel>
 {
     DeliveredToService _deliveredToService;
-    public TransportModeService(IMapper mapper, BaseRepository<TransportModeModel> repository, IValidator<CreateTransportModeRequest> validator, DeliveredToService deliveredToService, IUnitOfWork unitOfWork)
-        : base(mapper, repository, validator, unitOfWork)
+    public TransportModeService(IMapper mapper, BaseRepository<TransportModeModel> repository, IValidator<CreateTransportModeRequest> validator, DeliveredToService deliveredToService, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor): base(mapper, repository, validator, unitOfWork, httpContextAccessor)
     {
         _deliveredToService = deliveredToService;
     }
