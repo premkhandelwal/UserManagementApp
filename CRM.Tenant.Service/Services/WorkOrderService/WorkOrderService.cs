@@ -47,7 +47,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
                     .Max();
 
                 // Pad with at least 3 digits, e.g., 001, 045, 999, 1000
-                string newWorkOrderId = $"WO{(lastNumber + 1).ToString("D3")}";
+                string newWorkOrderId = $"WO-{(lastNumber + 1).ToString("D3")}";
 
                 request.workOrderFields.WorkOrderId = newWorkOrderId;
 
@@ -144,7 +144,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
         {
             List<WorkOrderModel> result = new List<WorkOrderModel>();
             List<WorkOrderFieldsModel> workOrderFields = await _workOrderFieldsService.ReadAsync(fetchDeletedRecords: true);
-            List<WorkOrderItemModel> workOrderItems = await _workOrderItemsService.ReadAsync();
+            List<WorkOrderItemModel> workOrderItems = await _workOrderItemsService.ReadAsync(orderByModifiedOn: false);
             foreach (var workOrder in workOrderFields)
             {
                 int? id = workOrder.Id;
@@ -167,7 +167,7 @@ namespace CRM.Tenant.Service.Services.WorkOrderService
             WorkOrderModel result = new WorkOrderModel();
 
             WorkOrderFieldsModel? workOrder = _workOrderFieldsService.GetById(id);
-            List<WorkOrderItemModel> workOrderItems = await _workOrderItemsService.ReadAsync();
+            List<WorkOrderItemModel> workOrderItems = await _workOrderItemsService.ReadAsync(orderByModifiedOn: false);
             if (workOrder != null)
             {
                 int? qId = workOrder.Id;

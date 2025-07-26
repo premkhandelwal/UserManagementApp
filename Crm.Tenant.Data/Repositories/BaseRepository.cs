@@ -57,9 +57,13 @@ namespace Crm.Tenant.Data.Repositories
             return entity;
         }
 
-        public virtual async Task<List<T>> ReadAsync(bool fetchDeletedRecords = false)
+        public virtual async Task<List<T>> ReadAsync(bool fetchDeletedRecords = false, bool orderByModifiedOn = true)
         {
-            List<T> entityList = await _dbContext.Set<T>().Where(t => fetchDeletedRecords ||  !t.IsDeleted).OrderByDescending(t => t.ModifiedOn).ToListAsync();
+            List<T> entityList = await _dbContext.Set<T>().Where(t => fetchDeletedRecords || !t.IsDeleted).ToListAsync();
+            if (orderByModifiedOn)
+            {
+                entityList = entityList.OrderByDescending(t => t.ModifiedOn).ToList();
+            }
             return entityList;
         }
 

@@ -100,9 +100,9 @@ public class BaseService<TRequest, TEntity>
         return entity;
     }
 
-    public virtual async Task<List<TEntity>> ReadAsync(bool fetchDeletedRecords = false)
+    public virtual async Task<List<TEntity>> ReadAsync(bool fetchDeletedRecords = false, bool orderByModifiedOn = true)
     {
-        return await _repository.ReadAsync(fetchDeletedRecords);
+        return await _repository.ReadAsync(fetchDeletedRecords, orderByModifiedOn);
     }
 
     public virtual TEntity? GetById(int id)

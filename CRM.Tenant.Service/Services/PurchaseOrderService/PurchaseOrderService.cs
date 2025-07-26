@@ -169,7 +169,7 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
         {
             List<PurchaseOrderModel> result = new List<PurchaseOrderModel>();
             List<PurchaseOrderFieldsModel> purchaseOrderFields = await _purchaseOrderFields.ReadAsync();
-            List<PurchaseOrderItemModel> purchaseOrderItems = await _purchaseOrderItems.ReadAsync();
+            List<PurchaseOrderItemModel> purchaseOrderItems = await _purchaseOrderItems.ReadAsync(orderByModifiedOn: false);
             List<PurchaseOrderTermsModel> purchaseOrderTerms = await _purchaseOrderTerms.ReadAsync();
             foreach (var purchaseOrder in purchaseOrderFields)
             {
@@ -195,7 +195,7 @@ namespace CRM.Tenant.Service.Services.PurchaseOrderService
             PurchaseOrderModel result = new PurchaseOrderModel();
 
             PurchaseOrderFieldsModel? purchaseOrder = _purchaseOrderFields.GetById(id);
-            List<PurchaseOrderItemModel> purchaseOrderItems = await _purchaseOrderItems.ReadAsync();
+            List<PurchaseOrderItemModel> purchaseOrderItems = await _purchaseOrderItems.ReadAsync(orderByModifiedOn: false);
             List<PurchaseOrderTermsModel> purchaseOrderTerms = await _purchaseOrderTerms.ReadAsync();
             if (purchaseOrder != null)
             {

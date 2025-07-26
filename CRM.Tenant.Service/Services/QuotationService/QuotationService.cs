@@ -174,7 +174,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
         {
             List<QuotationModel> result = new List<QuotationModel>();
            List<QuotationFieldsModel> quotationFields = await _quotationFields.ReadAsync();
-           List<QuotationItemModel> quotationItems = await _quotationItems.ReadAsync();
+           List<QuotationItemModel> quotationItems = await _quotationItems.ReadAsync(orderByModifiedOn: false);
            List<QuotationTermsModel> quotationTerms = await _quotationTerms.ReadAsync();
             foreach (var quotation in quotationFields)
             {
@@ -199,7 +199,7 @@ namespace CRM.Tenant.Service.Services.QuotationService
             QuotationModel result = new QuotationModel();
 
             QuotationFieldsModel? quotation =  _quotationFields.GetById(id);
-            List<QuotationItemModel> quotationItems = await _quotationItems.ReadAsync();
+            List<QuotationItemModel> quotationItems = await _quotationItems.ReadAsync(orderByModifiedOn: false);
             List<QuotationTermsModel> quotationTerms = await _quotationTerms.ReadAsync();
             if (quotation != null)
             {
